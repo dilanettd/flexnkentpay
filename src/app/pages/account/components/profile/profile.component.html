@@ -1,0 +1,191 @@
+<div class="mx-auto mt-6">
+  <div class="flex justify-between items-center mb-6">
+    <h3 class="text-xl sm:text-2xl text-gray-800 font-semibold">Mon profil</h3>
+  </div>
+</div>
+
+<div class="mx-auto">
+  <div class="border-b pb-8">
+    <div class="p-4 md:max-w-[45rem]">
+      <div
+        class="flex flex-col md:flex-row justify-between space-y-3 md:space-x-3"
+      >
+        <div class="flex flex-col justify-center items-center">
+          <div class="flex flex-col justify-center space-y-4">
+            <div
+              class="flex-shrink-0 w-[9rem] h-[9rem] border rounded-full overflow-hidden"
+            >
+              <img
+                [src]="imageUrl"
+                alt="Photo de profil"
+                class="w-full h-full object-cover rounded-full border-2 p-1 border-blue-500"
+              />
+            </div>
+            <input
+              type="file"
+              (change)="changePicture($event)"
+              class="hidden"
+              id="imageInput"
+              accept="image/*"
+            />
+            <label
+              for="imageInput"
+              class="btn bg-[#0167F3] text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all"
+              >Changer</label
+            >
+          </div>
+        </div>
+
+        <form
+          [formGroup]="profileForm"
+          class="flex flex-col justify-center w-full md:w-[30rem] space-y-4"
+        >
+          <div
+            class="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4"
+          >
+            <label class="w-full sm:w-2/4 text-gray-600 mb-2 sm:mb-0"
+              >Email</label
+            >
+            <input
+              formControlName="first_name"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div
+            class="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4"
+          >
+            <label class="w-full sm:w-2/4 text-gray-600 mb-2 sm:mb-0"
+              >Nom d'utilisateur</label
+            >
+            <input
+              formControlName="last_name"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div
+            class="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4"
+          >
+            <label class="w-full sm:w-2/4 text-gray-600 mb-2 sm:mb-0"
+              >Numéro de téléphone</label
+            >
+            <input formControlName="phone" type="text" class="form-control" />
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="flex justify-end mt-4">
+      <button
+        (click)="onUpdate()"
+        class="btn bg-[#0167F3] text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all"
+      >
+        Sauvegarder
+      </button>
+    </div>
+  </div>
+
+  <div class="w-full mt">
+    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Vendeur</h3>
+    <div
+      class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-x-6 mb-8"
+    >
+      <div class="flex flex-col justify-center items-center">
+        <div
+          class="mb-2 w-[9rem] h-[9rem] rounded-full overflow-hidden border-2 p-1 border-blue-500"
+        >
+          <img
+            [src]="logoUrl"
+            alt="Logo"
+            class="w-full h-full object-cover rounded-full"
+          />
+        </div>
+        <label
+          for="logoInput"
+          class="btn bg-[#0167F3] text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all"
+        >
+          Changer Logo
+        </label>
+        <input
+          type="file"
+          (change)="changeLogo($event)"
+          class="hidden"
+          id="logoInput"
+          accept="image/*"
+        />
+      </div>
+
+      <div class="hidden md:block w-0.5 h-32 bg-gray-200"></div>
+
+      <div class="flex flex-col justify-center items-center">
+        <div
+          class="mb-2 w-[50rem] h-[15vw] md:h-[20vw] rounded-lg overflow-hidden border-2 p-1 border-blue-500"
+        >
+          <img
+            [src]="coverPhotoUrl"
+            alt="Photo de Couverture"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <label
+          for="coverPhotoInput"
+          class="btn bg-[#0167F3] text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all"
+        >
+          Changer Couverture
+        </label>
+        <input
+          type="file"
+          (change)="changeCoverPhoto($event)"
+          class="hidden"
+          id="coverPhotoInput"
+          accept="image/*"
+        />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div>
+        <label class="block text-gray-700 font-medium mb-2"
+          >Numéro de contact</label
+        >
+        <input
+          formControlName="contact_number"
+          type="text"
+          class="form-control"
+          placeholder="Entrez le numéro de contact"
+        />
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Site Web</label>
+        <input
+          formControlName="website_url"
+          type="text"
+          class="form-control"
+          placeholder="Entrez l'URL du site web"
+        />
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="block text-gray-700 font-medium mb-2">Description</label>
+        <textarea
+          formControlName="description"
+          class="form-control"
+          rows="4"
+          placeholder="Entrez la description du vendeur"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="flex justify-end">
+      <button
+        (click)="onUpdateSeller()"
+        class="btn bg-[#0167F3] text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all"
+      >
+        Sauvegarder
+      </button>
+    </div>
+  </div>
+</div>

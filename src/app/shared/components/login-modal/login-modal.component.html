@@ -1,0 +1,93 @@
+<div class="account-login overflow-scroll">
+  <div class="row">
+    <form
+      class="card login-form"
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="card-body">
+        <div class="title">
+          <h3>Login Now</h3>
+          <p>You can login using your social media account or email address.</p>
+        </div>
+        @if (errorMessage) {
+
+        <div class="alert alert-danger">{{ errorMessage }}</div>
+        }
+
+        <div class="form-group input-group">
+          <label for="reg-email">Email</label>
+          <input
+            class="form-control"
+            type="email"
+            id="reg-email"
+            formControlName="email"
+          />
+        </div>
+
+        <div class="form-group input-group">
+          <label for="reg-pass">Password</label>
+          <input
+            class="form-control"
+            type="password"
+            id="reg-pass"
+            formControlName="password"
+          />
+        </div>
+
+        <div class="d-flex flex-wrap justify-content-between bottom-content">
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input width-auto"
+              id="rememberMe"
+              formControlName="rememberMe"
+            />
+            <label class="form-check-label" for="rememberMe">Remember me</label>
+          </div>
+          <a class="lost-pass" href="account-password-recovery.html"
+            >Forgot password?</a
+          >
+        </div>
+
+        <div class="d-flex flex-wrap justify-content-around bottom-content">
+          <div class="button">
+            <button class="btn" type="submit" [disabled]="loginForm.invalid">
+              @if (isSubmitted) {
+
+              <span>
+                <svg
+                  class="w-5 h-5 mr-3 -ml-1 animate-spin"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </span>
+              } Login
+            </button>
+          </div>
+
+          <div class="button">
+            <button class="btn btn-alt" type="button" (click)="closeModal()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

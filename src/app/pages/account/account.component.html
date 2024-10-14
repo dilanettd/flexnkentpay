@@ -1,0 +1,65 @@
+<div class="container mb-8 mt-2">
+  <div class="mb-16 mx-auto">
+    <div class="header-container shadow-lg">
+      <div class="d-flex justify-center align-center flex-column p-4">
+        <img
+          src="https://shop.backtoafrica.fr/wp-content/uploads/2024/09/Logo2_BTA_2024-150x150.png"
+          alt="Profile"
+          class="rounded-full border-2 border-blue-500"
+        />
+        <h3 class="mt-2 text-gray-800 text-lg font-semibold">DECIBELVIBE</h3>
+      </div>
+
+      <div class="nav-tabs-custom mt-6 w-full">
+        <ul
+          class="nav nav-tabs flex flex-nowrap sm:flex-row justify-start sm:justify-center items-center gap-4 overflow-x-auto scrollbar-hide"
+        >
+          <li class="nav-item">
+            <a
+              class="nav-link active text-base sm:text-lg px-4 py-2 whitespace-nowrap"
+              routerLink="dashboard"
+              routerLinkActive="active"
+              >Dashboard</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link text-base sm:text-lg px-4 py-2 whitespace-nowrap"
+              routerLink="products"
+              routerLinkActive="active"
+              >Mes produits</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link text-base sm:text-lg px-4 py-2 whitespace-nowrap"
+              routerLink="orders"
+              routerLinkActive="active"
+              >Mes commandes</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link text-base sm:text-lg px-4 py-2 whitespace-nowrap"
+              routerLink="purchases"
+              routerLinkActive="active"
+              >Mes achats</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link text-base sm:text-lg px-4 py-2 whitespace-nowrap"
+              routerLink="profile"
+              routerLinkActive="active"
+              >Personnaliser le profil</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

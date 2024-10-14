@@ -1,13 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Flexnkentpay</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'nonce-random123';"
+    />
+
+    <title>Flexnkentpay</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/images/logo/favicon.ico.png"
+    />
+  </head>
+  <body>
+    <div class="preloader">
+      <div class="preloader-inner">
+        <div class="preloader-icon">
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    <app-root></app-root>
+    <a href="#" class="scroll-top">
+      <i class="lni lni-chevron-up"></i>
+    </a>
+  </body>
 </html>
