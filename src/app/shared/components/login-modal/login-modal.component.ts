@@ -10,7 +10,6 @@ import { IUser } from '../../../core/models/auth.state.model';
 import { Unsubscribable } from 'rxjs';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'flexnkentpay-login-modal',
@@ -21,8 +20,10 @@ import { LocalStorageService } from 'ngx-webstorage';
 })
 export class LoginModalComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
+  forgotPasswordForm!: FormGroup;
   errorMessage: string | null = null;
   isSubmitted: boolean = false;
+  isForgotPassword: boolean = false;
   loginSubscribe!: Unsubscribable;
   getAuthenticatedUserSubscribe!: Unsubscribable;
 
@@ -30,8 +31,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private activeModal: NgbModal,
     private authService: AuthService,
-    private toastr: ToastrService,
-    private localStorage: LocalStorageService
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -40,6 +40,23 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       password: ['', [Validators.required, Validators.minLength(8)]],
       rememberMe: [false],
     });
+
+    this.forgotPasswordForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
+  }
+
+  showForgotPasswordForm() {
+    this.isForgotPassword = true;
+  }
+
+  signInWithFB() {}
+
+  signInWithGoogle() {}
+
+  goBackToLogin() {
+    this.isForgotPassword = false;
+    this.errorMessage = null;
   }
 
   closeModal() {
@@ -54,16 +71,13 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       this.loginSubscribe = this.authService.login(email, password).subscribe({
         next: (tokens) => {
           this.isSubmitted = false;
-          // Store the tokens in localStorage
-          this.localStorage.store('accessToken', tokens.access_token);
-          this.localStorage.store('refreshToken', tokens.refresh_token);
+          this.authService.setTokens(tokens);
 
           this.getAuthenticatedUserSubscribe = this.authService
             .getAuthenticatedUser()
             .subscribe({
               next: (me: IUser) => {
-                // Store the authenticated user in localStorage
-                this.localStorage.store('me', me);
+                this.authService.setUser(me);
                 this.toastr.success('You are successfully logged in.');
                 this.activeModal.dismissAll();
               },
@@ -81,6 +95,27 @@ export class LoginModalComponent implements OnInit, OnDestroy {
           } else {
             this.errorMessage = 'Something unexpected happened';
           }
+        },
+      });
+    }
+  }
+
+  onResetPasswordSubmit() {
+    if (this.forgotPasswordForm.valid) {
+      this.isSubmitted = true;
+      const { email } = this.forgotPasswordForm.value;
+
+      this.authService.sendResetPasswordEmail(email).subscribe({
+        next: () => {
+          this.isSubmitted = false;
+          this.toastr.success('Reset password email sent.');
+          setTimeout(() => {
+            this.goBackToLogin();
+          }, 3000);
+        },
+        error: () => {
+          this.isSubmitted = false;
+          this.errorMessage = 'Failed to send reset password email.';
         },
       });
     }

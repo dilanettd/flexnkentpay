@@ -11,7 +11,6 @@
           <li>
             <a href="index.html"><i class="lni lni-home"></i> Home</a>
           </li>
-          <li><a href="index.html">Shop</a></li>
           <li>Single Product</li>
         </ul>
       </div>
@@ -26,43 +25,25 @@
         <div class="col-lg-6 col-md-12 col-12">
           <div class="product-images">
             <main id="gallery">
-              <div class="main-img">
+              <div class="main-img" *ngIf="product?.images?.length">
                 <img
-                  src="https://demo.graygrids.com/themes/shopgrids/assets/images/product-details/05.jpg"
+                  [src]="selectedImageUrl"
                   id="current"
-                  alt="#"
+                  alt="Product Image"
+                  style="height: 30rem"
                 />
               </div>
               <div class="images">
                 <img
-                  src="assets/images/product-details/01.jpg"
+                  *ngFor="let image of product?.images"
+                  [src]="image.thumbnail_url || image.image_url"
                   class="img"
-                  alt="#"
-                  style="opacity: 1"
-                />
-                <img
-                  src="assets/images/product-details/02.jpg"
-                  class="img"
-                  alt="#"
-                  style="opacity: 1"
-                />
-                <img
-                  src="assets/images/product-details/03.jpg"
-                  class="img"
-                  alt="#"
-                  style="opacity: 1"
-                />
-                <img
-                  src="assets/images/product-details/04.jpg"
-                  class="img"
-                  alt="#"
-                  style="opacity: 1"
-                />
-                <img
-                  src="assets/images/product-details/05.jpg"
-                  class="img"
-                  alt="#"
-                  style="opacity: 0.6"
+                  alt="Product Thumbnail"
+                  (click)="onThumbnailClick(image.image_url)"
+                  [ngStyle]="{
+                    opacity: selectedImageUrl === image.image_url ? '0.6' : '1'
+                  }"
+                  style="height: 7rem; object-fit: cover; cursor: pointer"
                 />
               </div>
             </main>
@@ -70,187 +51,109 @@
         </div>
         <div class="col-lg-6 col-md-12 col-12">
           <div class="product-info">
-            <h2 class="title">GoPro Karma Camera Drone</h2>
+            <h2 class="title">{{ product?.name }}</h2>
+
             <p class="category">
-              <i class="lni lni-tag"></i> Drones:<a href="javascript:void(0)"
-                >Action cameras</a
-              >
+              <i class="lni lni-tag"></i> {{ product?.category }} :
+              <a href="javascript:void(0)">{{ product?.subcategory }}</a>
             </p>
-            <h3 class="price">$850<span>$945</span></h3>
-            <p class="info-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
+
+            <h3 class="price">
+              {{ product?.price | currency : product?.currency }}
+            </h3>
+
+            <p class="info-text">{{ product?.description }}</p>
             <div class="row">
-              <div class="col-lg-4 col-md-4 col-12">
-                <div class="form-group color-option">
-                  <label class="title-label" for="size">Choose color</label>
-                  <div class="single-checkbox checkbox-style-1">
-                    <input type="checkbox" id="checkbox-1" checked="" />
-                    <label for="checkbox-1"><span></span></label>
-                  </div>
-                  <div class="single-checkbox checkbox-style-2">
-                    <input type="checkbox" id="checkbox-2" />
-                    <label for="checkbox-2"><span></span></label>
-                  </div>
-                  <div class="single-checkbox checkbox-style-3">
-                    <input type="checkbox" id="checkbox-3" />
-                    <label for="checkbox-3"><span></span></label>
-                  </div>
-                  <div class="single-checkbox checkbox-style-4">
-                    <input type="checkbox" id="checkbox-4" />
-                    <label for="checkbox-4"><span></span></label>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-4 col-12">
-                <div class="form-group">
-                  <label for="color">Battery capacity</label>
-                  <select class="form-control" id="color">
-                    <option>5100 mAh</option>
-                    <option>6200 mAh</option>
-                    <option>8000 mAh</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-4 col-12">
+              <div class="col-lg-6 col-md-6 col-12">
                 <div class="form-group quantity">
-                  <label for="color">Quantity</label>
-                  <select class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                  <label for="quantity">Quantity</label>
+                  <select class="form-control" id="quantity">
+                    <option *ngFor="let qty of [1, 2, 3, 4, 5]">
+                      {{ qty }}
+                    </option>
                   </select>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-12">
+                <div class="form-group">
+                  <label></label>
+                  <div class="button cart-button mt-2">
+                    <button class="btn" style="width: 100%">Purchase</button>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="bottom-content">
-              <div class="row align-items-end">
-                <div class="col-lg-4 col-md-4 col-12">
-                  <div class="button cart-button">
-                    <button class="btn" style="width: 100%">Add to Cart</button>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-12">
-                  <div class="wish-button">
-                    <button class="btn">
-                      <i class="lni lni-reload"></i> Compare
-                    </button>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-12">
-                  <div class="wish-button">
-                    <button class="btn">
-                      <i class="lni lni-heart"></i> To Wishlist
-                    </button>
-                  </div>
-                </div>
+
+            <!-- Bouton Voir la Boutique -->
+            <div class="shop-button my-4">
+              <button
+                class="btn btn-primary"
+                style="display: flex; align-items: center"
+                (click)="navigateToShop()"
+              >
+                <i class="fas fa-store" style="margin-right: 0.5rem"></i> Voir
+                la Boutique
+              </button>
+            </div>
+
+            <!-- Boutons de partage -->
+            <div class="share-section my-4">
+              <h6 class="font-bold text-xl mb-2">Partager :</h6>
+              <div class="flex items-center justify-start space-x-4">
+                <a
+                  [href]="generateShareUrl('facebook')"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600"
+                >
+                  <i class="fab fa-facebook-square" style="font-size: 2rem"></i>
+                </a>
+                <a
+                  [href]="generateShareUrl('linkedin')"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-500"
+                >
+                  <i class="fab fa-linkedin" style="font-size: 2rem"></i>
+                </a>
+                <a
+                  [href]="generateShareUrl('twitter')"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-gray-600"
+                >
+                  <i class="fab fa-x-twitter" style="font-size: 2rem"></i>
+                </a>
+                <a
+                  [href]="generateShareUrl('whatsapp')"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-green-500"
+                >
+                  <i class="fab fa-whatsapp" style="font-size: 2rem"></i>
+                </a>
+                <a
+                  [href]="generateShareUrl('default')"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-gray-600"
+                >
+                  <i class="fas fa-share" style="font-size: 2rem"></i>
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <div class="product-details-info">
-      <div class="single-block">
-        <div class="row">
-          <div class="col-lg-6 col-12">
-            <div class="info-body custom-responsive-margin">
-              <h4>Details</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat.
-              </p>
-              <h4>Features</h4>
-              <ul class="features">
-                <li>Capture 4K30 Video and 12MP Photos</li>
-                <li>Game-Style Controller with Touchscreen</li>
-                <li>View Live Camera Feed</li>
-                <li>Full Control of HERO6 Black</li>
-                <li>Use App for Dedicated Camera Operation</li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-lg-6 col-12">
-            <div class="info-body">
-              <h4>Specifications</h4>
-              <ul class="normal-list">
-                <li><span>Weight:</span> 35.5oz (1006g)</li>
-                <li><span>Maximum Speed:</span> 35 mph (15 m/s)</li>
-                <li><span>Maximum Distance:</span> Up to 9,840ft (3,000m)</li>
-                <li><span>Operating Frequency:</span> 2.4GHz</li>
-                <li><span>Manufacturer:</span> GoPro, USA</li>
-              </ul>
-              <h4>Shipping Options:</h4>
-              <ul class="normal-list">
-                <li><span>Courier:</span> 2 - 4 days, $22.50</li>
-                <li><span>Local Shipping:</span> up to one week, $10.00</li>
-                <li><span>UPS Ground Shipping:</span> 4 - 6 days, $18.00</li>
-                <li><span>Unishop Global Export:</span> 3 - 4 days, $25.00</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="row">
         <div class="col-lg-4 col-12">
           <div class="single-block give-review">
-            <h4>4.5 (Overall)</h4>
-            <ul>
-              <li>
-                <span>5 stars - 38</span>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star-filled"></i>
-              </li>
-              <li>
-                <span>4 stars - 10</span>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star"></i>
-              </li>
-              <li>
-                <span>3 stars - 3</span>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star"></i>
-                <i class="lni lni-star"></i>
-              </li>
-              <li>
-                <span>2 stars - 1</span>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star"></i>
-                <i class="lni lni-star"></i>
-                <i class="lni lni-star"></i>
-              </li>
-              <li>
-                <span>1 star - 0</span>
-                <i class="lni lni-star-filled"></i>
-                <i class="lni lni-star"></i>
-                <i class="lni lni-star"></i>
-                <i class="lni lni-star"></i>
-                <i class="lni lni-star"></i>
-              </li>
-            </ul>
             <!-- Button trigger modal -->
-            <button
-              type="button"
-              class="btn review-btn"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-            >
+            <button (click)="review()" type="button" class="btn review-btn">
               Leave a Review
             </button>
           </div>
@@ -259,72 +162,58 @@
           <div class="single-block">
             <div class="reviews">
               <h4 class="title">Latest Reviews</h4>
-              <!-- Start Single Review -->
-              <div class="single-review">
-                <img src="assets/images/blog/comment1.jpg" alt="#" />
-                <div class="review-info">
-                  <h4>
-                    Awesome quality for the price
-                    <span>Jacob Hammond </span>
-                  </h4>
-                  <ul class="stars">
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star-filled"></i></li>
-                  </ul>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor...
-                  </p>
+              <!-- Check if there are reviews -->
+              <ng-container
+                *ngIf="
+                  productReviews && productReviews.length > 0;
+                  else noReviews
+                "
+              >
+                <!-- Loop through each review -->
+                <div
+                  class="single-review"
+                  *ngFor="let review of productReviews"
+                >
+                  <!-- User Profile Image -->
+                  <img
+                    [src]="
+                      review.user?.profile_url ||
+                      'assets/images/default-profile.png'
+                    "
+                    alt="Reviewer Profile"
+                    class="reviewer-image"
+                  />
+                  <div class="review-info">
+                    <h4>
+                      {{ review.user?.name || "Anonymous" }}
+                    </h4>
+                    <ul class="stars">
+                      <li *ngFor="let star of [].constructor(5); let i = index">
+                        <i
+                          class="lni"
+                          [ngClass]="{
+                            'lni-star-filled': i < review.rating,
+                            'lni-star': i >= review.rating
+                          }"
+                        ></i>
+                      </li>
+                    </ul>
+                    <p>
+                      {{ review.review }}
+                    </p>
+                    <p class="text-end text-xs">
+                      {{ review.created_at | date : "medium" }}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <!-- End Single Review -->
-              <!-- Start Single Review -->
-              <div class="single-review">
-                <img src="assets/images/blog/comment2.jpg" alt="#" />
-                <div class="review-info">
-                  <h4>
-                    My husband love his new...
-                    <span>Alex Jaza </span>
-                  </h4>
-                  <ul class="stars">
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star"></i></li>
-                  </ul>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor...
-                  </p>
-                </div>
-              </div>
-              <!-- End Single Review -->
-              <!-- Start Single Review -->
-              <div class="single-review">
-                <img src="assets/images/blog/comment3.jpg" alt="#" />
-                <div class="review-info">
-                  <h4>
-                    I love the built quality...
-                    <span>Jacob Hammond </span>
-                  </h4>
-                  <ul class="stars">
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star-filled"></i></li>
-                    <li><i class="lni lni-star-filled"></i></li>
-                  </ul>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor...
-                  </p>
-                </div>
-              </div>
-              <!-- End Single Review -->
+              </ng-container>
+
+              <!-- Template to handle empty state -->
+              <ng-template #noReviews>
+                <p class="text-muted">
+                  No reviews available for this product yet.
+                </p>
+              </ng-template>
             </div>
           </div>
         </div>

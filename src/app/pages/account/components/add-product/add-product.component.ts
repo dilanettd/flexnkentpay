@@ -7,92 +7,76 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { ToastrService } from 'ngx-toastr';
+import { ProductService } from '../../../../core/services/product/product.service';
 
 @Component({
   selector: 'flexnkentpay-add-product',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './add-product.component.html',
-  styleUrl: './add-product.component.scss',
+  styleUrls: ['./add-product.component.scss'],
 })
-export class AddProductComponent {
-  step: number = 1; // Initial step
-  isHour24: boolean = false; // To manage time selection
-  type: string = 'product'; // Default type
-  uploadedImages: any[] = []; // Array for uploaded images
-  maxImages: number = 5; // Maximum number of images
-  isLoading: boolean = false; // For managing loading state during submission
+export class AddProductComponent implements OnInit {
+  step: number = 1;
+  uploadedImages: { url: string; file: File }[] = [];
+  maxImages: number = 5;
+  isLoading: boolean = false;
 
-  // Forms for each step
   productForm!: FormGroup;
-  step2Form!: FormGroup;
-  step3FormProduct!: FormGroup;
-  step3FormService!: FormGroup;
-  step4Form!: FormGroup;
 
-  // Mock data for categories and subcategories
   categories = [
     { id: 1, name: 'Electronics' },
     { id: 2, name: 'Furniture' },
   ];
-  subcategories = [
-    { id: 1, name: 'Phones' },
-    { id: 2, name: 'Laptops' },
-  ];
 
-  // Days of availability for services
-  daysList = [
-    { id: 1, nameFr: 'Lundi' },
-    { id: 2, nameFr: 'Mardi' },
-  ];
-
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private imageCompress: NgxImageCompressService,
+    private toastr: ToastrService,
+    private modalService: NgbModal,
+    private productService: ProductService
+  ) {}
 
   ngOnInit(): void {
     this.initializeForms();
   }
 
   initializeForms() {
-    // Initialize the forms with validation rules
     this.productForm = this.fb.group({
       name: ['', Validators.required],
-      brand: [''],
-      category: ['', Validators.required],
-      subcategory: [''],
-      price: ['', [Validators.required, Validators.min(1)]],
-      stockQuantity: ['', Validators.required],
-      description: [''],
-    });
-
-    this.step2Form = this.fb.group({
-      name: ['', Validators.required],
-      category: ['', Validators.required],
-      subCategory: ['', Validators.required],
-    });
-
-    this.step3FormProduct = this.fb.group({
       brand: ['', Validators.required],
-      price: ['', Validators.required],
-      location: ['', Validators.required],
-    });
-
-    this.step3FormService = this.fb.group({
-      days: ['', Validators.required],
-      startTime: [''],
-      endTime: [''],
-      priceService: ['', Validators.required],
-      locationService: ['', Validators.required],
-    });
-
-    this.step4Form = this.fb.group({
-      description: ['', [Validators.required, Validators.maxLength(2000)]],
+      category: ['', Validators.required],
+      price: ['', [Validators.required, Validators.min(1)]],
+      stock_quantity: ['', Validators.required],
+      description: ['', Validators.required],
+      currency: ['XAF', Validators.required],
+      installment_count: [1, [Validators.required, Validators.min(1)]],
+      min_installment_price: [1, [Validators.required, Validators.min(1)]],
     });
   }
 
-  // Step navigation functions
   handleNext() {
-    if (this.step < 5) {
+    if (
+      this.step === 1 &&
+      this.productForm.get('name')?.valid &&
+      this.productForm.get('category')?.valid &&
+      this.productForm.get('installment_count')?.valid
+    ) {
       this.step++;
+    } else if (
+      this.step === 2 &&
+      this.productForm.get('price')?.valid &&
+      this.productForm.get('min_installment_price')?.valid &&
+      this.productForm.get('stock_quantity')?.valid
+    ) {
+      this.step++;
+    } else if (this.step === 3 && this.productForm.get('description')?.valid) {
+      this.step++;
+    } else {
+      this.productForm.markAllAsTouched();
     }
   }
 
@@ -102,60 +86,131 @@ export class AddProductComponent {
     }
   }
 
-  handleSubmit() {
-    if (this.step === 5) {
-      this.isLoading = true;
-      // Simulate an API call or submit logic
-      setTimeout(() => {
-        this.isLoading = false;
-        alert('Product submitted successfully!');
-      }, 2000);
+  async handleSubmit() {
+    if (this.uploadedImages.length < 2) {
+      this.toastr.error('Vous devez télécharger au moins 2 images.');
+      return;
+    }
+
+    this.isLoading = true;
+
+    try {
+      const files = await this.resizeImages(this.uploadedImages);
+      const formData = new FormData();
+      const product = this.productForm.value;
+      Object.keys(product).forEach((key) => {
+        formData.append(key, product[key]);
+      });
+
+      files.forEach((file) => formData.append('images[]', file));
+
+      await this.productService.addProduct(formData).toPromise();
+      this.toastr.success('Votre annonce a été ajoutée avec succès.');
+      this.modalService.dismissAll();
+    } catch (error) {
+      this.toastr.error("Une erreur s'est produite. Veuillez réessayer.");
+    } finally {
+      this.isLoading = false;
     }
   }
 
-  // Handle the selection of product or service
-  changeType(event: any) {
-    this.type = event.target.value;
-  }
-
-  // Handle address change
-  handleAddressChange(event: any) {
-    // Logic for handling address from ngx-google-places-autocomplete
-  }
-
-  // Image upload handling
   uploadImage(event: any) {
-    const files = event.target.files;
-    if (files.length > 0 && this.uploadedImages.length < this.maxImages) {
-      for (let i = 0; i < files.length; i++) {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.uploadedImages.push({
-            url: e.target.result,
-            number: this.uploadedImages.length + 1,
-          });
-        };
-        reader.readAsDataURL(files[i]);
-      }
+    const files: FileList = event.target.files;
+
+    if (files.length + this.uploadedImages.length > this.maxImages) {
+      this.toastr.warning(
+        `Vous ne pouvez pas télécharger plus de ${this.maxImages} images.`
+      );
+      return;
     }
+
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.uploadedImages.push({
+          url: e.target.result,
+          file: file,
+        });
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
-  closeMadel() {}
-
-  // Delete uploaded image
   deleteImage(image: any) {
     this.uploadedImages = this.uploadedImages.filter((img) => img !== image);
   }
 
-  // Dynamically translate categories based on locale (mock function)
-  translateCategory(categoryId: number, locale: string) {
-    // Translation logic based on locale
-    return this.categories.find((c) => c.id === categoryId)?.name;
+  async resizeImages(files: { url: string; file: File }[]): Promise<File[]> {
+    const resizedFiles: File[] = [];
+
+    for (const fileObj of files) {
+      try {
+        const file = await this.resizeImageFromUrl(fileObj.url);
+        resizedFiles.push(file);
+      } catch (error) {
+        console.error("Erreur lors de la compression de l'image:", error);
+      }
+    }
+
+    return resizedFiles;
   }
 
-  // Dynamically translate subcategories based on locale (mock function)
-  translateSubCategory(subCategoryId: number, locale: string) {
-    // Translation logic based on locale
-    return this.subcategories.find((sc) => sc.id === subCategoryId)?.name;
+  private resizeImageFromUrl(url: string): Promise<File> {
+    return new Promise<File>((resolve, reject) => {
+      const byteCharacters = atob(url.split(',')[1]);
+      const byteNumbers = new Uint8Array(byteCharacters.length);
+
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+
+      const blob = new Blob([byteNumbers], { type: 'image/jpeg' });
+      const fileName = 'image.jpg';
+
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        if (event.target) {
+          const base64Data = event.target.result as string;
+
+          try {
+            const result = await this.imageCompress.compressFile(
+              base64Data,
+              1,
+              100,
+              100,
+              1200,
+              1200
+            );
+            const compressedFile = base64toFile(result, fileName, 'image/jpeg');
+            resolve(compressedFile);
+          } catch (error) {
+            reject(error);
+          }
+        } else {
+          reject(new Error('File reading failed.'));
+        }
+      };
+
+      reader.readAsDataURL(blob);
+    });
   }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach((field) => {
+      const control = formGroup.get(field);
+      control?.markAsTouched({ onlySelf: true });
+    });
+  }
+}
+
+function base64toFile(base64: string, filename: string, mimeType: string) {
+  const byteString = atob(base64.split(',')[1]);
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+
+  return new File([ab], filename, { type: mimeType });
 }

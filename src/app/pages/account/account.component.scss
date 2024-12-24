@@ -1,5 +1,5 @@
 .header-container {
-  @apply flex flex-col items-center justify-center py-4 px-1;
+  @apply flex flex-col items-center justify-center pt-4 pb-1 px-1;
   border: 1px solid rgba(13, 110, 253, 0.9);
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // ombre légère
@@ -32,4 +32,11 @@
       @apply text-blue-600 border-blue-500;
     }
   }
+}
+
+::-webkit-scrollbar {
+  /* Scrollbars */
+  width: 0px;
+  height: 0px;
+  background: #ffffff00;
 }

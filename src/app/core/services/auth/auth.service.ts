@@ -11,37 +11,70 @@ import { IUser } from '../../models/auth.state.model';
   providedIn: 'root',
 })
 export class AuthService {
-  base_url = environment.API_URL;
+  apiUrl = environment.API_URL;
+  clientID = environment.CLIENT_ID;
+  clientSecret = environment.CLIENT_SECRET;
   private userSubject: BehaviorSubject<IUser | null> =
     new BehaviorSubject<IUser | null>(null);
 
   constructor(
     private http: HttpClient,
     private localStorage: LocalStorageService
-  ) {}
+  ) {
+    this.localStorage.observe('me').subscribe((me) => {
+      this.userSubject.next(me);
+    });
+  }
 
   login(email: string, password: string): Observable<any> {
     return this.http
-      .post(this.base_url + '/login', { email, password })
+      .post(this.apiUrl + '/login', { email, password })
       .pipe(catchError(handleHttpError));
   }
 
-  refreshTokens(access_token: string, refresh_token: string): Observable<any> {
-    return this.http
-      .post(this.base_url + '/token/refresh', { access_token, refresh_token })
-      .pipe(catchError(handleHttpError));
+  resetPassword(
+    email: string,
+    password: string,
+    token: string
+  ): Observable<any> {
+    return this.http.post(`${this.apiUrl}/password/reset`, {
+      email,
+      password,
+      token,
+    });
   }
 
+  register(name: string, email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, { name, email, password });
+  }
+
+  sendResetPasswordEmail(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/password/email`, { email });
+  }
+
+  refreshToken(): Observable<any> {
+    const refreshToken = localStorage.getItem('refresh_token');
+    return this.http.post(`${this.apiUrl}/oauth/token`, {
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+      client_id: this.clientID,
+      client_secret: this.clientSecret,
+    });
+  }
   _logout(): Observable<any> {
     return this.http
-      .delete(this.base_url + '/logout')
+      .delete(this.apiUrl + '/logout')
       .pipe(catchError(handleHttpError));
   }
 
   getAuthenticatedUser(): Observable<IUser> {
     return this.http
-      .get<IUser>(`${this.base_url}/user`)
+      .get<IUser>(`${this.apiUrl}/user`)
       .pipe(catchError(handleHttpError));
+  }
+
+  verifyAccountEmail(token: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/email/verify`, { token });
   }
 
   logout() {
@@ -55,12 +88,11 @@ export class AuthService {
     });
   }
 
-  setTokens(tokens: {
-    access_token: string;
-    refresh_token: string;
-    role: string;
-  }): void {
-    this.localStorage.store('tokens', tokens);
+  setTokens(tokens: any): void {
+    this.localStorage.store('tokens', {
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+    });
   }
 
   getTokens(): { access_token: string; refresh_token: string; role: string } {
@@ -72,12 +104,19 @@ export class AuthService {
     };
   }
 
+  isAuthenticate(): boolean {
+    const tokens = this.localStorage.retrieve('tokens');
+    return !!tokens?.access_token;
+  }
+
   setUser(user: IUser): void {
-    this.localStorage.store('authUser', user);
+    this.localStorage.store('me', user);
     this.userSubject.next(user);
   }
 
   getUser(): Observable<IUser | null> {
+    const me = this.localStorage.retrieve('me');
+    this.userSubject.next(me);
     return this.userSubject.asObservable();
   }
 }

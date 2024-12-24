@@ -30,14 +30,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/css/bootstrap.min.css",
-              "src/assets/css/LineIcons.3.0.css",
-              "src/assets/css/tiny-slider.css",
-              "src/assets/css/glightbox.min.css",
-              "src/assets/css/main.css",
-              "src/assets/css/toastr.css",
-              "src/assets/css/modal.css",
-              "src/styles.scss"
+
+              "src/styles.scss",
+              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
+              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css"
             ],
             "scripts": [
               "src/assets/js/bootstrap.min.js",
@@ -49,19 +45,25 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all" 
             },
             "development": {
               "optimization": false,
@@ -74,6 +76,7 @@
                 }
               ]
             }
+            
           },
           "defaultConfiguration": "production"
         },

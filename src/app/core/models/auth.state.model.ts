@@ -1,3 +1,5 @@
+import { ISeller } from './seller.model';
+
 export interface AuthStateModel {
   isAuthenticated: boolean;
   accessToken: string;
@@ -24,9 +26,5 @@ export interface IUser {
   rememberToken?: string;
   created_at: string;
   updated_at: string;
-}
-
-export interface IUpdateMe {
-  first_name?: string;
-  last_name?: string;
+  seller: ISeller;
 }

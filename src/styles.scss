@@ -1,7 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
-/*Tailwind css*/
+/* Tailwind CSS */
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+/* Additional CSS files */
+@import "./assets/css/bootstrap.min.css";
+@import "./assets/css/LineIcons.3.0.css";
+@import "./assets/css/tiny-slider.css";
+@import "./assets/css/glightbox.min.css";
+@import "./assets/css/main.css";
+@import "./assets/css/toastr.css";
+@import "./assets/css/modal.css";

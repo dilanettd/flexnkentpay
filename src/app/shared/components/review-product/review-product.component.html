@@ -1,0 +1,95 @@
+<div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
+  <h2 class="text-2xl font-semibold text-center mb-4 text-blue-600">
+    Leave a review
+  </h2>
+  <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+    <div class="mb-4">
+      <label for="review-rating" class="block text-sm font-medium text-gray-700"
+        >Note</label
+      >
+      <select
+        id="review-rating"
+        formControlName="rating"
+        class="form-control mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+      >
+        <option value="5">5 ⭐</option>
+        <option value="4">4 ⭐</option>
+        <option value="3">3 ⭐</option>
+        <option value="2">2 ⭐</option>
+        <option value="1">1 ⭐</option>
+      </select>
+      <div
+        *ngIf="
+          reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched
+        "
+        class="text-red-500 text-sm mt-1"
+      >
+        La note est requise.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label
+        for="review-message"
+        class="block text-sm font-medium text-gray-700"
+        >Avis</label
+      >
+      <textarea
+        id="review-message"
+        formControlName="review"
+        rows="4"
+        class="mt-1 form-control w-full rounded-md bord shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        placeholder="Votre avis ici..."
+      ></textarea>
+      <div
+        *ngIf="
+          reviewForm.get('review')?.invalid && reviewForm.get('review')?.touched
+        "
+        class="text-red-500 text-sm mt-1"
+      >
+        L'avis est requis.
+      </div>
+    </div>
+
+    <div class="flex justify-between">
+      <button
+        type="submit"
+        [disabled]="isSubmitted"
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+      >
+        <ng-container *ngIf="!isSubmitted; else loadingTemplate">
+          Soumettre
+        </ng-container>
+        <ng-template #loadingTemplate>
+          <svg
+            class="animate-spin h-5 w-5 text-white inline-block"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        </ng-template>
+      </button>
+      <button
+        type="button"
+        class="px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-gray-500"
+        (click)="closeModal()"
+      >
+        Annuler
+      </button>
+    </div>
+  </form>
+</div>

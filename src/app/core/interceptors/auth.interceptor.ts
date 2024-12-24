@@ -10,7 +10,6 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry, switchMap } from 'rxjs/operators';
 
 import { AuthService } from '../services/auth/auth.service';
-import { RefreshToken } from '../state/actions/auth.actions';
 
 export const authInterceptor: HttpInterceptorFn = (
   request: HttpRequest<any>,
@@ -32,7 +31,7 @@ export const authInterceptor: HttpInterceptorFn = (
   return next(request).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && refresh_token) {
-        return authService.refreshTokens(access_token, refresh_token).pipe(
+        return authService.refreshToken().pipe(
           switchMap((response: any) => {
             authService.setTokens(response);
             request = request.clone({

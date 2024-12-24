@@ -20,12 +20,12 @@
       ></div>
     </div>
   </div>
+  <form [formGroup]="productForm" (ngSubmit)="handleNext()">
+    <section *ngIf="step === 1" class="space-y-4">
+      <h2 class="text-2xl font-semibold mb-4">
+        Étape 1: Informations sur le produit
+      </h2>
 
-  <div *ngIf="step === 1" class="space-y-4">
-    <h2 class="text-2xl font-semibold mb-4">
-      Étape 1: Informations sur le produit
-    </h2>
-    <form [formGroup]="productForm" (ngSubmit)="handleNext()">
       <div>
         <label class="block text-sm font-medium mb-2" for="name"
           >Nom du produit</label
@@ -37,7 +37,16 @@
           class="w-full border border-gray-300 rounded-lg p-2"
         />
       </div>
-      <div class="mt-4">
+      <div class="mt-2">
+        <label class="block text-sm font-medium mb-2" for="brand">Marque</label>
+        <input
+          type="text"
+          id="brand"
+          formControlName="brand"
+          class="w-full border border-gray-300 rounded-lg p-2"
+        />
+      </div>
+      <div class="mt-2">
         <label class="block text-sm font-medium mb-2" for="category"
           >Catégorie</label
         >
@@ -46,113 +55,129 @@
           formControlName="category"
           class="w-full border border-gray-300 rounded-lg p-2"
         >
-          <option *ngFor="let category of categories" [value]="category.id">
+          <option *ngFor="let category of categories" [value]="category.name">
             {{ category.name }}
           </option>
         </select>
       </div>
-    </form>
-  </div>
+    </section>
 
-  <section class="mx-auto" *ngIf="step === 2">
-    <h2 class="text-2xl font-semibold mb-4">Étape 2: Détails du produit</h2>
+    <section class="mx-auto" *ngIf="step === 2">
+      <h2 class="text-2xl font-semibold mb-4">Étape 2: Détails du produit</h2>
 
-    <div class="form-group mb-2">
-      <label for="price">Prix *</label>
-      <div class="input-group">
+      <div class="form-group mb-2">
+        <label for="price">Prix *</label>
+        <div class="input-group">
+          <input
+            type="number"
+            class="form-control"
+            id="price"
+            formControlName="price"
+            [ngClass]="{
+              'is-invalid':
+                productForm.controls['price'].errors &&
+                (productForm.controls['price'].touched ||
+                  productForm.controls['price'].dirty)
+            }"
+          />
+          <span class="input-group-text">XAF</span>
+        </div>
+      </div>
+      <div class="form-group mb-2">
+        <label for="min_installment_price">Prix Minimum par Versement</label>
+        <div class="input-group">
+          <input
+            type="number"
+            class="form-control"
+            id="min_installment_price"
+            formControlName="min_installment_price"
+            [ngClass]="{
+              'is-invalid':
+                productForm.controls['min_installment_price'].errors &&
+                (productForm.controls['min_installment_price'].touched ||
+                  productForm.controls['min_installment_price'].dirty)
+            }"
+          />
+          <span class="input-group-text">XAF</span>
+        </div>
+      </div>
+
+      <div class="block text-sm font-medium mb-2">
+        <label for="stock_quantity">Quantité en stock *</label>
         <input
           type="number"
-          class="form-control"
-          id="price"
-          formControlName="price"
+          class="w-full border border-gray-300 rounded-lg p-2"
+          id="stock_quantity"
+          formControlName="stock_quantity"
           [ngClass]="{
             'is-invalid':
-              productForm.controls['price'].errors &&
-              (productForm.controls['price'].touched ||
-                productForm.controls['price'].dirty)
+              productForm.controls['stock_quantity'].errors &&
+              (productForm.controls['stock_quantity'].touched ||
+                productForm.controls['stock_quantity'].dirty)
           }"
         />
-        <span class="input-group-text">XAF</span>
       </div>
-    </div>
+    </section>
 
-    <div class="block text-sm font-medium mb-2">
-      <label for="stockQuantity">Quantité en stock *</label>
-      <input
-        type="number"
-        class="w-full border border-gray-300 rounded-lg p-2"
-        id="stockQuantity"
-        formControlName="stockQuantity"
-        [ngClass]="{
-          'is-invalid':
-            productForm.controls['stockQuantity'].errors &&
-            (productForm.controls['stockQuantity'].touched ||
-              productForm.controls['stockQuantity'].dirty)
-        }"
-      />
-    </div>
-  </section>
+    <section class="step_three mx-auto" *ngIf="step === 3">
+      <h2 class="text-2xl font-semibold mb-4">Étape 3: Description</h2>
+      <form [formGroup]="productForm">
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea
+            class="w-full border border-gray-300 rounded-lg p-2"
+            rows="4"
+            id="description"
+            formControlName="description"
+            [ngClass]="{
+              'is-invalid':
+                productForm.controls['description'].errors &&
+                (productForm.controls['description'].touched ||
+                  productForm.controls['description'].dirty)
+            }"
+          ></textarea>
+        </div>
+      </form>
+    </section>
 
-  <section class="step_three mx-auto" *ngIf="step === 3">
-    <h2 class="text-2xl font-semibold mb-4">Étape 3: Description</h2>
-    <form [formGroup]="productForm">
+    <section class="step_four mx-auto" *ngIf="step === 4">
+      <h2 class="text-2xl font-semibold mb-4">Étape 4: Upload d'images</h2>
       <div class="form-group">
-        <label for="description">Description</label>
-        <textarea
-          class="w-full border border-gray-300 rounded-lg p-2"
-          rows="4"
-          id="description"
-          formControlName="description"
-          [ngClass]="{
-            'is-invalid':
-              productForm.controls['description'].errors &&
-              (productForm.controls['description'].touched ||
-                productForm.controls['description'].dirty)
-          }"
-        ></textarea>
-      </div>
-    </form>
-  </section>
+        <label>Ajouter des images (min 2, max 5)</label>
+        <div class="container-image__upload">
+          <div class="grid grid-cols-2 sm:grid-cols-2 gap-4">
+            <div
+              class="upload-image"
+              [class.upload-max-reached]="uploadedImages.length >= 5"
+              (click)="uploadInput.click()"
+            >
+              <input
+                class="upload-input visually-hidden"
+                type="file"
+                #uploadInput
+                accept="image/png, image/jpeg, image/jpg"
+                (change)="uploadImage($event)"
+              />
+              <div class="upload-icon">
+                <i class="bi bi-hand-index"></i>
+              </div>
+            </div>
+            <div class="uploaded-image" *ngFor="let image of uploadedImages">
+              <img
+                [src]="image.url"
+                alt="Image téléchargée"
+                class="object-contain"
+              />
 
-  <section class="step_four mx-auto" *ngIf="step === 4">
-    <h2 class="text-2xl font-semibold mb-4">Étape 4: Upload d'images</h2>
-    <div class="form-group">
-      <label>Ajouter des images (min 2, max 5)</label>
-      <div class="container-image__upload">
-        <div class="grid grid-cols-2 sm:grid-cols-2 gap-4">
-          <div
-            class="upload-image"
-            [class.upload-max-reached]="uploadedImages.length >= 5"
-            (click)="uploadInput.click()"
-          >
-            <input
-              class="upload-input visually-hidden"
-              type="file"
-              #uploadInput
-              accept="image/png, image/jpeg, image/jpg"
-              (change)="uploadImage($event)"
-            />
-            <div class="upload-icon">
-              <i class="bi bi-hand-index"></i>
-            </div>
-          </div>
-          <div class="uploaded-image" *ngFor="let image of uploadedImages">
-            <img
-              [src]="image.url"
-              alt="Image téléchargée"
-              class="w-full h-auto"
-            />
-            <div class="image-number">
-              {{ image.number }}
-            </div>
-            <div class="delete-icon" (click)="deleteImage(image)">
-              <i class="bi bi-x-lg"></i>
+              <div class="delete-icon" (click)="deleteImage(image)">
+                <i class="bi bi-x-lg"></i>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </form>
 
   <div class="flex justify-between items-center mt-8">
     <button
@@ -171,16 +196,35 @@
     </button>
     <button
       *ngIf="step === 4"
+      [disabled]="isLoading"
       (click)="handleSubmit()"
-      class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+      class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 cursor-pointer"
     >
-      Soumettre
+      @if (isLoading) {
+      <span>
+        <svg
+          class="d-flex w-4 h-4 animate-spin"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+      </span>
+      }
+      <span>Soumettre</span>
     </button>
-  </div>
-
-  <div *ngIf="isLoading" class="mt-8 flex justify-center">
-    <div
-      class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"
-    ></div>
   </div>
 </div>

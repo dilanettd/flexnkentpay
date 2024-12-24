@@ -1,3 +1,6 @@
+@if (showNotFound) {<not-found></not-found>}@else if (showConfirmPage)
+{<account-confirmation></account-confirmation>}@else {
 <flexnkentpay-header></flexnkentpay-header>
 <router-outlet></router-outlet>
 <flexnkentpay-footer></flexnkentpay-footer>
+}
