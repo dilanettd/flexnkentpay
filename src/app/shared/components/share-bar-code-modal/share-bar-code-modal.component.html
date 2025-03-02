@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+<div class="modal-body text-center">
+  <div class="barcode-container">
+    <div *ngIf="productCode" id="qrcode" class="mb-3">
+      <qrcode
+        [qrdata]="productCode"
+        [width]="250"
+        [errorCorrectionLevel]="'M'"
+        [margin]="2"
+        [elementType]="'canvas'"
+      ></qrcode>
+      <div class="mt-1 text-muted small">Code :: {{ productCode }}</div>
+    </div>
+
+    <img
+      *ngIf="barcodeUrl && !productCode"
+      id="barcodeUrl"
+      [src]="barcodeUrl"
+      alt="Code-barres du produit"
+      class="img-fluid mb-3"
+    />
+  </div>
+  <div class="share-options mt-3">
+    <button class="btn btn-primary me-2" (click)="downloadBarcode()">
+      Download
+    </button>
+    <button class="btn btn-success me-2" (click)="shareBarcode()">Share</button>
+  </div>
+</div>

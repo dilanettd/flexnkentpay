@@ -17,11 +17,18 @@ import { SellerService } from '../../../../core/services/seller/seller.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ButtonSpinnerComponent } from '../../../../shared/components/button-spinner/button-spinner.component';
 
 @Component({
   selector: 'flexnkentpay-profile',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, NgbModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    NgbModule,
+    ButtonSpinnerComponent,
+  ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })

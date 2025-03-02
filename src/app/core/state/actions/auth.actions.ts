@@ -1,4 +1,4 @@
-import { IUpdateMe, IUser } from '../../models/auth.state.model';
+import { IUser } from '../../models/auth.state.model';
 
 export class Login {
   static readonly type = '[Auth] Login';
@@ -28,7 +28,7 @@ export class GetMe {
 export class UpdateMe {
   static readonly type = '[Auth] UpdateMe';
 
-  constructor(public updateMe: IUpdateMe) {}
+  constructor(public updateMe: any) {}
 }
 
 export class Logout {

@@ -1,111 +1,90 @@
 <div class="account-login">
   <div class="row">
+    <!-- Login Form -->
     @if (!isForgotPassword) {
-
     <form
       class="card login-form"
       [formGroup]="loginForm"
       (ngSubmit)="onSubmit()"
     >
       <div class="card-body">
-        <div class="title">
-          <h3>Login Now</h3>
-          <p>You can login using your social media account or email address.</p>
+        <div class="title text-center mb-4">
+          <h3 class="text-2xl font-semibold text-gray-800">Login Now</h3>
+          <p class="text-gray-600">
+            You can login using your social media account or email address.
+          </p>
         </div>
-        <!-- <div class="social-login">
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-12">
-              <a class="btn facebook-btn" (click)="signInWithFB()">
-                <i class="lni lni-facebook-filled"></i> Facebook login
-              </a>
-            </div>
-            <div class="col-lg-6 col-md-6 col-12">
-              <a class="btn google-btn" (click)="signInWithGoogle()">
-                <i class="lni lni-google"></i> Google login
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="alt-option">
-          <span>Or</span>
-        </div> -->
         @if (errorMessage) {
-        <div class="alert alert-danger">{{ errorMessage }}</div>
+        <div class="alert alert-danger text-red-600 text-center mb-4">
+          {{ errorMessage }}
+        </div>
         }
-        <div class="form-group input-group">
-          <label for="reg-email">Email</label>
+        <div class="form-group input-group mb-4">
+          <label for="reg-email" class="block text-gray-700 font-medium"
+            >Email</label
+          >
           <input
-            class="form-control"
+            class="form-control w-full border border-gray-300 rounded p-2 mt-1"
             type="email"
             id="reg-email"
             formControlName="email"
           />
         </div>
-        <div class="form-group input-group">
-          <label for="reg-pass">Password</label>
+        <div class="form-group input-group mb-4">
+          <label for="reg-pass" class="block text-gray-700 font-medium"
+            >Password</label
+          >
           <input
-            class="form-control"
+            class="form-control w-full border border-gray-300 rounded p-2 mt-1"
             type="password"
             id="reg-pass"
             formControlName="password"
           />
         </div>
-        <div class="d-flex flex-wrap justify-content-between bottom-content">
-          <div class="form-check">
+        <div class="d-flex flex-wrap justify-between items-center mb-4">
+          <div class="form-check flex items-center">
             <input
               type="checkbox"
-              class="form-check-input width-auto"
+              class="form-check-input mr-2"
               id="rememberMe"
               formControlName="rememberMe"
             />
-            <label class="form-check-label" for="rememberMe">Remember me</label>
+            <label class="form-check-label text-gray-700" for="rememberMe">
+              Remember me
+            </label>
           </div>
           <a
-            class="lost-pass"
+            class="lost-pass text-blue-600 hover:underline"
             href="javascript:void(0)"
             (click)="showForgotPasswordForm()"
-            >Forgot password?</a
           >
+            Forgot password?
+          </a>
         </div>
-        <div class="d-flex flex-wrap justify-content-around bottom-content">
-          <div class="button">
-            <button class="btn" type="submit" [disabled]="loginForm.invalid">
-              @if (isSubmitted) {
-              <span>
-                <svg
-                  class="d-flex w-4 h-4 animate-spin"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </span>
-              }@else {<span>Login</span>}
-            </button>
-          </div>
-          <div class="button">
-            <button class="btn btn-alt" type="button" (click)="closeModal()">
-              Cancel
-            </button>
-          </div>
+        <div class="flex justify-evenly">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="loginForm.invalid"
+          >
+            <ng-container *ngIf="isSubmitted; else defaultText">
+              <spinner></spinner>
+            </ng-container>
+            <ng-template #defaultText>
+              <span>Sign In</span>
+            </ng-template>
+          </button>
+          <button
+            class="btn btn-outline-primary"
+            type="button"
+            (click)="closeModal()"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </form>
     }@else {
-
     <!-- Forgot Password Form -->
     <form
       class="card login-form"
@@ -113,60 +92,46 @@
       (ngSubmit)="onResetPasswordSubmit()"
     >
       <div class="card-body">
-        <div class="title">
-          <h3>Reset Password</h3>
-          <p>Enter your email to reset your password.</p>
+        <div class="title text-center mb-4">
+          <h3 class="text-2xl font-semibold text-gray-800">Reset Password</h3>
+          <p class="text-gray-600">Enter your email to reset your password.</p>
         </div>
         @if (errorMessage) {
-        <div class="alert alert-danger">{{ errorMessage }}</div>
+        <div class="alert alert-danger text-red-600 text-center mb-4">
+          {{ errorMessage }}
+        </div>
         }
-        <div class="form-group input-group">
-          <label for="reset-email">Email</label>
+        <div class="form-group input-group mb-4">
+          <label for="reset-email" class="block text-gray-700 font-medium"
+            >Email</label
+          >
           <input
-            class="form-control"
+            class="form-control w-full border border-gray-300 rounded p-2 mt-1"
             type="email"
             id="reset-email"
             formControlName="email"
           />
         </div>
-        <div class="d-flex flex-wrap justify-content-around bottom-content">
-          <div class="button">
-            <button
-              class="btn"
-              type="submit"
-              [disabled]="forgotPasswordForm.invalid"
-            >
-              @if (isSubmitted) {
-              <span>
-                <svg
-                  class="d-flex w-4 h-4 animate-spin"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </span>
-              }@else {<span>Reset</span>}
-            </button>
-          </div>
-          <div class="button">
-            <button class="btn btn-alt" type="button" (click)="goBackToLogin()">
-              Back
-            </button>
-          </div>
+        <div class="flex justify-evenly">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="forgotPasswordForm.invalid"
+          >
+            <ng-container *ngIf="isSubmitted; else resetText">
+              <spinner></spinner>
+            </ng-container>
+            <ng-template #resetText>
+              <span>Reset</span>
+            </ng-template>
+          </button>
+          <button
+            class="btn btn-outline-primary"
+            type="button"
+            (click)="goBackToLogin()"
+          >
+            Back
+          </button>
         </div>
       </div>
     </form>

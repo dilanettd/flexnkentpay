@@ -11,11 +11,17 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { CustomValidators } from '../../shared/components/register-modal/Customvalidator';
+import { ButtonSpinnerComponent } from '../../shared/components/button-spinner/button-spinner.component';
 
 @Component({
   selector: 'change-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    ButtonSpinnerComponent,
+  ],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss',
 })

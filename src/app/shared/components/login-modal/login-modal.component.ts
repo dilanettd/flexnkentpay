@@ -10,11 +10,13 @@ import { IUser } from '../../../core/models/auth.state.model';
 import { Unsubscribable } from 'rxjs';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
+import { ButtonSpinnerComponent } from '../button-spinner/button-spinner.component';
 
 @Component({
   selector: 'flexnkentpay-login-modal',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule, ButtonSpinnerComponent],
   templateUrl: './login-modal.component.html',
   styleUrls: ['./login-modal.component.scss'],
 })

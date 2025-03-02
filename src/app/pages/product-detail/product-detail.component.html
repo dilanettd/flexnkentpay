@@ -2,16 +2,14 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-6 col-md-6 col-12">
-        <div class="breadcrumbs-content">
-          <h1 class="page-title">Single Product</h1>
-        </div>
+        <div class="breadcrumbs-content"></div>
       </div>
       <div class="col-lg-6 col-md-6 col-12">
         <ul class="breadcrumb-nav">
           <li>
             <a href="index.html"><i class="lni lni-home"></i> Home</a>
           </li>
-          <li>Single Product</li>
+          <li>Single Details</li>
         </ul>
       </div>
     </div>
@@ -19,58 +17,90 @@
 </div>
 
 <section class="item-details section">
+  @if (isLoading()) {
+  <div class="container text-center py-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  } @else if (!product()) {
+  <div class="container text-center py-5">
+    <p class="alert alert-warning">Product not found or unavailable.</p>
+  </div>
+  } @else {
   <div class="container">
     <div class="top-area">
       <div class="row align-items-center">
         <div class="col-lg-6 col-md-12 col-12">
           <div class="product-images">
             <main id="gallery">
-              <div class="main-img" *ngIf="product?.images?.length">
+              <div class="main-img" *ngIf="product()?.images?.length">
                 <img
-                  [src]="selectedImageUrl"
+                  [src]="
+                    selectedImageUrl() ||
+                    'assets/images/product-placeholder.png'
+                  "
                   id="current"
                   alt="Product Image"
-                  style="height: 30rem"
+                  style="height: 30rem; object-fit: contain"
                 />
               </div>
               <div class="images">
+                @for (image of product()?.images || []; track image.image_url) {
                 <img
-                  *ngFor="let image of product?.images"
-                  [src]="image.thumbnail_url || image.image_url"
+                  [src]="
+                    image.thumbnail_url ||
+                    image.image_url ||
+                    'assets/images/thumbnail-placeholder.png'
+                  "
                   class="img"
                   alt="Product Thumbnail"
                   (click)="onThumbnailClick(image.image_url)"
                   [ngStyle]="{
-                    opacity: selectedImageUrl === image.image_url ? '0.6' : '1'
+                    opacity:
+                      selectedImageUrl() === image.image_url ? '0.6' : '1'
                   }"
                   style="height: 7rem; object-fit: cover; cursor: pointer"
                 />
+                }
               </div>
             </main>
           </div>
         </div>
         <div class="col-lg-6 col-md-12 col-12">
           <div class="product-info">
-            <h2 class="title">{{ product?.name }}</h2>
+            <h2 class="title">{{ product()?.name || "Unnamed Product" }}</h2>
 
-            <p class="category">
-              <i class="lni lni-tag"></i> {{ product?.category }} :
-              <a href="javascript:void(0)">{{ product?.subcategory }}</a>
+            <p class="category" *ngIf="product()?.category">
+              <i class="lni lni-tag"></i> {{ product()?.category }} :
+              <a href="javascript:void(0)">{{ product()?.subcategory }}</a>
             </p>
 
-            <h3 class="price">
-              {{ product?.price | currency : product?.currency }}
+            <h3
+              class="price"
+              *ngIf="
+                product()?.price !== undefined && product()?.price !== null
+              "
+            >
+              {{ product()?.price | currency : product()?.currency || "USD" }}
             </h3>
 
-            <p class="info-text">{{ product?.description }}</p>
+            <p class="info-text h-52 overflow-scroll">
+              {{ product()?.description || "No description available" }}
+            </p>
             <div class="row">
               <div class="col-lg-6 col-md-6 col-12">
                 <div class="form-group quantity">
                   <label for="quantity">Quantity</label>
-                  <select class="form-control" id="quantity">
-                    <option *ngFor="let qty of [1, 2, 3, 4, 5]">
-                      {{ qty }}
-                    </option>
+                  <select
+                    class="form-control"
+                    id="quantity"
+                    [ngModel]="quantity()"
+                    (ngModelChange)="updateQuantity($event)"
+                  >
+                    @for (qty of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track qty) {
+                    <option [value]="qty">{{ qty }}</option>
+                    }
                   </select>
                 </div>
               </div>
@@ -78,69 +108,111 @@
               <div class="col-lg-6 col-md-6 col-12">
                 <div class="form-group">
                   <label></label>
-                  <div class="button cart-button mt-2">
-                    <button class="btn" style="width: 100%">Purchase</button>
+                  <div class="cart-button mt-2">
+                    <button
+                      class="btn btn-primary"
+                      style="width: 100%"
+                      (click)="openOrderModal()"
+                    >
+                      Purchase
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Bouton Voir la Boutique -->
-            <div class="shop-button my-4">
-              <button
-                class="btn btn-primary"
-                style="display: flex; align-items: center"
-                (click)="navigateToShop()"
-              >
-                <i class="fas fa-store" style="margin-right: 0.5rem"></i> Voir
-                la Boutique
+            <div class="shop-button my-4" *ngIf="product()?.shop_id">
+              <button class="btn btn-primary" (click)="navigateToShop()">
+                <i class="fas fa-store" style="margin-right: 0.5rem"></i> View
+                Shop
               </button>
             </div>
 
-            <!-- Boutons de partage -->
             <div class="share-section my-4">
-              <h6 class="font-bold text-xl mb-2">Partager :</h6>
-              <div class="flex items-center justify-start space-x-4">
-                <a
-                  [href]="generateShareUrl('facebook')"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-blue-600"
-                >
-                  <i class="fab fa-facebook-square" style="font-size: 2rem"></i>
-                </a>
-                <a
-                  [href]="generateShareUrl('linkedin')"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-blue-500"
-                >
-                  <i class="fab fa-linkedin" style="font-size: 2rem"></i>
-                </a>
-                <a
-                  [href]="generateShareUrl('twitter')"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-gray-600"
-                >
-                  <i class="fab fa-x-twitter" style="font-size: 2rem"></i>
-                </a>
-                <a
-                  [href]="generateShareUrl('whatsapp')"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-green-500"
-                >
-                  <i class="fab fa-whatsapp" style="font-size: 2rem"></i>
-                </a>
-                <a
-                  [href]="generateShareUrl('default')"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-gray-600"
-                >
-                  <i class="fas fa-share" style="font-size: 2rem"></i>
-                </a>
+              <div class="product-sharing mt-4 mb-4">
+                <h5>Share this product</h5>
+                <div class="social-icons">
+                  <!-- Facebook -->
+                  <button
+                    class="btn btn-social btn-facebook"
+                    (click)="shareProduct('facebook')"
+                    title="Partager sur Facebook"
+                  >
+                    <i class="bi bi-facebook"></i>
+                  </button>
+
+                  <!-- Twitter -->
+                  <button
+                    class="btn btn-social btn-twitter"
+                    (click)="shareProduct('twitter')"
+                    title="Partager sur Twitter"
+                  >
+                    <i class="bi bi-twitter-x"></i>
+                  </button>
+
+                  <!-- LinkedIn -->
+                  <button
+                    class="btn btn-social btn-linkedin"
+                    (click)="shareProduct('linkedin')"
+                    title="Partager sur LinkedIn"
+                  >
+                    <i class="bi bi-linkedin"></i>
+                  </button>
+
+                  <!-- WhatsApp -->
+                  <button
+                    class="btn btn-social btn-whatsapp"
+                    (click)="shareProduct('whatsapp')"
+                    title="Partager sur WhatsApp"
+                  >
+                    <i class="bi bi-whatsapp"></i>
+                  </button>
+
+                  <!-- Pinterest -->
+                  <button
+                    class="btn btn-social btn-pinterest"
+                    (click)="shareProduct('pinterest')"
+                    title="Partager sur Pinterest"
+                  >
+                    <i class="bi bi-pinterest"></i>
+                  </button>
+
+                  <!-- Telegram -->
+                  <button
+                    class="btn btn-social btn-telegram"
+                    (click)="shareProduct('telegram')"
+                    title="Partager sur Telegram"
+                  >
+                    <i class="bi bi-telegram"></i>
+                  </button>
+
+                  <!-- Email -->
+                  <button
+                    class="btn btn-social btn-email"
+                    (click)="shareProduct('email')"
+                    title="Partager par Email"
+                  >
+                    <i class="bi bi-envelope"></i>
+                  </button>
+
+                  <!-- Copy Link -->
+                  <button
+                    class="btn btn-social btn-copy"
+                    (click)="shareProduct('copy')"
+                    title="Copier le lien"
+                  >
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+
+                  <!-- Barcode / QR Code -->
+                  <button
+                    class="btn btn-social btn-qrcode"
+                    (click)="shareProduct('qrcode')"
+                    title="Afficher le code-barres"
+                  >
+                    <i class="bi bi-upc-scan"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -152,8 +224,7 @@
       <div class="row">
         <div class="col-lg-4 col-12">
           <div class="single-block give-review">
-            <!-- Button trigger modal -->
-            <button (click)="review()" type="button" class="btn review-btn">
+            <button (click)="review()" type="button" class="btn btn-primary">
               Leave a Review
             </button>
           </div>
@@ -162,62 +233,49 @@
           <div class="single-block">
             <div class="reviews">
               <h4 class="title">Latest Reviews</h4>
-              <!-- Check if there are reviews -->
-              <ng-container
-                *ngIf="
-                  productReviews && productReviews.length > 0;
-                  else noReviews
-                "
-              >
-                <!-- Loop through each review -->
-                <div
-                  class="single-review"
-                  *ngFor="let review of productReviews"
-                >
-                  <!-- User Profile Image -->
-                  <img
-                    [src]="
-                      review.user?.profile_url ||
-                      'assets/images/default-profile.png'
-                    "
-                    alt="Reviewer Profile"
-                    class="reviewer-image"
-                  />
-                  <div class="review-info">
-                    <h4>
-                      {{ review.user?.name || "Anonymous" }}
-                    </h4>
-                    <ul class="stars">
-                      <li *ngFor="let star of [].constructor(5); let i = index">
-                        <i
-                          class="lni"
-                          [ngClass]="{
-                            'lni-star-filled': i < review.rating,
-                            'lni-star': i >= review.rating
-                          }"
-                        ></i>
-                      </li>
-                    </ul>
-                    <p>
-                      {{ review.review }}
-                    </p>
-                    <p class="text-end text-xs">
-                      {{ review.created_at | date : "medium" }}
-                    </p>
-                  </div>
-                </div>
-              </ng-container>
 
-              <!-- Template to handle empty state -->
-              <ng-template #noReviews>
-                <p class="text-muted">
-                  No reviews available for this product yet.
-                </p>
-              </ng-template>
+              @if (productReviews().length) { @for (review of productReviews();
+              track review.id) {
+              <div class="single-review">
+                <img
+                  [src]="
+                    review.user?.profile_url ||
+                    'assets/images/default-profile.png'
+                  "
+                  alt="Reviewer Profile"
+                  class="reviewer-image"
+                />
+                <div class="review-info">
+                  <h4>{{ review.user?.name || "Anonymous" }}</h4>
+                  <ul class="stars">
+                    @for (star of [1, 2, 3, 4, 5]; track star) {
+                    <li>
+                      <i
+                        class="lni"
+                        [ngClass]="{
+                          'lni-star-filled': star <= review.rating,
+                          'lni-star': star > review.rating
+                        }"
+                      ></i>
+                    </li>
+                    }
+                  </ul>
+                  <p>{{ review.review || "No comments provided" }}</p>
+                  <p class="text-end text-xs">
+                    {{ review.created_at | date : "medium" }}
+                  </p>
+                </div>
+              </div>
+              } } @else {
+              <p class="text-muted">
+                No reviews available for this product yet.
+              </p>
+              }
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  }
 </section>

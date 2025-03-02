@@ -203,43 +203,29 @@
         </div>
 
         <!-- Buttons -->
-        <div class="d-flex flex-wrap justify-content-around bottom-content">
-          <div class="button">
-            <button
-              (click)="onSubmit()"
-              class="btn"
-              type="submit"
-              [disabled]="registrationForm.invalid"
-            >
-              @if (isLoading) {
-              <span>
-                <svg
-                  class="d-flex w-4 h-4 animate-spin"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </span>
-              }@else {<span>Register</span>}
-            </button>
-          </div>
-          <div class="button">
-            <button class="btn btn-alt" (click)="closeModal()">Cancel</button>
-          </div>
+        <div class="flex justify-evenly mt-8">
+          <!-- Register Button -->
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="registrationForm.invalid"
+          >
+            <ng-container *ngIf="isLoading; else defaultText">
+              <spinner></spinner>
+            </ng-container>
+            <ng-template #defaultText>
+              <span>Register</span>
+            </ng-template>
+          </button>
+
+          <!-- Cancel Button -->
+          <button
+            class="btn btn-outline-primary"
+            type="button"
+            (click)="closeModal()"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </form>

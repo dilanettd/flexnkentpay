@@ -10,11 +10,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../core/services/user/user.service';
 import { CommonModule } from '@angular/common';
+import { ButtonSpinnerComponent } from '../button-spinner/button-spinner.component';
 
 @Component({
   selector: 'flexnkentpay-review-product',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, ButtonSpinnerComponent],
   templateUrl: './review-product.component.html',
   styleUrl: './review-product.component.scss',
 })

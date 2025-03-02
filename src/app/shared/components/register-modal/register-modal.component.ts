@@ -12,11 +12,17 @@ import { ToastrService } from 'ngx-toastr';
 import { CustomValidators } from './Customvalidator';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { ButtonSpinnerComponent } from '../button-spinner/button-spinner.component';
 
 @Component({
   selector: 'flexnkentpay-register-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [
+    CommonModule,
+    ButtonSpinnerComponent,
+    ReactiveFormsModule,
+    RouterLink,
+  ],
   templateUrl: './register-modal.component.html',
   styleUrl: './register-modal.component.scss',
 })

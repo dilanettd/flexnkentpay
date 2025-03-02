@@ -3,31 +3,25 @@ import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './core/layouts/footer/footer.component';
 import { HeaderComponent } from './core/layouts/header/header.component';
 import { Router, NavigationEnd } from '@angular/router';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { AccountConfirmationComponent } from './pages/account-confirmation/account-confirmation.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    FooterComponent,
-    HeaderComponent,
-    NotFoundComponent,
-    AccountConfirmationComponent,
-  ],
+  imports: [RouterOutlet, FooterComponent, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  showNotFound: boolean = false;
-  showConfirmPage: boolean = false;
+  isFullPageRoute: boolean = false;
 
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.showNotFound = this.router.url === '/not-found';
-        this.showConfirmPage = this.router.url === '/account/verify';
+        this.isFullPageRoute =
+          ['/not-found', '/account/verify', '/admin/login'].includes(
+            this.router.url
+          ) || this.router.url.startsWith('/admin');
+
         window.scrollTo(0, 0);
       }
     });

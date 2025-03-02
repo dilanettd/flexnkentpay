@@ -1,4 +1,11 @@
-<div class="container mx-auto p-6">
+<div class="container mx-auto p-6 relative">
+  <button
+    type="button"
+    class="absolute -top-1 -right-6 text-red-500 hover:text-red-700 focus:outline-none"
+    (click)="closeModal()"
+  >
+    <i class="bi bi-x-lg text-xl"></i>
+  </button>
   <div class="flex justify-between items-center mb-6">
     <div *ngFor="let stepNumber of [1, 2, 3, 4]" class="relative">
       <div
@@ -22,13 +29,11 @@
   </div>
   <form [formGroup]="productForm" (ngSubmit)="handleNext()">
     <section *ngIf="step === 1" class="space-y-4">
-      <h2 class="text-2xl font-semibold mb-4">
-        Étape 1: Informations sur le produit
-      </h2>
+      <h2 class="text-2xl font-semibold mb-4">Step 1: Product Information</h2>
 
       <div>
         <label class="block text-sm font-medium mb-2" for="name"
-          >Nom du produit</label
+          >Product Name</label
         >
         <input
           type="text"
@@ -38,7 +43,7 @@
         />
       </div>
       <div class="mt-2">
-        <label class="block text-sm font-medium mb-2" for="brand">Marque</label>
+        <label class="block text-sm font-medium mb-2" for="brand">Brand</label>
         <input
           type="text"
           id="brand"
@@ -48,7 +53,7 @@
       </div>
       <div class="mt-2">
         <label class="block text-sm font-medium mb-2" for="category"
-          >Catégorie</label
+          >Category</label
         >
         <select
           id="category"
@@ -63,10 +68,10 @@
     </section>
 
     <section class="mx-auto" *ngIf="step === 2">
-      <h2 class="text-2xl font-semibold mb-4">Étape 2: Détails du produit</h2>
+      <h2 class="text-2xl font-semibold mb-4">Step 2: Product Details</h2>
 
       <div class="form-group mb-2">
-        <label for="price">Prix *</label>
+        <label for="price">Price *</label>
         <div class="input-group">
           <input
             type="number"
@@ -84,7 +89,7 @@
         </div>
       </div>
       <div class="form-group mb-2">
-        <label for="min_installment_price">Prix Minimum par Versement</label>
+        <label for="min_installment_price">Minimum Installment Price</label>
         <div class="input-group">
           <input
             type="number"
@@ -103,7 +108,7 @@
       </div>
 
       <div class="block text-sm font-medium mb-2">
-        <label for="stock_quantity">Quantité en stock *</label>
+        <label for="stock_quantity">Stock Quantity *</label>
         <input
           type="number"
           class="w-full border border-gray-300 rounded-lg p-2"
@@ -120,7 +125,7 @@
     </section>
 
     <section class="step_three mx-auto" *ngIf="step === 3">
-      <h2 class="text-2xl font-semibold mb-4">Étape 3: Description</h2>
+      <h2 class="text-2xl font-semibold mb-4">Step 3: Description</h2>
       <form [formGroup]="productForm">
         <div class="form-group">
           <label for="description">Description</label>
@@ -141,9 +146,9 @@
     </section>
 
     <section class="step_four mx-auto" *ngIf="step === 4">
-      <h2 class="text-2xl font-semibold mb-4">Étape 4: Upload d'images</h2>
+      <h2 class="text-2xl font-semibold mb-4">Step 4: Image Upload</h2>
       <div class="form-group">
-        <label>Ajouter des images (min 2, max 5)</label>
+        <label>Add Images (min 2, max 5)</label>
         <div class="container-image__upload">
           <div class="grid grid-cols-2 sm:grid-cols-2 gap-4">
             <div
@@ -165,7 +170,7 @@
             <div class="uploaded-image" *ngFor="let image of uploadedImages">
               <img
                 [src]="image.url"
-                alt="Image téléchargée"
+                alt="Uploaded Image"
                 class="object-contain"
               />
 
@@ -183,48 +188,29 @@
     <button
       *ngIf="step > 1"
       (click)="handlePrevious()"
-      class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300"
+      class="btn btn-outline-secondary"
     >
-      Précédent
+      Prev
     </button>
     <button
       *ngIf="step < 4"
       (click)="handleNext()"
-      class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+      class="btn btn-outline-primary"
     >
-      Suivant
+      Next
     </button>
     <button
       *ngIf="step === 4"
       [disabled]="isLoading"
       (click)="handleSubmit()"
-      class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 cursor-pointer"
+      class="btn btn-primary"
     >
-      @if (isLoading) {
-      <span>
-        <svg
-          class="d-flex w-4 h-4 animate-spin"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-      </span>
-      }
-      <span>Soumettre</span>
+      <ng-container *ngIf="isLoading; else buttonText">
+        <spinner></spinner>
+      </ng-container>
+      <ng-template #buttonText>
+        <span>Add</span>
+      </ng-template>
     </button>
   </div>
 </div>

@@ -11,11 +11,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrService } from 'ngx-toastr';
 import { ProductService } from '../../../../core/services/product/product.service';
+import { ButtonSpinnerComponent } from '../../../../shared/components/button-spinner/button-spinner.component';
 
 @Component({
   selector: 'flexnkentpay-add-product',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    ButtonSpinnerComponent,
+  ],
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss'],
 })
@@ -84,6 +90,10 @@ export class AddProductComponent implements OnInit {
     if (this.step > 1) {
       this.step--;
     }
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
   }
 
   async handleSubmit() {

@@ -6,6 +6,7 @@ import { IProduct } from '../../../../core/models/product.model';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'flexnkentpay-products',
@@ -13,6 +14,14 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class ProductsComponent implements OnInit {
   private productService = inject(ProductService);
@@ -23,6 +32,10 @@ export class ProductsComponent implements OnInit {
   error = false;
   filterStatus = 'all';
 
+  // Propriétés pour la modal de confirmation
+  showDeleteModal = false;
+  productToDelete: IProduct | null = null;
+
   ngOnInit(): void {
     this.getProducts();
   }
@@ -30,6 +43,7 @@ export class ProductsComponent implements OnInit {
   getProducts(): void {
     this.loading = true;
     this.error = false;
+
     this.productService
       .getUserProducts()
       .pipe(
@@ -45,8 +59,30 @@ export class ProductsComponent implements OnInit {
       });
   }
 
+  // Méthode pour ouvrir la modal de confirmation
+  confirmDeleteProduct(product: IProduct): void {
+    this.productToDelete = product;
+    this.showDeleteModal = true;
+  }
+
+  // Méthode pour annuler la suppression
+  cancelDelete(): void {
+    this.showDeleteModal = false;
+    this.productToDelete = null;
+  }
+
+  // Méthode pour confirmer la suppression
+  confirmDelete(): void {
+    if (this.productToDelete) {
+      this.deleteProduct(this.productToDelete.id);
+      this.showDeleteModal = false;
+      this.productToDelete = null;
+    }
+  }
+
   deleteProduct(id: number): void {
     this.loading = true;
+
     this.productService
       .deleteProductById(id)
       .pipe(
@@ -59,32 +95,6 @@ export class ProductsComponent implements OnInit {
       .subscribe(() => {
         this.products = this.products.filter((product) => product.id !== id);
         this.applyFilter();
-      });
-  }
-
-  updateProduct(product: IProduct): void {
-    this.loading = true;
-    const updatedProduct = { ...product, name: 'Updated Product Name' };
-
-    this.productService
-      .addProduct(new FormData())
-      .pipe(
-        finalize(() => (this.loading = false)),
-        catchError(() => {
-          this.error = true;
-          return of(null);
-        })
-      )
-      .subscribe((newProduct) => {
-        if (newProduct) {
-          const index = this.products.findIndex((p) => p.id === newProduct.id);
-          if (index !== -1) {
-            this.products[index] = newProduct;
-            this.applyFilter();
-          }
-        } else {
-          console.error('Mise à jour échouée : Produit non valide');
-        }
       });
   }
 

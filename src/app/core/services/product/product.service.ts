@@ -54,6 +54,13 @@ export class ProductService {
       .pipe(catchError(handleHttpError));
   }
 
+  // Get product using the QR code
+  public getProductByCode(code: string): Observable<IProduct> {
+    return this.http
+      .get<IProduct>(`${this.apiUrl}/products/code/${code}`)
+      .pipe(catchError(handleHttpError));
+  }
+
   // Retrieve a specific product by ID
   public getProductById(id: number): Observable<IProduct> {
     return this.http
@@ -114,6 +121,23 @@ export class ProductService {
   public incrementShopVisit(shopId: number): Observable<any> {
     return this.http
       .post<any>(`${this.apiUrl}/shop/${shopId}/increment-visit`, {})
+      .pipe(catchError(handleHttpError));
+  }
+
+  // Retrieve products for admin with filtering
+  public getAdminProducts(filters: {
+    search?: string;
+    page: number;
+    pageSize: number;
+  }): Observable<any> {
+    return this.http
+      .get<any>(`${this.apiUrl}/admin/products`, { params: filters })
+      .pipe(catchError(handleHttpError));
+  }
+
+  public toggleProductActive(productId: number): Observable<any> {
+    return this.http
+      .post<any>(`${this.apiUrl}/admin/products/${productId}/toggle`, {})
       .pipe(catchError(handleHttpError));
   }
 }

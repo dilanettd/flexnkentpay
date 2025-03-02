@@ -1,214 +1,178 @@
 <!-- Start Hero Area -->
-<section class="hero-area">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-12 custom-padding-right">
-        <div class="slider-head">
-          <!-- Start Hero Slider -->
-          <div class="hero-slider">
-            <!-- Start Single Slider -->
-            <div
-              class="single-slider"
-              style="background-image: url(assets/images/hero/slider-bg1.jpg)"
-            >
-              <div class="content">
-                <h2>
-                  <span>No restocking fee ($35 savings)</span>
-                  M75 Sport Watch
-                </h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <h3><span>Now Only</span> $320.99</h3>
-                <div class="button">
-                  <a href="product-grids.html" class="btn">Shop Now</a>
-                </div>
-              </div>
-            </div>
-            <!-- End Single Slider -->
-            <!-- Start Single Slider -->
-            <div
-              class="single-slider"
-              style="background-image: url(assets/images/hero/slider-bg2.jpg)"
-            >
-              <div class="content">
-                <h2>
-                  <span>Big Sale Offer</span>
-                  Get the Best Deal on CCTV Camera
-                </h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <h3><span>Combo Only:</span> $590.00</h3>
-                <div class="button">
-                  <a href="product-grids.html" class="btn">Shop Now</a>
-                </div>
-              </div>
-            </div>
-            <!-- End Single Slider -->
-          </div>
-          <!-- End Hero Slider -->
+<section class="relative overflow-hidden">
+  <div class="container mx-auto px-4">
+    <div class="hero-slider">
+      <!-- Start Single Slider -->
+      <div
+        class="relative min-h-[400px] md:min-h-[500px] rounded-2xl overflow-hidden"
+      >
+        <div
+          class="absolute inset-0 bg-cover bg-center"
+          style="background-image: url(assets/images/hero/slider-bg1.jpg)"
+        >
+          <div class="absolute inset-0 bg-black/40"></div>
         </div>
-      </div>
-      <div class="col-lg-4 col-12">
-        <div class="row">
-          <div class="col-lg-12 col-md-6 col-12 md-custom-padding">
-            <!-- Start Small Banner -->
-            <div
-              class="hero-small-banner"
-              style="background-image: url('assets/images/hero/slider-bnr.jpg')"
-            >
-              <div class="content">
-                <h2>
-                  <span>New line required</span>
-                  iPhone 12 Pro Max
-                </h2>
-                <h3>$259.99</h3>
-              </div>
-            </div>
-            <!-- End Small Banner -->
-          </div>
-          <div class="col-lg-12 col-md-6 col-12">
-            <!-- Start Small Banner -->
-            <div class="hero-small-banner style2">
-              <div class="content">
-                <h2>Weekly Sale!</h2>
-                <p>Saving up to 50% off all online store items this week.</p>
-                <div class="button">
-                  <a class="btn" href="product-grids.html">Shop Now</a>
-                </div>
-              </div>
-            </div>
-            <!-- Start Small Banner -->
+        <div class="relative h-full flex items-center p-6 md:p-12">
+          <div class="max-w-xl">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">
+              <span class="block mb-2">Transform Your Payment</span>
+              Habits
+            </h2>
+            <p class="text-white/90 text-sm md:text-base mb-6">
+              Explore our innovative payment solutions that simplify and enhance
+              your financial operations, ensuring seamless and secure
+              transactions
+            </p>
+            <a href="product-grids.html" class="btn btn-primary"> Shop Now </a>
           </div>
         </div>
       </div>
+      <!-- Similar structure for other slides -->
     </div>
   </div>
 </section>
-<!-- End Hero Area -->
 
 <!-- Start Trending Product Area -->
-<section class="trending-product section" style="margin-top: 12px">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="section-title">
-          <h2>Trending Product</h2>
-          <p>
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form.
-          </p>
-        </div>
-      </div>
+<section class="py-12 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Trending Product</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">
+        There are many variations of passages of Lorem Ipsum available, but the
+        majority have suffered alteration in some form.
+      </p>
     </div>
-    <div class="row">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
       <div
         *ngFor="let product of recentProducts"
-        class="col-lg-3 col-md-6 col-12"
+        class="group bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 overflow-hidden"
       >
-        <div class="single-product">
-          <div class="product-image">
-            <img
-              [src]="
-                product.images[0].image_url ||
-                'assets/images/default-product.jpg'
-              "
-              alt="{{ product.name }}"
-            />
-            <span *ngIf="product.min_installment_price" class="new-tag"
-              >New</span
+        <!-- Image Container -->
+        <div class="relative pt-[75%]">
+          <!-- 4:3 Aspect Ratio -->
+          <img
+            [src]="
+              product.images[0].image_url || 'assets/images/default-product.jpg'
+            "
+            [alt]="product.name"
+            class="absolute inset-0 w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-300"
+          />
+
+          <span
+            *ngIf="product.min_installment_price"
+            class="absolute top-2 left-2 bg-blue-600 text-white text-xs font-medium px-2 py-1 rounded-full"
+          >
+            New
+          </span>
+
+          <div
+            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+          >
+            <a
+              [routerLink]="['/product', product.id]"
+              class="bg-white text-blue-600 hover:bg-blue-600 hover:text-white px-4 py-2 rounded-full text-sm font-medium transform hover:scale-105 transition-all duration-300 flex items-center space-x-2"
             >
-            <div class="button">
-              <a [routerLink]="['/product', product.id]" class="btn">
-                <i class="lni lni-cart"></i> Details
-              </a>
-            </div>
-          </div>
-          <div class="product-info">
-            <span class="category">{{ product.category }}</span>
-            <h4 class="title">
-              <a [routerLink]="['/product', product.id]">{{ product.name }}</a>
-            </h4>
-            <ul class="review">
-              <li *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-                <i
-                  [class]="
-                    i < product.rating ? 'lni lni-star-filled' : 'lni lni-star'
-                  "
-                ></i>
-              </li>
-              <li>
-                <span>{{ product.rating }} Review(s)</span>
-              </li>
-            </ul>
-            <div class="price">
-              <span> {{ product.price }} {{ product.currency }}</span>
-            </div>
+              <i class="lni lni-cart"></i>
+              <span>View Details</span>
+            </a>
           </div>
         </div>
-        <!-- End Single Product -->
+
+        <!-- Product Info -->
+        <div class="p-4">
+          <span class="text-xs text-gray-500">{{ product.category }}</span>
+          <h3
+            class="font-semibold text-gray-800 text-sm md:text-base mt-1 mb-2 line-clamp-2"
+          >
+            {{ product.name }}
+          </h3>
+
+          <div class="flex items-center space-x-1 mb-2">
+            <div class="flex text-yellow-400 text-sm">
+              <i
+                *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                [class]="
+                  i < product.rating ? 'lni lni-star-filled' : 'lni lni-star'
+                "
+              ></i>
+            </div>
+            <span class="text-xs text-gray-500">({{ product.rating }})</span>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-lg font-bold text-gray-900">
+              {{ product.price }} {{ product.currency }}
+            </span>
+            <button
+              [routerLink]="['/product', product.id]"
+              class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white flex items-center justify-center transition-colors duration-300"
+            >
+              <i class="lni lni-cart text-base md:text-lg"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
-<!-- End Trending Product Area -->
 
-<!-- Start Trending Shop Area -->
-<section class="team section">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="section-title">
-          <h2 class="wow fadeInUp" data-wow-delay=".4s">Top Shops</h2>
-          <p class="wow fadeInUp" data-wow-delay=".6s">
-            Découvrez les boutiques les mieux notées, offrant une qualité et des
-            services exceptionnels.
-          </p>
-        </div>
-      </div>
+<!-- Start Top Shops Area -->
+<section class="py-12">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Top Shops</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">
+        Discover the best-rated stores, offering exceptional quality and service
+      </p>
     </div>
-    <owl-carousel-o [options]="customOptions" carouselClasses="owl-theme">
+
+    <owl-carousel-o [options]="customOptions" class="overflow-hidden">
       <ng-container *ngFor="let shop of topRatedShops">
         <ng-template carouselSlide [id]="shop.id">
-          <!-- Start Single Team -->
           <div
-            class="single-team cursor-pointer"
             [routerLink]="['/shop', shop.id]"
+            class="group bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 mx-2 overflow-hidden max-w-64 border"
           >
-            <div class="image">
-              <img [src]="shop.logo_url" alt="Logo de {{ shop.name }}" />
-
-              <div class="button">
-                <a class="btn"> <i class="fas fa-eye"></i> Visiter </a>
+            <div class="relative pt-[75%]">
+              <img
+                [src]="shop.logo_url"
+                [alt]="'Logo de ' + shop.name"
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+              <div
+                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center"
+              >
+                <button
+                  class="bg-white px-4 py-2 rounded-full text-sm font-medium"
+                >
+                  <i class="fas fa-eye mr-2"></i>
+                  Visit
+                </button>
               </div>
             </div>
-            <div class="content">
-              <div class="info">
-                <h3>{{ shop.name }}</h3>
 
-                <ul class="flex items-center space-x-1 mt-4">
-                  <li *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+            <div class="p-4">
+              <h3 class="font-bold text-gray-800 text-lg mb-2">
+                {{ shop.name }}
+              </h3>
+              <div class="flex items-center space-x-1">
+                <div class="flex text-yellow-400">
+                  <ng-container
+                    *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                  >
                     <i
                       [class]="
-                        i < shop.rating
-                          ? 'lni lni-star-filled text-yellow-500'
-                          : 'lni lni-star text-yellow-500'
+                        i < shop.rating ? 'lni lni-star-filled' : 'lni lni-star'
                       "
-                      class="text-lg"
+                      class="text-sm"
                     ></i>
-                  </li>
-                  <li class="ml-2 text-sm text-gray-500">
-                    <span>{{ shop.rating }} Rating(s)</span>
-                  </li>
-                </ul>
+                  </ng-container>
+                </div>
+                <span class="text-sm text-gray-500">{{ shop.rating }}</span>
               </div>
             </div>
           </div>
-
-          <!-- End Trending Shop Area -->
         </ng-template>
       </ng-container>
     </owl-carousel-o>
@@ -216,50 +180,68 @@
 </section>
 
 <!-- Start Shipping Info -->
-<section class="shipping-info">
-  <div class="container">
-    <ul>
+<section class="bg-gray-50 py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <!-- Free Shipping -->
-      <li>
-        <div class="media-icon">
-          <i class="lni lni-delivery"></i>
+      <div
+        class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-sm"
+      >
+        <div
+          class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full text-blue-600"
+        >
+          <i class="lni lni-delivery text-2xl"></i>
         </div>
-        <div class="media-body">
-          <h5>Free Shipping</h5>
-          <span>On order over $99</span>
+        <div>
+          <h5 class="font-semibold text-gray-800">Free Shipping</h5>
+          <span class="text-sm text-gray-500">On order over $99</span>
         </div>
-      </li>
-      <!-- Money Return -->
-      <li>
-        <div class="media-icon">
-          <i class="lni lni-support"></i>
+      </div>
+
+      <!-- 24/7 Support -->
+      <div
+        class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-sm"
+      >
+        <div
+          class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full text-blue-600"
+        >
+          <i class="lni lni-support text-2xl"></i>
         </div>
-        <div class="media-body">
-          <h5>24/7 Support.</h5>
-          <span>Live Chat Or Call.</span>
+        <div>
+          <h5 class="font-semibold text-gray-800">24/7 Support</h5>
+          <span class="text-sm text-gray-500">Live Chat Or Call</span>
         </div>
-      </li>
-      <!-- Support 24/7 -->
-      <li>
-        <div class="media-icon">
-          <i class="lni lni-credit-cards"></i>
+      </div>
+
+      <!-- Online Payment -->
+      <div
+        class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-sm"
+      >
+        <div
+          class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full text-blue-600"
+        >
+          <i class="lni lni-credit-cards text-2xl"></i>
         </div>
-        <div class="media-body">
-          <h5>Online Payment.</h5>
-          <span>Secure Payment Services.</span>
+        <div>
+          <h5 class="font-semibold text-gray-800">Online Payment</h5>
+          <span class="text-sm text-gray-500">Secure Payment Services</span>
         </div>
-      </li>
-      <!-- Safe Payment -->
-      <li>
-        <div class="media-icon">
-          <i class="lni lni-reload"></i>
+      </div>
+
+      <!-- Easy Return -->
+      <div
+        class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-sm"
+      >
+        <div
+          class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full text-blue-600"
+        >
+          <i class="lni lni-reload text-2xl"></i>
         </div>
-        <div class="media-body">
-          <h5>Easy Return.</h5>
-          <span>Hassle Free Shopping.</span>
+        <div>
+          <h5 class="font-semibold text-gray-800">Easy Return</h5>
+          <span class="text-sm text-gray-500">Hassle Free Shopping</span>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </section>
-<!-- End Shipping Info -->

@@ -13,7 +13,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (authService.isAuthenticate()) {
     return true;
   } else {
-    toastr.error('Vous devez être connecté pour accéder à cette section.');
+    toastr.error('You must be logged in to access this section.');
 
     modalService.open(LoginModalComponent);
 

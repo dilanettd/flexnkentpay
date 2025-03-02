@@ -75,3 +75,18 @@
 .navbar {
   justify-content: end;
 }
+
+@keyframes marquee {
+  0% {
+    transform: translateX(80%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 30s linear infinite;
+  white-space: nowrap;
+}

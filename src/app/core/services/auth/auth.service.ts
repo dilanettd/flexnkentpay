@@ -5,7 +5,12 @@ import { LocalStorageService } from 'ngx-webstorage';
 
 import { environment } from '../../../../environments/environment';
 import { handleHttpError } from '../errors';
-import { IUser } from '../../models/auth.state.model';
+import {
+  IAdminLoginResponse,
+  ICreateAdminRequest,
+  ICreateFirstAdminRequest,
+  IUser,
+} from '../../models/auth.state.model';
 
 @Injectable({
   providedIn: 'root',
@@ -118,5 +123,58 @@ export class AuthService {
     const me = this.localStorage.retrieve('me');
     this.userSubject.next(me);
     return this.userSubject.asObservable();
+  }
+
+  // Create First Admin
+  createFirstAdmin(request: ICreateFirstAdminRequest): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/admin/first`, request)
+      .pipe(catchError(handleHttpError));
+  }
+
+  // Create Admin
+  createAdmin(request: ICreateAdminRequest): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/admin/create`, request)
+      .pipe(catchError(handleHttpError));
+  }
+
+  // Add Role to Admin
+  addRoleToAdmin(userId: string, role: string): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/admin/add-role`, { user_id: userId, role })
+      .pipe(catchError(handleHttpError));
+  }
+
+  // Add Permissions to Admin
+  addPermissionsToAdmin(
+    userId: string,
+    permissions: string[]
+  ): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/admin/add-permissions`, {
+        user_id: userId,
+        permissions,
+      })
+      .pipe(catchError(handleHttpError));
+  }
+
+  // Remove Admin Privileges
+  removeAdminPrivileges(userId: string): Observable<any> {
+    return this.http
+      .delete(`${this.apiUrl}/admin/remove-privileges`, {
+        body: { user_id: userId },
+      })
+      .pipe(catchError(handleHttpError));
+  }
+
+  //Login Admin
+  loginAdmin(email: string, password: string): Observable<IAdminLoginResponse> {
+    return this.http
+      .post<IAdminLoginResponse>(`${this.apiUrl}/admin/login`, {
+        email,
+        password,
+      })
+      .pipe(catchError(handleHttpError));
   }
 }
