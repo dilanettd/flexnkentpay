@@ -20,6 +20,8 @@ export interface IOrder {
   is_completed: boolean;
   order_payments: IOrderPayment[];
   product: IProduct;
+  is_confirmed: string;
+  fees: number;
   user: IUser;
   created_at: string;
   updated_at: string;
@@ -33,6 +35,7 @@ export interface IOrderPayment {
   payment_date: string | null;
   status: string;
   is_late: boolean;
+  penalty_fees: number;
   installment_number: number;
   momo_transaction_id: string | null;
   due_date: string;
@@ -47,6 +50,7 @@ export interface IMomoTransaction {
   phone_number: string;
   amount: number;
   fees?: number;
+  provider_type: string;
   status: string;
   created_at: string;
   updated_at: string;
@@ -57,4 +61,23 @@ export interface IMomoPayment {
   order_id: number;
   phone_number: string;
   order_payment_id: number;
+}
+
+export interface IPawaPayWebhook {
+  transaction_id: string;
+  transaction_type: string;
+  timestamp: string;
+  phone_number: string;
+  amount: number;
+  currency: string;
+  country: string;
+  correspondent: string;
+  status: string;
+  description: string;
+  customer_timestamp: string;
+  created_timestamp: string;
+  received_timestamp: string;
+  failure_reason: string;
+  metadata: any;
+  suspicious_activity_report: any;
 }

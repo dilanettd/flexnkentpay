@@ -20,6 +20,7 @@ import { ConfirmModalComponent } from '../../../../shared/components/confirm-mod
 })
 export class ConfirmOrderComponent implements OnInit, OnDestroy {
   @Input({ required: true }) totalAmount!: number;
+  @Input({ required: true }) min_installment_count!: number;
   @Input({ required: true }) productId!: number;
   @Input({ required: true }) quantity!: number;
   @Input({ required: true }) price!: number;
@@ -44,6 +45,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
       installment_count: [1, [Validators.required, Validators.min(1)]],
       payment_frequency: ['daily', Validators.required],
       reminder_type: ['email', Validators.required],
+      phone_number: ['', Validators.required],
     });
   }
 
@@ -59,8 +61,6 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
         this.updateInstallmentCount();
       })
     );
-
-    // this.updateInstallmentCount();
   }
 
   ngOnDestroy(): void {

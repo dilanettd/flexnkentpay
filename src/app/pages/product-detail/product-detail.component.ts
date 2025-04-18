@@ -340,6 +340,8 @@ export class ProductDetailComponent implements OnInit {
 
       const modalRef = this.modalService.open(ConfirmOrderComponent);
       modalRef.componentInstance.productId = id;
+      modalRef.componentInstance.min_installment_count =
+        this.product()?.installment_count;
       modalRef.componentInstance.quantity = this.quantity();
       modalRef.componentInstance.price = currentProduct.price || 0;
       modalRef.componentInstance.totalAmount =

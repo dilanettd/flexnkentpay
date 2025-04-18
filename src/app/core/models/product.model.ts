@@ -58,3 +58,10 @@ export interface IShopReview {
   updated_at: string;
   user: IUser;
 }
+
+export interface IFee {
+  name: string;
+  type: string;
+  percentage: number;
+  is_active: boolean;
+}
