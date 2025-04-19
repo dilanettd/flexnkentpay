@@ -31,6 +31,7 @@ export class ReviewShopComponent implements OnDestroy {
 
   reviewForm!: FormGroup;
   isSubmitted: boolean = false;
+  hoverRating: number = 0;
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -40,13 +41,30 @@ export class ReviewShopComponent implements OnDestroy {
     private toastr: ToastrService
   ) {
     this.reviewForm = this.fb.group({
-      rating: [1, Validators.required],
+      rating: [5, Validators.required],
       review: ['', [Validators.required, Validators.minLength(10)]],
     });
   }
 
   closeModal() {
     this.modalService.dismissAll();
+  }
+
+  getRatingText(rating: number): string {
+    switch (rating) {
+      case 5:
+        return 'Excellent';
+      case 4:
+        return 'Very Good';
+      case 3:
+        return 'Good';
+      case 2:
+        return 'Fair';
+      case 1:
+        return 'Poor';
+      default:
+        return '';
+    }
   }
 
   submitReview() {

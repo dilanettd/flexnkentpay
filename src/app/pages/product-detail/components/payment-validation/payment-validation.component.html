@@ -4,76 +4,115 @@
   </h1>
 
   <form [formGroup]="paymentForm" (ngSubmit)="validatePayment()">
+    <!-- Payment Method Information -->
+    <div class="mb-4 text-center">
+      <img
+        src="/assets/images/product-details/mobile_money.png"
+        alt="Mobile Money"
+        class="h-12 mx-auto mb-2"
+      />
+      <p class="text-sm text-gray-700 mb-2">
+        Please enter your Mobile Money number to pay:
+      </p>
+      <p class="text-xl font-bold text-[#0d6efd]">
+        {{ order_payment.amount_paid | number : "1.0-0" }} XAF
+      </p>
+    </div>
+
     <!-- Phone Number Input -->
     <div class="mb-4">
       <label
-        class="block text-sm font-medium mb-1 text-black"
+        class="block text-xs font-medium mb-1 text-gray-700"
         for="phone_number"
       >
-        Phone Number
+        Mobile Money Number
       </label>
-      <input
-        type="text"
-        id="phone_number"
-        formControlName="phone_number"
-        placeholder="Enter your phone number"
-        pattern="^6\d{8}$"
-        class="w-full border border-gray-300 rounded-lg p-2 text-black text-sm"
-      />
-
-      <!-- Error Message -->
-      <div
-        *ngIf="
-          paymentForm.get('phone_number')?.dirty &&
-          paymentForm.get('phone_number')?.invalid
-        "
-        class="text-red-500 text-sm mt-2"
-      >
-        <div *ngIf="paymentForm.get('phone_number')?.hasError('required')">
-          Phone number is required.
+      <div class="relative">
+        <div
+          class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none"
+        >
+          <i class="bi bi-phone text-gray-500 text-xs"></i>
         </div>
-        <div *ngIf="paymentForm.get('phone_number')?.hasError('pattern')">
-          Invalid phone number format. Please use 6XXXXXXXX.
-        </div>
+        <input
+          type="text"
+          id="phone_number"
+          formControlName="phone_number"
+          phoneFormat
+          placeholder="e.g., 677123456"
+          class="w-full border border-gray-300 rounded-lg p-2.5 pl-7 text-gray-700 text-xs focus:ring-[#0d6efd] focus:border-[#0d6efd] transition duration-200"
+          [ngClass]="{
+            'border-red-500': phoneControl?.invalid && phoneControl?.touched
+          }"
+        />
+      </div>
+      <div class="mt-1 text-xs text-red-600" *ngIf="phoneControl?.touched">
+        <span *ngIf="phoneControl?.errors?.required">
+          Le numéro mobile money est requis
+        </span>
+        <span
+          *ngIf="
+            phoneControl?.errors?.pattern || phoneControl?.errors?.cameroonPhone
+          "
+        >
+          Le numéro doit être un numéro camerounais valide (9 chiffres
+          commençant par 6)
+        </span>
+        <span
+          *ngIf="
+            phoneControl?.errors?.minlength || phoneControl?.errors?.maxlength
+          "
+        >
+          Le numéro doit contenir exactement 9 chiffres
+        </span>
       </div>
     </div>
 
-    <!-- Amount to Pay Input -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium mb-1 text-black" for="amount">
-        Amount
-      </label>
-      <input
-        readonly
-        type="number"
-        id="amount"
-        [value]="order_payment.amount_paid"
-        placeholder="Enter payment amount"
-        class="w-full border border-gray-300 rounded-lg bg-gray-100 p-2 text-black text-sm"
-      />
+    <!-- Payment Instructions -->
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4">
+      <p class="text-xs text-yellow-800">
+        <i class="bi bi-info-circle mr-1"></i>
+        You will receive a payment confirmation request on your mobile phone.
+        Please confirm to complete the transaction.
+      </p>
     </div>
 
     <!-- Confirmation Buttons -->
-    <div class="flex justify-evenly mt-6">
+    <div class="flex justify-between mt-4">
       <button
-        class="btn btn-primary"
+        type="button"
+        class="px-3 py-2.5 text-xs font-medium border border-gray-300 rounded-lg"
+        (click)="closeModal()"
+      >
+        Cancel
+      </button>
+      <button
         type="submit"
         [disabled]="paymentForm.invalid || isSubmitting"
+        class="px-3 py-2.5 text-xs font-medium bg-[#0d6efd] text-white rounded-lg hover:bg-blue-700 transition duration-200"
       >
         <ng-container *ngIf="isSubmitting; else btnText">
           <spinner></spinner>
         </ng-container>
         <ng-template #btnText>
-          <span>Reset</span>
+          <span>Confirm Payment</span>
         </ng-template>
-      </button>
-      <button
-        class="btn btn-outline-primary"
-        type="button"
-        (click)="closeModal()"
-      >
-        Confirm
       </button>
     </div>
   </form>
+
+  <!-- Loading Overlay -->
+  <div
+    *ngIf="isSubmitting"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+  >
+    <div class="bg-white p-5 rounded-lg shadow-lg text-center max-w-sm">
+      <div
+        class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0d6efd] mx-auto mb-4"
+      ></div>
+      <h3 class="text-lg font-bold mb-2">Processing Payment</h3>
+      <p class="text-sm text-gray-600 mb-4">
+        Please check your phone and confirm the payment request.
+      </p>
+    </div>
+  </div>
 </div>

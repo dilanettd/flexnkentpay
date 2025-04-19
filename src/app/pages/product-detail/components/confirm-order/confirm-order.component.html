@@ -1,118 +1,307 @@
-<div class="container mx-auto p-4">
-  <h1 class="text-2xl text-center font-bold mb-4 text-[#0d6efd]">
-    Confirm Your Order
+<div class="container mx-auto p-3">
+  <h1 class="text-xl text-center font-bold mb-2 text-[#0167F3]">
+    {{ currentStep === 1 ? "Configure Your Order" : "Complete Payment" }}
   </h1>
 
-  <form [formGroup]="orderForm" (ngSubmit)="confirmOrder()">
-    <!-- Payment Frequency Selection -->
-    <div class="mb-4">
-      <label
-        class="block text-sm font-medium mb-1 text-black"
-        for="payment_frequency"
+  <!-- Progress indicator -->
+  <div class="flex items-center justify-center mb-4">
+    <div class="flex items-center">
+      <div
+        [ngClass]="{
+          'bg-[#0167F3]': currentStep >= 1,
+          'bg-gray-300': currentStep < 1
+        }"
+        class="rounded-full h-6 w-6 flex items-center justify-center text-white text-sm"
       >
-        Payment Frequency
-      </label>
-      <select
-        id="payment_frequency"
-        formControlName="payment_frequency"
-        class="w-full border border-gray-300 rounded-lg p-2 text-black text-sm"
+        1
+      </div>
+      <div
+        [ngClass]="{
+          'bg-[#0167F3]': currentStep >= 1,
+          'bg-gray-300': currentStep < 1
+        }"
+        class="h-1 w-10"
+      ></div>
+      <div
+        [ngClass]="{
+          'bg-[#0167F3]': currentStep >= 2,
+          'bg-gray-300': currentStep < 2
+        }"
+        class="rounded-full h-6 w-6 flex items-center justify-center text-white text-sm"
       >
-        <option value="daily">Daily</option>
-        <option value="weekly">Weekly</option>
-        <option value="monthly">Monthly</option>
-      </select>
+        2
+      </div>
+    </div>
+  </div>
+
+  <form
+    [formGroup]="orderForm"
+    (ngSubmit)="currentStep === 1 ? goToStep(2) : confirmOrder()"
+    class="bg-white rounded-lg shadow p-4 border border-gray-100"
+  >
+    <!-- Step 1: Order Configuration -->
+    <div *ngIf="currentStep === 1">
+      <!-- Payment Frequency Selection with Toggle Button -->
+      <div class="mb-3">
+        <label class="block text-xs font-medium mb-1 text-gray-700">
+          Payment Frequency
+        </label>
+        <div class="flex rounded-md shadow-sm">
+          <button
+            type="button"
+            (click)="orderForm.get('payment_frequency')?.setValue('daily')"
+            [ngClass]="{
+              'bg-[#0167F3] text-white':
+                orderForm.get('payment_frequency')?.value === 'daily',
+              'bg-white text-gray-700':
+                orderForm.get('payment_frequency')?.value !== 'daily'
+            }"
+            class="px-3 py-2.5 text-xs font-medium border border-gray-300 rounded-l-lg transition duration-200 ease flex-1"
+          >
+            Daily
+          </button>
+          <button
+            type="button"
+            (click)="orderForm.get('payment_frequency')?.setValue('weekly')"
+            [ngClass]="{
+              'bg-[#0167F3] text-white':
+                orderForm.get('payment_frequency')?.value === 'weekly',
+              'bg-white text-gray-700':
+                orderForm.get('payment_frequency')?.value !== 'weekly'
+            }"
+            class="px-3 py-2.5 text-xs font-medium border-t border-b border-gray-300 transition duration-200 ease flex-1"
+          >
+            Weekly
+          </button>
+          <button
+            type="button"
+            (click)="orderForm.get('payment_frequency')?.setValue('monthly')"
+            [ngClass]="{
+              'bg-[#0167F3] text-white':
+                orderForm.get('payment_frequency')?.value === 'monthly',
+              'bg-white text-gray-700':
+                orderForm.get('payment_frequency')?.value !== 'monthly'
+            }"
+            class="px-3 py-2.5 text-xs font-medium border border-gray-300 rounded-r-lg transition duration-200 ease flex-1"
+          >
+            Monthly
+          </button>
+        </div>
+      </div>
+
+      <!-- Installment Count Input -->
+      <div class="mb-3">
+        <label class="block text-xs font-medium mb-1 text-gray-700">
+          Number of Installments
+        </label>
+        <div class="relative">
+          <div
+            class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none"
+          >
+            <i class="bi bi-calculator text-gray-500 text-xs"></i>
+          </div>
+          <input
+            type="number"
+            formControlName="installment_count"
+            min="1"
+            class="w-full border border-gray-300 rounded-lg p-2.5 pl-7 text-gray-700 text-xs focus:ring-[#0167F3] focus:border-[#0167F3] transition duration-200"
+          />
+        </div>
+      </div>
+
+      <!-- Reminder Type Selection -->
+      <div class="mb-3">
+        <label class="block text-xs font-medium mb-1 text-gray-700">
+          Reminder Type
+        </label>
+        <div class="relative">
+          <div
+            class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none"
+          >
+            <i class="bi bi-bell text-gray-500 text-xs"></i>
+          </div>
+          <select
+            formControlName="reminder_type"
+            class="w-full border border-gray-300 rounded-lg p-2.5 pl-7 text-gray-700 text-xs focus:ring-[#0167F3] focus:border-[#0167F3] transition duration-200 bg-white"
+          >
+            <option value="email">Email</option>
+            <option value="call">Call</option>
+            <option value="sms">SMS</option>
+          </select>
+          <div
+            class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Quantity Input -->
+      <div class="mb-3">
+        <label class="block text-xs font-medium mb-1 text-gray-700">
+          Quantity
+        </label>
+        <div class="relative">
+          <div
+            class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none"
+          >
+            <i class="bi bi-box text-gray-500 text-xs"></i>
+          </div>
+          <input
+            type="number"
+            [value]="quantity"
+            class="w-full border border-gray-300 rounded-lg p-2.5 pl-7 bg-gray-50 text-gray-700 text-xs"
+            readonly
+          />
+        </div>
+      </div>
+
+      <!-- Calculated Fields -->
+      <div class="grid grid-cols-2 gap-2 my-3">
+        <div class="bg-blue-50 p-3 rounded-lg">
+          <label class="block text-xs font-medium mb-1 text-[#0167F3]">
+            <i class="bi bi-credit-card mr-1 text-xs"></i>Installment
+          </label>
+          <p class="text-base text-gray-800 font-bold">
+            {{ installmentAmount + getInstallmentFee() | number : "1.0-0" }} XAF
+          </p>
+        </div>
+
+        <div class="bg-blue-50 p-3 rounded-lg">
+          <label class="block text-xs font-medium mb-1 text-[#0167F3]">
+            <i class="bi bi-cash-stack mr-1 text-xs"></i>Total
+          </label>
+          <p class="text-base text-gray-800 font-bold">
+            {{ totalAmount | number : "1.0-0" }} XAF
+          </p>
+          <p class="text-xs text-gray-500 mt-1">
+            + Fees: {{ getTotalFee() | number : "1.0-0" }} XAF
+          </p>
+        </div>
+      </div>
     </div>
 
-    <!-- Installment Count Input -->
-    <div class="mb-4">
-      <label
-        class="block text-sm font-medium mb-1 text-black"
-        for="installment_count"
-      >
-        Number of Installments
-      </label>
-      <input
-        type="number"
-        id="installment_count"
-        formControlName="installment_count"
-        class="w-full border border-gray-300 rounded-lg p-2 text-black text-sm"
-      />
+    <!-- Step 2: Payment Information -->
+    <div *ngIf="currentStep === 2">
+      <!-- Payment Method Information -->
+      <div class="mb-4 text-center">
+        <img
+          src="/assets/images/product-details/mobile_money.png"
+          alt="Mobile Money"
+          class="h-12 mx-auto mb-2"
+        />
+        <p class="text-sm text-gray-700 mb-2">
+          Please enter your Mobile Money number to pay your first installment
+          of:
+        </p>
+        <p class="text-xl font-bold text-[#0167F3]">
+          {{ installmentAmount + getInstallmentFee() | number : "1.0-0" }} XAF
+        </p>
+      </div>
+
+      <!-- Phone Number Input -->
+      <div class="mb-4">
+        <label class="block text-xs font-medium mb-1 text-gray-700">
+          Mobile Money Number
+        </label>
+        <div class="relative">
+          <div
+            class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none"
+          >
+            <i class="bi bi-phone text-gray-500 text-xs"></i>
+          </div>
+          <input
+            type="text"
+            formControlName="phone_number"
+            phoneFormat
+            placeholder="e.g., 677123456"
+            class="w-full border border-gray-300 rounded-lg p-2.5 pl-7 text-gray-700 text-xs focus:ring-[#0167F3] focus:border-[#0167F3] transition duration-200"
+            [ngClass]="{
+              'border-red-500': phoneControl?.invalid && phoneControl?.touched
+            }"
+          />
+        </div>
+        <div class="mt-1 text-xs text-red-600" *ngIf="phoneControl?.touched">
+          <span *ngIf="phoneControl?.errors?.required">
+            Le numéro mobile money est requis
+          </span>
+          <span
+            *ngIf="
+              phoneControl?.errors?.pattern ||
+              phoneControl?.errors?.cameroonPhone
+            "
+          >
+            Le numéro doit être un numéro camerounais valide (9 chiffres
+            commençant par 6)
+          </span>
+          <span
+            *ngIf="
+              phoneControl?.errors?.minlength || phoneControl?.errors?.maxlength
+            "
+          >
+            Le numéro doit contenir exactement 9 chiffres
+          </span>
+        </div>
+      </div>
+
+      <!-- Payment Instructions -->
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4">
+        <p class="text-xs text-yellow-800">
+          <i class="bi bi-info-circle mr-1"></i>
+          You will receive a payment confirmation request on your mobile phone.
+          Please confirm to complete the transaction.
+        </p>
+      </div>
     </div>
 
-    <!-- Reminder Type Selection -->
-    <div class="mb-4">
-      <label
-        class="block text-sm font-medium mb-1 text-black"
-        for="reminder_type"
-      >
-        Reminder Type
-      </label>
-      <select
-        id="reminder_type"
-        formControlName="reminder_type"
-        class="w-full border border-gray-300 rounded-lg p-2 text-black text-sm"
-      >
-        <option value="email">Email</option>
-        <option value="call">Call</option>
-        <option value="sms">SMS</option>
-      </select>
-    </div>
-
-    <!-- Quantity Input -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium mb-1 text-black" for="quantity">
-        Quantité
-      </label>
-      <input
-        type="number"
-        id="quantity"
-        [value]="quantity"
-        class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-black text-sm"
-        readonly
-      />
-    </div>
-
-    <!-- Calculated Fields -->
+    <!-- Loading Overlay -->
     <div
-      class="flex flex-col sm:flex-row justify-between items-center gap-6 my-12 bg-gray-100 p-6 rounded-lg shadow-md"
+      *ngIf="isSubmitted"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
     >
-      <div class="w-full sm:w-auto text-center sm:text-left">
-        <label class="block font-medium mb-2 text-[#0d6efd]">
-          Installment Amount
-        </label>
-        <p
-          class="text-xl text-black font-bold bg-white px-4 py-2 rounded-md shadow-sm"
-        >
-          {{ installmentAmount }}{{ " XAF" }}
-        </p>
-      </div>
-      <div class="w-full sm:w-auto text-center sm:text-left">
-        <label class="block font-medium mb-2 text-[#0d6efd]">
-          Total Amount
-        </label>
-        <p
-          class="text-xl text-black font-bold bg-white px-4 py-2 rounded-md shadow-sm"
-        >
-          {{ totalAmount }}{{ " XAF" }}
+      <div class="bg-white p-5 rounded-lg shadow-lg text-center max-w-sm">
+        <div
+          class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0167F3] mx-auto mb-4"
+        ></div>
+        <h3 class="text-lg font-bold mb-2">Processing Payment</h3>
+        <p class="text-sm text-gray-600 mb-4">
+          Please check your phone and confirm the payment request.
         </p>
       </div>
     </div>
 
-    <!-- Confirmation Buttons -->
-    <div class="flex justify-evenly mt-6">
+    <!-- Navigation Buttons -->
+    <div class="flex justify-between mt-4">
       <button
-        type="submit"
-        [disabled]="orderForm.invalid"
-        class="btn btn-primary"
+        *ngIf="currentStep === 2"
+        type="button"
+        class="px-3 py-2.5 text-xs font-medium border border-gray-300 rounded-lg cursor-pointer"
+        (click)="goToStep(1)"
       >
-        Confirm
+        <i class="bi bi-arrow-left mr-1"></i>Back
       </button>
       <button
+        *ngIf="currentStep === 1"
         type="button"
-        class="btn btn-outline-primary"
+        class="px-3 py-2.5 text-xs font-medium border border-gray-300 rounded-lg"
         (click)="closeModal()"
       >
         Cancel
+      </button>
+      <button
+        type="submit"
+        [disabled]="
+          (currentStep === 2 && orderForm.get('phone_number')?.invalid) ||
+          (currentStep === 1 && orderForm.invalid)
+        "
+        class="px-3 py-2.5 text-xs font-medium bg-[#0167F3] text-white rounded-lg hover:bg-blue-700 transition duration-200"
+      >
+        <span
+          class="cursor-pointer"
+          *ngIf="currentStep === 1"
+          (click)="goToStep(2)"
+        >
+          Continue <i class="bi bi-arrow-right ml-1"></i
+        ></span>
+        <span *ngIf="currentStep === 2">Confirm Payment</span>
       </button>
     </div>
   </form>

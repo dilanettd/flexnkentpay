@@ -1,498 +1,154 @@
-<div class="breadcrumbs">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6 col-md-6 col-12">
-        <div class="breadcrumbs-content">
-          <h1 class="page-title">Shop Grid</h1>
+<div class="container mx-auto px-4 py-8">
+  <!-- En-tête simple avec le nombre de produits -->
+  <div class="mb-6 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-gray-800"></h1>
+    <p class="text-gray-600">
+      Showing {{ products.length }} of {{ totalItems }} products
+    </p>
+  </div>
+
+  <!-- Grille de produits -->
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+  >
+    <!-- Carte de produit individuelle -->
+    <div
+      *ngFor="let product of products"
+      class="card hover:shadow-card-hover transition-all duration-300"
+    >
+      <div class="relative">
+        <!-- Image du produit -->
+        <img
+          [src]="
+            product.images && product.images.length > 0
+              ? product.images[0].image_url
+              : 'assets/images/product-placeholder.png'
+          "
+          [alt]="product.name"
+          class="w-full h-48 object-cover rounded-t-lg"
+        />
+
+        <!-- Badge catégorie -->
+        <div class="absolute top-2 left-2">
+          <span
+            class="bg-primary-500 text-white text-xs px-2 py-1 rounded-full"
+          >
+            {{ product.category }}
+          </span>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-12">
-        <ul class="breadcrumb-nav">
-          <li>
-            <a href="index.html"><i class="lni lni-home"></i> Home</a>
-          </li>
-          <li><a href="javascript:void(0)">Shop</a></li>
-          <li>Shop Grid</li>
-        </ul>
+
+      <div class="card-body p-4">
+        <!-- Nom du produit -->
+        <h3 class="card-title mb-2 truncate">
+          <a
+            [routerLink]="['/product', product.id]"
+            class="text-gray-800 hover:text-primary-600"
+          >
+            {{ product.name }}
+          </a>
+        </h3>
+
+        <!-- Étoiles de notation -->
+        <div class="flex items-center mb-2">
+          <div class="flex mr-2">
+            <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+              <i
+                class="bi"
+                [ngClass]="{
+                  'bi-star-fill text-yellow-400': i < product.rating,
+                  'bi-star text-gray-300': i >= product.rating
+                }"
+              ></i>
+            </ng-container>
+          </div>
+          <span class="text-xs text-gray-600"
+            >{{ product.rating }} Review(s)</span
+          >
+        </div>
+
+        <!-- Prix -->
+        <div class="flex justify-between items-center">
+          <span class="text-lg font-bold text-primary-600">
+            {{ product.price }} {{ product.currency }}
+          </span>
+          <a [routerLink]="['/product', product.id]" class="btn-sm btn-primary">
+            <i class="bi bi-eye mr-1"></i> View
+          </a>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Message si aucun produit -->
+  <div
+    *ngIf="products.length === 0"
+    class="text-center py-12 bg-gray-50 rounded-lg mt-6"
+  >
+    <i class="bi bi-search text-4xl text-gray-400 mb-3"></i>
+    <h3 class="text-lg font-semibold text-gray-800 mb-2">No products found</h3>
+    <p class="text-gray-600">Try adjusting your search criteria</p>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="totalItems > pageSize" class="mt-8 flex justify-center">
+    <div class="flex space-x-1">
+      <!-- Bouton précédent -->
+      <button
+        (click)="previousPage()"
+        [disabled]="currentPage === 1"
+        class="px-3 py-2 rounded-md border border-gray-300"
+        [ngClass]="{
+          'opacity-50 cursor-not-allowed': currentPage === 1,
+          'hover:bg-gray-100': currentPage !== 1
+        }"
+      >
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <!-- Numéros de page -->
+      <ng-container *ngFor="let page of totalPagesArray; let i = index">
+        <button
+          *ngIf="
+            page <= 5 ||
+            page === totalPages ||
+            page === currentPage ||
+            page === currentPage - 1 ||
+            page === currentPage + 1
+          "
+          (click)="goToPage(page)"
+          class="px-3 py-2 rounded-md border"
+          [ngClass]="{
+            'bg-primary-600 text-white': currentPage === page,
+            'border-gray-300 hover:bg-gray-100': currentPage !== page
+          }"
+        >
+          {{ page }}
+        </button>
+
+        <!-- Ellipsis -->
+        <span
+          *ngIf="
+            (i === 4 && totalPages > 6 && currentPage < totalPages - 2) ||
+            (currentPage > 3 && i === currentPage - 2 && page < totalPages - 1)
+          "
+          class="px-3 py-2"
+          >...</span
+        >
+      </ng-container>
+
+      <!-- Bouton suivant -->
+      <button
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages"
+        class="px-3 py-2 rounded-md border border-gray-300"
+        [ngClass]="{
+          'opacity-50 cursor-not-allowed': currentPage === totalPages,
+          'hover:bg-gray-100': currentPage !== totalPages
+        }"
+      >
+        <i class="bi bi-chevron-right"></i>
+      </button>
     </div>
   </div>
 </div>
-
-<section class="product-grids section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-12">
-        <!-- Start Product Sidebar -->
-        <div class="product-sidebar">
-          <!-- Start Single Widget -->
-          <div class="single-widget search">
-            <h3>Search Product</h3>
-            <form action="#">
-              <input type="text" placeholder="Search Here..." />
-              <button type="submit"><i class="lni lni-search-alt"></i></button>
-            </form>
-          </div>
-          <!-- End Single Widget -->
-          <!-- Start Single Widget -->
-          <div class="single-widget">
-            <h3>All Categories</h3>
-            <ul class="list">
-              <li>
-                <a href="product-grids.html">Computers &amp; Accessories </a
-                ><span>(1138)</span>
-              </li>
-              <li>
-                <a href="product-grids.html">Smartphones &amp; Tablets</a
-                ><span>(2356)</span>
-              </li>
-              <li>
-                <a href="product-grids.html">TV, Video &amp; Audio</a
-                ><span>(420)</span>
-              </li>
-              <li>
-                <a href="product-grids.html">Cameras, Photo &amp; Video</a
-                ><span>(874)</span>
-              </li>
-              <li>
-                <a href="product-grids.html">Headphones</a><span>(1239)</span>
-              </li>
-              <li>
-                <a href="product-grids.html">Wearable Electronics</a
-                ><span>(340)</span>
-              </li>
-              <li>
-                <a href="product-grids.html">Printers &amp; Ink</a
-                ><span>(512)</span>
-              </li>
-            </ul>
-          </div>
-          <!-- End Single Widget -->
-          <!-- Start Single Widget -->
-          <div class="single-widget range">
-            <h3>Price Range</h3>
-            <input
-              type="range"
-              class="form-range"
-              name="range"
-              step="1"
-              min="100"
-              max="10000"
-              value="10"
-              onchange="rangePrimary.value=value"
-            />
-            <div class="range-inner">
-              <label>$</label>
-              <input type="text" id="rangePrimary" placeholder="100" />
-            </div>
-          </div>
-          <!-- End Single Widget -->
-          <!-- Start Single Widget -->
-          <div class="single-widget condition">
-            <h3>Filter by Price</h3>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault1"
-              />
-              <label class="form-check-label" for="flexCheckDefault1">
-                $50 - $100L (208)
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault2"
-              />
-              <label class="form-check-label" for="flexCheckDefault2">
-                $100L - $500 (311)
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault3"
-              />
-              <label class="form-check-label" for="flexCheckDefault3">
-                $500 - $1,000 (485)
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault4"
-              />
-              <label class="form-check-label" for="flexCheckDefault4">
-                $1,000 - $5,000 (213)
-              </label>
-            </div>
-          </div>
-          <!-- End Single Widget -->
-          <!-- Start Single Widget -->
-          <div class="single-widget condition">
-            <h3>Filter by Brand</h3>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault11"
-              />
-              <label class="form-check-label" for="flexCheckDefault11">
-                Apple (254)
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault22"
-              />
-              <label class="form-check-label" for="flexCheckDefault22">
-                Bosh (39)
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault33"
-              />
-              <label class="form-check-label" for="flexCheckDefault33">
-                Canon Inc. (128)
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault44"
-              />
-              <label class="form-check-label" for="flexCheckDefault44">
-                Dell (310)
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault55"
-              />
-              <label class="form-check-label" for="flexCheckDefault55">
-                Hewlett-Packard (42)
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault66"
-              />
-              <label class="form-check-label" for="flexCheckDefault66">
-                Hitachi (217)
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault77"
-              />
-              <label class="form-check-label" for="flexCheckDefault77">
-                LG Electronics (310)
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault88"
-              />
-              <label class="form-check-label" for="flexCheckDefault88">
-                Panasonic (74)
-              </label>
-            </div>
-          </div>
-          <!-- End Single Widget -->
-        </div>
-        <!-- End Product Sidebar -->
-      </div>
-      <div class="col-lg-9 col-12">
-        <div class="product-grids-head">
-          <div class="product-grid-topbar">
-            <div class="row align-items-center">
-              <div class="col-lg-7 col-md-8 col-12">
-                <div class="product-sorting">
-                  <label for="sorting">Sort by:</label>
-                  <select class="form-control" id="sorting">
-                    <option>Popularity</option>
-                    <option>Low - High Price</option>
-                    <option>High - Low Price</option>
-                    <option>Average Rating</option>
-                    <option>A - Z Order</option>
-                    <option>Z - A Order</option>
-                  </select>
-                  <h3 class="total-show-product">
-                    Showing: <span>1 - 12 items</span>
-                  </h3>
-                </div>
-              </div>
-              <div class="col-lg-5 col-md-4 col-12">
-                <nav>
-                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button
-                      class="nav-link active"
-                      id="nav-grid-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#nav-grid"
-                      type="button"
-                      role="tab"
-                      aria-controls="nav-grid"
-                      aria-selected="true"
-                    >
-                      <i class="lni lni-grid-alt"></i>
-                    </button>
-                    <button
-                      class="nav-link"
-                      id="nav-list-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#nav-list"
-                      type="button"
-                      role="tab"
-                      aria-controls="nav-list"
-                      aria-selected="false"
-                    >
-                      <i class="lni lni-list"></i>
-                    </button>
-                  </div>
-                </nav>
-              </div>
-            </div>
-          </div>
-          <div class="tab-content" id="nav-tabContent">
-            <div
-              class="tab-pane fade show active"
-              id="nav-grid"
-              role="tabpanel"
-              aria-labelledby="nav-grid-tab"
-            >
-              <div class="row">
-                <!-- Boucle d'affichage des produits -->
-                <!-- Supposons que vous avez une liste de produits dans une variable appelée 'products' -->
-                <div
-                  class="col-lg-4 col-md-6 col-12"
-                  *ngFor="let product of products"
-                >
-                  <!-- Start Single Product -->
-                  <div class="single-product">
-                    <div class="product-image">
-                      <img
-                        [src]="product.images[0].image_url"
-                        [alt]="product.name"
-                      />
-                      <div class="button">
-                        <a [routerLink]="['/product', product.id]" class="btn">
-                          <i class="lni lni-cart"></i> Details
-                        </a>
-                      </div>
-                    </div>
-                    <div class="product-info">
-                      <span class="category">{{ product.category }}</span>
-                      <h4 class="title">
-                        <a [routerLink]="['/product', product.id]">{{
-                          product.name
-                        }}</a>
-                      </h4>
-                      <ul class="review">
-                        <li *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-                          <i
-                            [class]="
-                              i < product.rating
-                                ? 'lni lni-star-filled'
-                                : 'lni lni-star'
-                            "
-                          ></i>
-                        </li>
-                        <li>
-                          <span>{{ product.rating }} Review(s)</span>
-                        </li>
-                      </ul>
-                      <div class="price">
-                        <span>{{ product.price }} {{ product.currency }}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End Single Product -->
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-12">
-                  <!-- Pagination -->
-                  @if (totalItems>pageSize) {
-
-                  <div class="pagination left">
-                    <ul class="pagination-list">
-                      <li>
-                        <a
-                          href="javascript:void(0)"
-                          (click)="previousPage()"
-                          [class.disabled]="currentPage === 1"
-                        >
-                          <i class="lni lni-chevron-left"></i>
-                        </a>
-                      </li>
-                      <li
-                        *ngFor="let page of totalPagesArray; let i = index"
-                        [class.active]="currentPage === page"
-                      >
-                        <a href="javascript:void(0)" (click)="goToPage(page)">{{
-                          page
-                        }}</a>
-                      </li>
-                      <li>
-                        <a
-                          href="javascript:void(0)"
-                          (click)="nextPage()"
-                          [class.disabled]="currentPage === totalPages"
-                        >
-                          <i class="lni lni-chevron-right"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  }
-                  <!--/ End Pagination -->
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="tab-pane fade"
-              id="nav-list"
-              role="tabpanel"
-              aria-labelledby="nav-list-tab"
-            >
-              <div class="row">
-                <div
-                  class="col-lg-12 col-md-12 col-12"
-                  *ngFor="let product of products"
-                >
-                  <!-- Start Single Product -->
-                  <div class="single-product">
-                    <div class="row align-items-center">
-                      <div class="col-lg-4 col-md-4 col-12">
-                        <div class="product-image">
-                          <img
-                            [src]="product.images[0].image_url"
-                            [alt]="product.name"
-                          />
-                          <div class="button">
-                            <a
-                              [routerLink]="['/product', product.id]"
-                              class="btn"
-                              ><i class="lni lni-cart"></i> Details</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-8 col-md-8 col-12">
-                        <div class="product-info">
-                          <span class="category">{{ product.category }}</span>
-                          <h4 class="title">
-                            <a [routerLink]="['/product', product.id]">{{
-                              product.name
-                            }}</a>
-                          </h4>
-                          <ul class="review">
-                            <li
-                              *ngFor="
-                                let star of [1, 2, 3, 4, 5];
-                                let i = index
-                              "
-                            >
-                              <i
-                                [class]="
-                                  i < product.rating
-                                    ? 'lni lni-star-filled'
-                                    : 'lni lni-star'
-                                "
-                              ></i>
-                            </li>
-                            <li>
-                              <span>{{ product.rating }} Review(s)</span>
-                            </li>
-                          </ul>
-                          <div class="price">
-                            <span
-                              >{{ product.price }} {{ product.currency }}</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End Single Product -->
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <!-- Pagination -->
-                  @if (totalItems>pageSize) {
-
-                  <div class="pagination left">
-                    <ul class="pagination-list">
-                      <li>
-                        <a
-                          href="javascript:void(0)"
-                          (click)="previousPage()"
-                          [class.disabled]="currentPage === 1"
-                        >
-                          <i class="lni lni-chevron-left"></i>
-                        </a>
-                      </li>
-                      <li
-                        *ngFor="let page of totalPagesArray; let i = index"
-                        [class.active]="currentPage === page"
-                      >
-                        <a href="javascript:void(0)" (click)="goToPage(page)">{{
-                          page
-                        }}</a>
-                      </li>
-                      <li>
-                        <a
-                          href="javascript:void(0)"
-                          (click)="nextPage()"
-                          [class.disabled]="currentPage === totalPages"
-                        >
-                          <i class="lni lni-chevron-right"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  }
-                  <!--/ End Pagination -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>

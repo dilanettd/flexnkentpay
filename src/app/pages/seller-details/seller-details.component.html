@@ -1,229 +1,236 @@
-<div class="container py-4">
+<div class="container mx-auto px-4 py-6">
+  <!-- Bannière du magasin avec superposition de gradient -->
   <div
-    class="relative rounded-xl overflow-hidden"
+    class="relative rounded-xl overflow-hidden shadow-md mb-6"
     [style.backgroundImage]="'url(' + shop.cover_photo_url + ')'"
     style="height: 350px; background-size: cover; background-position: center"
   >
     <div
-      class="absolute inset-0 bg-gradient-to-r from-black/50 to-black/10"
+      class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/20"
     ></div>
 
-    <div class="absolute bottom-0 left-0 p-4">
-      <h1 class="text-white text-4xl font-bold">{{ shop.name }}</h1>
-    </div>
-  </div>
-
-  <div class="mt-4 p-6 bg-white shadow rounded-xl">
-    <div class="flex flex-col md:flex-row gap-6">
-      <div class="w-32 h-32">
+    <div class="absolute bottom-0 left-0 p-6 flex items-end">
+      <div class="w-24 h-24 md:w-32 md:h-32 mr-4">
         <img
-          [src]="shop.logo_url || 'https://via.placeholder.com/150'"
+          [src]="shop.logo_url || 'assets/images/shop-placeholder.png'"
           alt="{{ shop.name }}"
-          class="rounded-full border-1 border-blue-200 shadow"
+          class="rounded-full border-4 border-white shadow-md object-cover w-full h-full"
         />
       </div>
-
-      <div class="flex-1">
-        <h2 class="text-2xl font-semibold">{{ shop.name }}</h2>
-        <p class="text-gray-600">
-          {{ shop.description || "No description available." }}
-        </p>
+      <div>
+        <h1 class="text-white text-3xl md:text-4xl font-bold">
+          {{ shop.name }}
+        </h1>
+        <div class="flex items-center mt-2">
+          <div class="flex">
+            <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+              <i
+                class="bi"
+                [ngClass]="{
+                  'bi-star-fill text-yellow-400': star <= shop.rating,
+                  'bi-star text-gray-300': star > shop.rating
+                }"
+              ></i>
+            </ng-container>
+          </div>
+          <span class="text-white ml-2"
+            >{{ shop.rating || "0" }} ({{
+              shop.visit_count || "0"
+            }}
+            visits)</span
+          >
+        </div>
       </div>
     </div>
   </div>
-  <div class="row mt-4">
-    <div class="col-lg-4 col-md-12">
-      <div class="card shadow-lg rounded-lg">
-        <div class="card-header bg-slate-200">
-          <h5 class="card-title text-xl font-bold flex items-center mb-2">
-            <i
-              class="fa fa-id-card mr-3"
-              style="color: #0167f3; font-size: 1.5rem"
-            ></i>
-            Informations du Vendeur
-          </h5>
+
+  <!-- Description du magasin -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+    <h2 class="text-xl font-semibold text-gray-800 mb-3">About the Shop</h2>
+    <p class="text-gray-600">
+      {{ shop.description || "No description available for this shop." }}
+    </p>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Informations du vendeur -->
+    <div class="card shadow-sm">
+      <div class="card-body p-0">
+        <div class="bg-primary-50 p-4 border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+            <i class="bi bi-person-badge text-primary-600 mr-2"></i>
+            Seller Information
+          </h3>
         </div>
-        <div class="card-body">
-          <ul class="list-unstyled space-y-8">
-            <li class="flex items-center border-b pb-2 py-4">
-              <i
-                class="fa fa-map-marker mr-3"
-                style="color: #0167f3; font-size: 1.2rem"
-              ></i>
-              <div class="flex-grow">
-                <span class="font-bold">Adresse :</span>
+
+        <ul class="divide-y divide-gray-200">
+          <li class="p-4 flex items-center">
+            <i class="bi bi-geo-alt text-primary-500 text-xl mr-3"></i>
+            <div>
+              <span class="font-medium text-gray-700">Address:</span>
+              <p class="text-gray-600">
                 {{ shop.location || "Not specified" }}
-              </div>
-            </li>
-            <li class="flex items-center border-b pb-2">
-              <i
-                class="fa fa-envelope mr-3"
-                style="color: #0167f3; font-size: 1.2rem"
-              ></i>
-              <div class="flex-grow">
-                <span class="font-bold">Email :</span>
-                <a href="mailto:nyambi675@gmail.com" class="text-blue-500">
-                  nyambi675gmail.com
+              </p>
+            </div>
+          </li>
+
+          <li class="p-4 flex items-center">
+            <i class="bi bi-envelope text-primary-500 text-xl mr-3"></i>
+            <div>
+              <span class="font-medium text-gray-700">Email:</span>
+              <p>
+                <a
+                  href="mailto:{{ shop.email || 'contact@example.com' }}"
+                  class="text-primary-600 hover:underline"
+                >
+                  {{ shop.email || "Not specified" }}
                 </a>
-              </div>
-            </li>
-            <li class="flex items-center border-b pb-2">
-              <i
-                class="fa fa-phone mr-3"
-                style="color: #0167f3; font-size: 1.2rem"
-              ></i>
-              <div class="flex-grow">
-                <span class="font-bold">Téléphone :</span>
-                <a href="tel:+237694998250" class="text-blue-500">
+              </p>
+            </div>
+          </li>
+
+          <li class="p-4 flex items-center">
+            <i class="bi bi-telephone text-primary-500 text-xl mr-3"></i>
+            <div>
+              <span class="font-medium text-gray-700">Phone:</span>
+              <p>
+                <a
+                  href="tel:{{ shop.contact_number }}"
+                  class="text-primary-600 hover:underline"
+                >
                   {{ shop.contact_number || "Not specified" }}
                 </a>
-              </div>
-            </li>
-            <li class="flex items-center border-b pb-2">
-              <i
-                class="fa fa-globe mr-3"
-                style="color: #0167f3; font-size: 1.2rem"
-              ></i>
-              <div class="flex-grow">
-                <span class="font-bold">Site Web :</span>
+              </p>
+            </div>
+          </li>
+
+          <li class="p-4 flex items-center">
+            <i class="bi bi-globe text-primary-500 text-xl mr-3"></i>
+            <div>
+              <span class="font-medium text-gray-700">Website:</span>
+              <p>
                 <a
-                  href="https://exemple.com"
+                  href="{{ shop.website_url }}"
                   target="_blank"
-                  class="text-blue-500"
+                  class="text-primary-600 hover:underline"
                 >
                   {{ shop.website_url || "Not specified" }}
                 </a>
-              </div>
-            </li>
-            <li class="flex items-center border-b pb-2">
-              <i
-                class="fa fa-star mr-3"
-                style="color: #0167f3; font-size: 1.2rem"
-              ></i>
-              <div class="flex-grow">
-                <span class="font-bold">Évaluation :</span>
-                <span>{{ shop.rating || "0" }}</span>
-              </div>
-            </li>
-            <li class="flex items-center border-b pb-2">
-              <i
-                class="fa fa-eye mr-3"
-                style="color: #0167f3; font-size: 1.2rem"
-              ></i>
-              <div class="flex-grow">
-                <span class="font-bold">Nombre de visites : </span>
-                <span>{{ shop.visit_count || "Not specified" }}</span>
-              </div>
-            </li>
-            <li>
-              <div class="flex items-center justify-start space-x-4">
-                <h6 class="font-bold text-xl">Partager :</h6>
-                <a
-                  [href]="generateShareUrl('facebook')"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-blue-600"
-                >
-                  <i class="fab fa-facebook-square" style="font-size: 2rem"></i>
-                </a>
-                <a
-                  [href]="generateShareUrl('linkedin')"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-blue-500"
-                >
-                  <i class="fab fa-linkedin" style="font-size: 2rem"></i>
-                </a>
-                <a
-                  [href]="generateShareUrl('twitter')"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-gray-600"
-                >
-                  <i class="fab fa-x-twitter" style="font-size: 2rem"></i>
-                </a>
-                <a
-                  [href]="generateShareUrl('whatsapp')"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-green-500"
-                >
-                  <i class="fab fa-whatsapp" style="font-size: 2rem"></i>
-                </a>
-                <a
-                  [href]="generateShareUrl('default')"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-gray-600"
-                >
-                  <i class="fas fa-share" style="font-size: 2rem"></i>
-                </a>
-              </div>
-            </li>
-          </ul>
+              </p>
+            </div>
+          </li>
+        </ul>
+
+        <!-- Share Options -->
+        <div class="p-4 border-t border-gray-200">
+          <h4 class="font-medium text-gray-700 mb-3">Share this shop:</h4>
+          <div class="flex space-x-4">
+            <a
+              [href]="generateShareUrl('facebook')"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-icon btn-icon-sm bg-blue-600 text-white hover:bg-blue-700"
+              aria-label="Share on Facebook"
+            >
+              <i class="bi bi-facebook"></i>
+            </a>
+            <a
+              [href]="generateShareUrl('linkedin')"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-icon btn-icon-sm bg-blue-500 text-white hover:bg-blue-600"
+              aria-label="Share on LinkedIn"
+            >
+              <i class="bi bi-linkedin"></i>
+            </a>
+            <a
+              [href]="generateShareUrl('twitter')"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-icon btn-icon-sm bg-black text-white hover:bg-gray-800"
+              aria-label="Share on Twitter"
+            >
+              <i class="bi bi-twitter-x"></i>
+            </a>
+            <a
+              [href]="generateShareUrl('whatsapp')"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-icon btn-icon-sm bg-green-500 text-white hover:bg-green-600"
+              aria-label="Share on WhatsApp"
+            >
+              <i class="bi bi-whatsapp"></i>
+            </a>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="col-lg-8 col-md-12 mt-4 mt-lg-0">
-      <div class="card shadow-lg rounded-lg">
-        <div class="card-header bg-slate-200">
-          <h5 class="card-title text-xl font-bold flex items-center mb-2">
-            <i
-              class="fa fa-shopping-bag mr-3"
-              style="color: #0167f3; font-size: 1.5rem"
-            ></i>
-            Produits proposés
-          </h5>
-        </div>
-        <div class="card-body">
+    <!-- Produits et avis -->
+    <div class="lg:col-span-2">
+      <!-- Produits proposés -->
+      <div class="card shadow-sm mb-6">
+        <div class="card-body p-0">
+          <div
+            class="bg-primary-50 p-4 border-b border-gray-200 flex justify-between items-center"
+          >
+            <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+              <i class="bi bi-bag text-primary-600 mr-2"></i>
+              Shop Products
+            </h3>
+          </div>
+
           <!-- Loading Indicator -->
-          <div *ngIf="isLoadingProducts" class="text-center py-5">
-            <div class="loader"></div>
-            <p>Chargement des produits...</p>
+          <div *ngIf="isLoadingProducts" class="p-8 text-center">
+            <div
+              class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"
+            ></div>
+            <p class="mt-4 text-gray-600">Loading products...</p>
           </div>
 
           <!-- Products Grid -->
           <div
             *ngIf="!isLoadingProducts && products.length > 0"
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4"
           >
             <div
               *ngFor="let product of products"
-              class="border p-2 rounded-lg shadow-sm flex flex-col justify-between"
+              class="card hover:shadow-card-hover transition-all duration-300"
             >
-              <!-- Product Image -->
-              <div class="product-image">
+              <div class="relative">
                 <img
                   [src]="
                     product.images[0]?.image_url ||
                     'assets/images/default-product.jpg'
                   "
                   alt="{{ product.name }}"
-                  class="mb-3 w-full h-32 object-cover rounded"
+                  class="w-full h-40 object-cover rounded-t-lg"
                 />
+                <span
+                  class="absolute top-2 left-2 bg-primary-500 text-white text-xs px-2 py-1 rounded-full"
+                >
+                  {{ product.category }}
+                </span>
               </div>
 
-              <!-- Product Info -->
-              <div class="product-info">
-                <h6 class="font-bold text-sm truncate pb-2">
+              <div class="p-4">
+                <h4 class="font-medium text-gray-800 truncate">
                   {{ product.name }}
-                </h6>
-                <p
-                  class="text-gray-600 text-xs overflow-hidden"
-                  [class.line-clamp-4]="true"
-                >
+                </h4>
+                <p class="text-gray-500 text-sm my-2 line-clamp-2">
                   {{ product.description }}
                 </p>
-                <div class="flex justify-between items-center mt-4">
-                  <span class="text-primary font-semibold"
+
+                <div class="flex items-center justify-between mt-3">
+                  <span class="text-primary-600 font-bold"
                     >{{ product.price }} {{ product.currency }}</span
                   >
                   <a
                     [routerLink]="['/product', product.id]"
-                    class="text-blue-500 text-sm hover:underline"
+                    class="btn-sm btn-primary"
                   >
-                    Details
+                    <i class="bi bi-eye mr-1"></i> View
                   </a>
                 </div>
               </div>
@@ -233,71 +240,91 @@
           <!-- No Products Message -->
           <div
             *ngIf="!isLoadingProducts && products.length === 0"
-            class="text-center py-5"
+            class="p-8 text-center"
           >
-            <p>Aucun produit trouvé.</p>
+            <i class="bi bi-bag-x text-gray-400 text-4xl mb-2"></i>
+            <p class="text-gray-600">No products available from this shop.</p>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="product-details-info">
-    <div class="row">
-      <div class="col-lg-4 col-12">
-        <div class="single-block give-review">
-          <button (click)="review()" type="button" class="btn btn-primary">
-            Leave a Review
-          </button>
-        </div>
-      </div>
-      <div class="col-lg-8 col-12">
-        <div class="single-block">
-          <div class="reviews">
-            <h4 class="title">Latest Reviews</h4>
-            <!-- Check if there are reviews -->
+
+      <!-- Avis -->
+      <div class="card shadow-sm">
+        <div class="card-body p-0">
+          <div
+            class="bg-primary-50 p-4 border-b border-gray-200 flex justify-between items-center"
+          >
+            <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+              <i class="bi bi-star text-primary-600 mr-2"></i>
+              Customer Reviews
+            </h3>
+            <button (click)="review()" class="btn-sm btn-primary">
+              <i class="bi bi-plus-circle mr-1"></i> Add Review
+            </button>
+          </div>
+
+          <!-- Reviews list -->
+          <div class="p-4">
             <ng-container
               *ngIf="shopReviews && shopReviews.length > 0; else noReviews"
             >
-              <!-- Loop through each review -->
-              <div class="single-review" *ngFor="let review of shopReviews">
-                <!-- User Profile Image -->
-                <img
-                  [src]="
-                    review.user?.profile_url ||
-                    'assets/images/default-profile.png'
-                  "
-                  alt="Reviewer Profile"
-                  class="reviewer-image"
-                />
-                <div class="review-info">
-                  <h4>
-                    {{ review.user?.name || "Anonymous" }}
-                  </h4>
-                  <ul class="stars">
-                    <!-- Boucle pour afficher les étoiles en fonction de la note -->
-                    <li *ngFor="let star of [].constructor(5); let i = index">
-                      <i
-                        class="lni"
-                        [ngClass]="{
-                          'lni-star-filled': i < review.rating,
-                          'lni-star': i >= review.rating
-                        }"
-                      ></i>
-                    </li>
-                  </ul>
-                  <p>
-                    {{ review.review }}
-                  </p>
-                  <p class="text-end text-xs">
-                    {{ review.created_at | date : "medium" }}
-                  </p>
+              <div class="space-y-4 max-h-96 overflow-y-auto pr-2">
+                <div
+                  *ngFor="let review of shopReviews"
+                  class="bg-gray-50 p-4 rounded-lg"
+                >
+                  <div class="flex items-start gap-3">
+                    <img
+                      [src]="
+                        review.user?.profile_url ||
+                        'assets/images/default-profile.png'
+                      "
+                      alt="Reviewer"
+                      class="w-10 h-10 rounded-full object-cover"
+                    />
+                    <div class="flex-1">
+                      <div class="flex justify-between">
+                        <h4 class="font-medium text-gray-800">
+                          {{ review.user?.name || "Anonymous" }}
+                        </h4>
+                        <span class="text-xs text-gray-500">{{
+                          review.created_at | date : "medium"
+                        }}</span>
+                      </div>
+
+                      <div class="flex items-center my-1">
+                        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                          <i
+                            class="bi"
+                            [ngClass]="{
+                              'bi-star-fill text-yellow-400':
+                                star <= review.rating,
+                              'bi-star text-gray-300': star > review.rating
+                            }"
+                          ></i>
+                        </ng-container>
+                      </div>
+
+                      <p class="text-gray-600 mt-2">
+                        {{ review.review || "No comments provided" }}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </ng-container>
 
             <!-- Template to handle empty state -->
             <ng-template #noReviews>
-              <p class="text-muted">No reviews available for this shop yet.</p>
+              <div class="text-center py-8">
+                <i class="bi bi-chat-square text-gray-400 text-4xl mb-2"></i>
+                <p class="text-gray-600">
+                  No reviews available for this shop yet.
+                </p>
+                <p class="text-sm text-gray-500 mt-2">
+                  Be the first to share your experience!
+                </p>
+              </div>
             </ng-template>
           </div>
         </div>

@@ -11,23 +11,28 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmModalComponent } from '../../../../shared/components/confirm-modal/confirm-modal.component';
+import { cameroonPhoneValidator } from '../../../../shared/utils/cameroon_phone_validator';
+import { PhoneFormatDirective } from '../../../../core/directives/phone-format.directive';
 
 @Component({
   selector: 'flexnkentpay-confirm-order',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, PhoneFormatDirective],
   templateUrl: './confirm-order.component.html',
 })
 export class ConfirmOrderComponent implements OnInit, OnDestroy {
   @Input({ required: true }) totalAmount!: number;
-  @Input({ required: true }) min_installment_count!: number;
   @Input({ required: true }) productId!: number;
   @Input({ required: true }) quantity!: number;
   @Input({ required: true }) price!: number;
 
   isSubmitted: boolean = false;
   orderForm: FormGroup;
+  orderFeePercentage: number = 0;
   private subscriptions: Subscription = new Subscription();
+
+  // Add step control
+  currentStep: number = 1;
 
   get installmentAmount(): number {
     const count = this.orderForm.value.installment_count || 1;
@@ -45,7 +50,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
       installment_count: [1, [Validators.required, Validators.min(1)]],
       payment_frequency: ['daily', Validators.required],
       reminder_type: ['email', Validators.required],
-      phone_number: ['', Validators.required],
+      phone_number: ['', [Validators.required, cameroonPhoneValidator()]],
     });
   }
 
@@ -61,26 +66,45 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
         this.updateInstallmentCount();
       })
     );
+
+    this.subscriptions.add(
+      this.orderService.getFee('order').subscribe({
+        next: (fees) => {
+          this.orderFeePercentage = fees.percentage;
+          console.log('Error fetching fees:', fees.percentage);
+        },
+        error: (err) => {
+          console.error('Error fetching fees:', err);
+        },
+      })
+    );
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+  goToStep(step: number): void {
+    this.currentStep = step;
+  }
+
+  getInstallmentFee(): number {
+    return Math.ceil(this.installmentAmount * (this.orderFeePercentage / 100));
+  }
+
+  getTotalFee(): number {
+    return Math.ceil(this.totalAmount * (this.orderFeePercentage / 100));
   }
 
   updateInstallmentCount(): void {
     const frequency = this.orderForm.value.payment_frequency;
-    const quantity = this.orderForm.value.quantity;
     let maxInstallments = 1;
 
     switch (frequency) {
       case 'daily':
-        maxInstallments = Math.min(quantity, 30);
+        maxInstallments = Math.min(this.quantity, 30);
         break;
       case 'weekly':
-        maxInstallments = Math.min(quantity, 4);
+        maxInstallments = Math.min(this.quantity, 4);
         break;
       case 'monthly':
-        maxInstallments = Math.min(quantity, 1);
+        maxInstallments = Math.min(this.quantity, 1);
         break;
     }
 
@@ -106,6 +130,10 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.confirmLink = '/account/purchases';
   }
 
+  get phoneControl() {
+    return this.orderForm.get('phone_number');
+  }
+
   confirmOrder(): void {
     if (this.orderForm.valid) {
       this.isSubmitted = true;
@@ -115,7 +143,10 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
         product_id: this.productId,
         total_amount: this.totalAmount,
         installment_amount: this.installmentAmount,
+        fee_amount: this.getTotalFee(),
+        installment_fee: this.getInstallmentFee(),
       };
+
       this.subscriptions.add(
         this.orderService.createOrder(orderData).subscribe({
           next: () => {
@@ -125,10 +156,15 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
             this.openSuccessModal();
           },
           error: (err) => {
+            this.isSubmitted = false;
             this.toastr.error('Something unexpected happened');
           },
         })
       );
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

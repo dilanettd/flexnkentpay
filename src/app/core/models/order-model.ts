@@ -60,7 +60,6 @@ export interface IMomoTransaction {
 export interface IMomoPayment {
   order_id: number;
   phone_number: string;
-  order_payment_id: number;
 }
 
 export interface IPawaPayWebhook {

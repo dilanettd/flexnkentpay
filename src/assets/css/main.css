@@ -1291,6 +1291,7 @@ ol {
   font-size: 14px;
   font-weight: 600;
   padding: 13px 30px;
+  border-radius: 1rem;
   background-color: #0167F3;
   color: #fff;
   border: none;

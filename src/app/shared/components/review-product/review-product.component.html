@@ -1,76 +1,121 @@
-<div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
-  <h2 class="text-2xl font-semibold text-center mb-4 text-blue-600">
-    Leave a Review
-  </h2>
-  <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
-    <div class="mb-4">
-      <label for="review-rating" class="block text-sm font-medium text-gray-700"
-        >Rating</label
-      >
-      <select
-        id="review-rating"
-        formControlName="rating"
-        class="form-control mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-      >
-        <option value="5">5 ⭐</option>
-        <option value="4">4 ⭐</option>
-        <option value="3">3 ⭐</option>
-        <option value="2">2 ⭐</option>
-        <option value="1">1 ⭐</option>
-      </select>
-      <div
-        *ngIf="
-          reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched
-        "
-        class="text-red-500 text-sm mt-1"
-      >
-        Rating is required.
-      </div>
+<div class="card shadow-md rounded-lg border border-gray-200">
+  <div class="card-body p-6">
+    <!-- Header -->
+    <div class="title text-center mb-5">
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Leave a Review</h3>
+      <div class="w-16 h-1 bg-primary-500 mx-auto rounded-full"></div>
     </div>
 
-    <div class="mb-4">
-      <label
-        for="review-message"
-        class="block text-sm font-medium text-gray-700"
-        >Review</label
-      >
-      <textarea
-        id="review-message"
-        formControlName="review"
-        rows="4"
-        class="mt-1 form-control w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        placeholder="Your review here..."
-      ></textarea>
-      <div
-        *ngIf="
-          reviewForm.get('review')?.invalid && reviewForm.get('review')?.touched
-        "
-        class="text-red-500 text-sm mt-1"
-      >
-        Review is required.
-      </div>
-    </div>
+    <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+      <!-- Star Rating -->
+      <div class="form-group mb-4">
+        <label
+          for="review-rating"
+          class="form-label text-gray-700 flex items-center"
+        >
+          <i class="bi bi-star-fill text-primary-500 mr-2"></i>Rating
+        </label>
 
-    <div class="flex justify-center gap-4">
-      <button
-        type="submit"
-        class="btn btn-primary"
-        [disabled]="reviewForm.invalid || isSubmitted"
-      >
-        <ng-container *ngIf="!isSubmitted; else loadingTemplate">
-          Submit
-        </ng-container>
-        <ng-template #loadingTemplate>
-          <spinner></spinner>
-        </ng-template>
-      </button>
-      <button
-        type="button"
-        class="btn btn-outline-primary"
-        (click)="closeModal()"
-      >
-        Cancel
-      </button>
-    </div>
-  </form>
+        <div class="star-rating flex items-center justify-center my-3">
+          <div class="flex space-x-1">
+            <ng-container *ngFor="let star of [5, 4, 3, 2, 1]; let i = index">
+              <button
+                type="button"
+                class="text-2xl focus:outline-none transition-colors"
+                [ngClass]="{
+                  'text-yellow-400': star <= reviewForm.get('rating')?.value,
+                  'text-gray-300': star > reviewForm.get('rating')?.value
+                }"
+                (click)="reviewForm.get('rating')?.setValue(star)"
+                (mouseenter)="hoverRating = star"
+                (mouseleave)="hoverRating = 0"
+              >
+                <i
+                  class="bi"
+                  [ngClass]="{
+                    'bi-star-fill':
+                      (hoverRating && star <= hoverRating) ||
+                      (!hoverRating && star <= reviewForm.get('rating')?.value),
+                    'bi-star':
+                      (hoverRating && star > hoverRating) ||
+                      (!hoverRating && star > reviewForm.get('rating')?.value)
+                  }"
+                ></i>
+              </button>
+            </ng-container>
+          </div>
+        </div>
+        <p class="text-center text-sm text-gray-600">
+          {{ getRatingText(reviewForm.get("rating")?.value) }}
+        </p>
+
+        <div
+          *ngIf="
+            reviewForm.get('rating')?.invalid &&
+            reviewForm.get('rating')?.touched
+          "
+          class="text-xs text-red-600 mt-1"
+        >
+          Please select a rating
+        </div>
+      </div>
+
+      <!-- Review Text -->
+      <div class="form-group mb-4">
+        <label
+          for="review-message"
+          class="form-label text-gray-700 flex items-center"
+        >
+          <i class="bi bi-chat-left-text text-primary-500 mr-2"></i>Review
+        </label>
+        <textarea
+          id="review-message"
+          formControlName="review"
+          rows="4"
+          class="input w-full focus:border-primary-500 transition-colors"
+          placeholder="Tell us about your experience with this product..."
+        ></textarea>
+        <div
+          *ngIf="
+            reviewForm.get('review')?.invalid &&
+            reviewForm.get('review')?.touched
+          "
+          class="text-xs text-red-600 mt-1"
+        >
+          <span *ngIf="reviewForm.get('review')?.errors?.required">
+            Review is required
+          </span>
+          <span *ngIf="reviewForm.get('review')?.errors?.minlength">
+            Review must be at least 10 characters
+          </span>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="flex justify-between gap-4 mt-6">
+        <button
+          type="submit"
+          class="btn btn-primary flex-1 py-2.5 shadow-sm hover:shadow transition-all"
+          [disabled]="reviewForm.invalid || isSubmitted"
+        >
+          <ng-container *ngIf="isSubmitted; else defaultText">
+            <div class="flex items-center justify-center">
+              <spinner></spinner>
+              <span class="ml-2">Submitting...</span>
+            </div>
+          </ng-container>
+          <ng-template #defaultText>
+            <i class="bi bi-check-circle mr-2"></i>Submit Review
+          </ng-template>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary flex-1 py-2.5 transition-all"
+          (click)="closeModal()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

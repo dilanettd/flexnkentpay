@@ -31,68 +31,83 @@ export class ShareBarCodeModalComponent implements OnInit {
 
   downloadBarcode(): void {
     if (this.productCode) {
-      const qrCanvas = document.querySelector(
-        '#qrcode canvas'
-      ) as HTMLCanvasElement;
+      // Important: le composant QR génère un canvas, mais il est enveloppé dans un div
+      // Le sélecteur doit cibler le canvas lui-même, pas seulement la classe du wrapper
+      const qrCodeElement = document.querySelector('.qrcode_canvas');
+      const qrCanvas =
+        qrCodeElement?.querySelector('canvas') ||
+        document.querySelector('#qrcode canvas');
+
+      console.log('QR Canvas found:', qrCanvas); // Pour le débogage
 
       if (!qrCanvas) {
-        this.toastr.error('QR code not available');
+        this.toastr.error('QR code canvas not found');
         return;
       }
 
-      const imageUrl = qrCanvas.toDataURL('image/png');
+      try {
+        // Vérifiez que c'est bien un objet HTMLCanvasElement
+        if (!(qrCanvas instanceof HTMLCanvasElement)) {
+          this.toastr.error('Found element is not a canvas');
+          return;
+        }
 
-      const link = document.createElement('a');
-      link.href = imageUrl;
-      link.download = `product-${this.productId}-qrcode.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+        const imageUrl = qrCanvas.toDataURL('image/png');
 
-      this.toastr.success('QR code downloaded successfully');
+        const link = document.createElement('a');
+        link.href = imageUrl;
+        link.download = `product-${this.productId}-qrcode.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        this.toastr.success('QR code downloaded successfully');
+      } catch (error) {
+        console.error('Error generating image from canvas:', error);
+        this.toastr.error('Failed to generate QR code image');
+      }
+    } else if (this.barcodeUrl) {
+      // Utilisation directe de l'URL du code-barres
+      this.downloadImageFromURL(this.barcodeUrl);
     } else {
-      const imgElement = document.querySelector(
-        '#barcodeUrl'
-      ) as HTMLImageElement;
-
-      if (!imgElement) {
-        this.toastr.error('Barcode image not available');
-        return;
-      }
-
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-
-      if (!ctx) {
-        this.toastr.error('Unable to get canvas context');
-        return;
-      }
-
-      canvas.width = imgElement.naturalWidth;
-      canvas.height = imgElement.naturalHeight;
-
-      ctx.drawImage(imgElement, 0, 0);
-
-      const imageUrl = canvas.toDataURL('image/png');
-
-      const link = document.createElement('a');
-      link.href = imageUrl;
-      link.download = `product-${this.productId}-barcode.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      this.toastr.success('Barcode downloaded successfully');
+      this.toastr.error('No barcode or QR code available to download');
     }
+  }
+
+  // Méthode auxiliaire pour télécharger directement à partir de l'URL
+  private downloadImageFromURL(url: string): void {
+    // Créer un lien avec l'URL de l'image et déclencher le téléchargement
+    fetch(url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = `product-${this.productId}-barcode.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl);
+        this.toastr.success('Barcode downloaded successfully');
+      })
+      .catch((error) => {
+        console.error('Error downloading image:', error);
+        this.toastr.error('Failed to download barcode');
+      });
   }
 
   shareBarcode(): void {
     if (this.productCode) {
-      const qrCanvas = document.querySelector(
-        '#qrcode canvas'
-      ) as HTMLCanvasElement;
+      // Utiliser le même sélecteur amélioré que dans downloadBarcode
+      const qrCodeElement = document.querySelector('.qrcode_canvas');
+      const qrCanvas =
+        qrCodeElement?.querySelector('canvas') ||
+        document.querySelector('#qrcode canvas') ||
+        document.querySelector('#qrcode_container canvas');
 
-      if (qrCanvas && navigator.share) {
+      console.log('QR Canvas for sharing found:', qrCanvas);
+
+      if (qrCanvas instanceof HTMLCanvasElement && navigator.share) {
         qrCanvas.toBlob((blob) => {
           if (blob) {
             const file = new File(

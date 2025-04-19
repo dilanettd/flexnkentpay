@@ -33,16 +33,6 @@ export class OrderService {
     return this.http.get<IOrder[]>(`${this.apiUrl}/orders/seller`);
   }
 
-  // Create a new MoMo transaction
-  createMomoTransaction(
-    transaction: Partial<IMomoTransaction>
-  ): Observable<IMomoTransaction> {
-    return this.http.post<IMomoTransaction>(
-      `${this.apiUrl}/momo-transaction`,
-      transaction
-    );
-  }
-
   // Create a new payment for an order
   createOrderPayment(transaction: IMomoPayment): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/momo-transaction`, transaction);
@@ -97,27 +87,29 @@ export class OrderService {
   }
 
   // Récupérer un frais spécifique
-  getFee(id: string | number): Observable<IFee> {
-    return this.http.get<IFee>(`${this.apiUrl}/fees/${id}`);
+  getFee(type: string | number): Observable<IFee> {
+    return this.http.get<IFee>(`${this.apiUrl}/fees/${type}`);
   }
 
   // Mettre à jour un frais
-  updateFee(id: string | number, fee: Partial<IFee>): Observable<IFee> {
-    return this.http.put<IFee>(`${this.apiUrl}/fees/${id}`, fee);
+  updateFee(type: string | number, fee: Partial<IFee>): Observable<IFee> {
+    return this.http.put<IFee>(`${this.apiUrl}/fees/${type}`, fee);
   }
 
   // Supprimer un frais
-  deleteFee(id: string | number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/fees/${id}`);
+  deleteFee(type: string | number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/fees/${type}`);
   }
 
   // Activer un frais
-  activateFee(id: string | number): Observable<IFee> {
-    return this.http.put<IFee>(`${this.apiUrl}/fees/${id}/activate`, {});
+  activateFee(type: string | number): Observable<IFee> {
+    return this.http.put<IFee>(`${this.apiUrl}/fees/${type}/activate`, {});
   }
 
   // Récupérer les frais actifs
-  getActiveFees(): Observable<IFee[]> {
-    return this.http.get<IFee[]>(`${this.apiUrl}/fees/active`);
+  getActiveFees(): Observable<{ order_fee: IFee; penalty_fee: IFee }> {
+    return this.http.get<{ order_fee: IFee; penalty_fee: IFee }>(
+      `${this.apiUrl}/fees/active`
+    );
   }
 }
