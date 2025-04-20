@@ -79,12 +79,23 @@ export class RegisterModalComponent {
     );
   }
 
+  /**
+   * Get the user's browser language
+   * Returns 'en' if English, 'fr' (default) for all other languages
+   */
+  getUserLanguage(): string {
+    const browserLang = navigator.language.toLowerCase();
+    return browserLang.startsWith('en') ? 'en' : 'fr';
+  }
+
   onSubmit() {
     this.errorMessage = '';
     if (this.registrationForm.valid) {
       this.isLoading = true;
       const { userName, email, password } = this.registrationForm.value;
-      this.authService.register(userName, email, password).subscribe({
+      const language = this.getUserLanguage();
+
+      this.authService.register(userName, email, password, language).subscribe({
         next: () => {
           this.isLoading = false;
           this.toastr.success('Registration successful!');

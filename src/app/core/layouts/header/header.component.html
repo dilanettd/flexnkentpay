@@ -26,10 +26,10 @@
   <div class="border-b">
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-between h-16">
-        <!-- Logo -->
+        <!-- Logo - Enhanced for visibility -->
         <div class="flex items-center cursor-pointer" routerLink="/">
           <span
-            class="text-blue-600 font-bold text-2xl tracking-tight hover:text-blue-700 transition-colors"
+            class="logo-text text-blue-600 font-extrabold text-3xl tracking-tight hover:text-blue-700 transition-colors drop-shadow-md"
           >
             FlexnkentPay
           </span>
@@ -94,6 +94,7 @@
               >
                 <a
                   routerLink="/account"
+                  (click)="closeMenu()"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
                 >
                   My account
@@ -126,10 +127,10 @@
             </button>
           </div>
 
-          <!-- Mobile Menu -->
+          <!-- Mobile Menu Button -->
           <button
             (click)="toggleMobileMenu()"
-            class="md:hidden p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+            class="mobile-menu-button md:hidden p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
           >
             <i
               class="lni"
@@ -197,13 +198,14 @@
   <div
     *ngIf="isMobileMenuOpen"
     [@slideInOut]
-    class="md:hidden bg-white border-t"
+    class="mobile-menu md:hidden bg-white border-t"
   >
     <div class="container mx-auto px-4 py-4">
       <nav class="flex flex-col space-y-4">
         <a
           [routerLink]="['/account/profile']"
           fragment="create-shop"
+          (click)="closeMenu()"
           class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
         >
           <i class="lni lni-store text-lg"></i>
@@ -211,6 +213,7 @@
         </a>
         <a
           routerLink="/account/profile"
+          (click)="closeMenu()"
           class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
         >
           <i class="lni lni-user text-lg"></i>
@@ -218,6 +221,7 @@
         </a>
         <a
           routerLink="/contact"
+          (click)="closeMenu()"
           class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
         >
           <i class="lni lni-bubble text-lg"></i>

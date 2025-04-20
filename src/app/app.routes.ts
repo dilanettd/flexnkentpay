@@ -148,6 +148,21 @@ export const routes: Routes = [
           ).then((m) => m.DashboardAdminComponent),
       },
       {
+        path: 'fees',
+        loadComponent: () =>
+          import(
+            './pages/admin/components/fees-admin/fees-admin.component'
+          ).then((m) => m.FeesAdminComponent),
+      },
+      {
+        path: 'categories',
+        loadComponent: () =>
+          import(
+            './pages/admin/components/categories-admin/categories-admin.component'
+          ).then((m) => m.CategoriesAdminComponent),
+      },
+
+      {
         path: 'products',
         loadComponent: () =>
           import(

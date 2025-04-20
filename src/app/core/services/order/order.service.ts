@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import {
   IOrder,
@@ -9,6 +9,11 @@ import {
   IOrderPayment,
 } from '../../models/order-model';
 import { IFee } from '../../models/product.model';
+import { handleHttpError } from '../errors';
+import {
+  IPaginatedOrders,
+  IPaginatedTransactions,
+} from '../../models/pagination.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +26,45 @@ export class OrderService {
   // Create a new order
   createOrder(order: Partial<IOrder>): Observable<IOrder> {
     return this.http.post<IOrder>(`${this.apiUrl}/order`, order);
+  }
+
+  getAllOrders(params: {
+    keyword?: string;
+    status?: string;
+    date_from?: string;
+    date_to?: string;
+    min_amount?: number;
+    max_amount?: number;
+    sort_field?: string;
+    sort_direction?: string;
+    per_page?: number;
+    page?: number;
+  }): Observable<IPaginatedOrders> {
+    return this.http
+      .get<IPaginatedOrders>(`${this.apiUrl}/admin/orders`, {
+        params: params as any,
+      })
+      .pipe(catchError(handleHttpError));
+  }
+
+  getAllTransactions(params: {
+    keyword?: string;
+    status?: string;
+    provider_type?: string;
+    min_amount?: number;
+    max_amount?: number;
+    date_from?: string;
+    date_to?: string;
+    sort_field?: string;
+    sort_direction?: string;
+    per_page?: number;
+    page?: number;
+  }): Observable<IPaginatedTransactions> {
+    return this.http
+      .get<IPaginatedTransactions>(`${this.apiUrl}/admin/transactions`, {
+        params: params as any,
+      })
+      .pipe(catchError(handleHttpError));
   }
 
   // Get all orders for the authenticated user

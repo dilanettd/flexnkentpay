@@ -49,8 +49,18 @@ export class AuthService {
     });
   }
 
-  register(name: string, email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, { name, email, password });
+  register(
+    name: string,
+    email: string,
+    password: string,
+    language: string
+  ): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, {
+      name,
+      email,
+      password,
+      language,
+    });
   }
 
   sendResetPasswordEmail(email: string): Observable<any> {

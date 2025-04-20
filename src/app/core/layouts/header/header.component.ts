@@ -96,9 +96,14 @@ export class HeaderComponent implements OnInit {
 
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
+
+    // Toggle body class to prevent scrolling when menu is open
     if (this.isMobileMenuOpen) {
+      document.body.classList.add('menu-open');
       this.isSearchVisible = false;
       this.isMenuOpen = false;
+    } else {
+      document.body.classList.remove('menu-open');
     }
   }
 
@@ -113,17 +118,40 @@ export class HeaderComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event) {
     const targetElement = event.target as HTMLElement;
+
+    // Check if click is outside avatar menu
     const avatarMenu =
       this.elementRef.nativeElement.querySelector('.avatar-menu');
     const avatarButton =
       this.elementRef.nativeElement.querySelector('.avatar-button');
-
     if (
       !avatarMenu?.contains(targetElement) &&
       !avatarButton?.contains(targetElement)
     ) {
       this.isMenuOpen = false;
     }
+
+    // Check if click is outside mobile menu
+    const mobileMenu =
+      this.elementRef.nativeElement.querySelector('.mobile-menu');
+    const mobileMenuButton = this.elementRef.nativeElement.querySelector(
+      '.mobile-menu-button'
+    );
+    if (
+      this.isMobileMenuOpen &&
+      !mobileMenu?.contains(targetElement) &&
+      !mobileMenuButton?.contains(targetElement)
+    ) {
+      this.isMobileMenuOpen = false;
+      document.body.classList.remove('menu-open');
+    }
+  }
+
+  // Close mobile menu when navigating
+  closeMenu() {
+    this.isMobileMenuOpen = false;
+    this.isMenuOpen = false;
+    document.body.classList.remove('menu-open');
   }
 
   openQrModal() {

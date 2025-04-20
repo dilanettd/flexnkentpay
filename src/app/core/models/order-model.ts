@@ -52,6 +52,7 @@ export interface IMomoTransaction {
   fees?: number;
   provider_type: string;
   status: string;
+  user: IUser;
   created_at: string;
   updated_at: string;
 }
