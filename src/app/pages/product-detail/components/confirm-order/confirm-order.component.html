@@ -1,35 +1,59 @@
-<div class="container mx-auto p-3">
-  <h1 class="text-xl text-center font-bold mb-2 text-[#0167F3]">
+<div class="container mx-auto p-6 relative">
+  <h1 class="h3 text-center mb-4 text-primary-600">
     {{ currentStep === 1 ? "Configure Your Order" : "Complete Payment" }}
   </h1>
 
   <!-- Progress indicator -->
-  <div class="flex items-center justify-center mb-4">
-    <div class="flex items-center">
-      <div
-        [ngClass]="{
-          'bg-[#0167F3]': currentStep >= 1,
-          'bg-gray-300': currentStep < 1
-        }"
-        class="rounded-full h-6 w-6 flex items-center justify-center text-white text-sm"
-      >
-        1
+  <div class="flex justify-center mb-6">
+    <div class="relative flex items-center">
+      <div class="flex flex-col items-center">
+        <div
+          [ngClass]="{
+            'bg-primary-600 text-white': currentStep >= 1,
+            'bg-gray-300 text-gray-600': currentStep < 1
+          }"
+          class="w-10 h-10 rounded-full flex items-center justify-center font-semibold shadow-sm transition-all"
+        >
+          1
+        </div>
+        <span
+          class="text-xs mt-1 font-medium"
+          [ngClass]="{
+            'text-primary-600': currentStep >= 1,
+            'text-gray-500': currentStep < 1
+          }"
+        >
+          Configure
+        </span>
       </div>
+
       <div
         [ngClass]="{
-          'bg-[#0167F3]': currentStep >= 1,
-          'bg-gray-300': currentStep < 1
-        }"
-        class="h-1 w-10"
-      ></div>
-      <div
-        [ngClass]="{
-          'bg-[#0167F3]': currentStep >= 2,
+          'bg-primary-600': currentStep >= 2,
           'bg-gray-300': currentStep < 2
         }"
-        class="rounded-full h-6 w-6 flex items-center justify-center text-white text-sm"
-      >
-        2
+        class="h-1 w-16 mx-1"
+      ></div>
+
+      <div class="flex flex-col items-center">
+        <div
+          [ngClass]="{
+            'bg-primary-600 text-white': currentStep >= 2,
+            'bg-gray-300 text-gray-600': currentStep < 2
+          }"
+          class="w-10 h-10 rounded-full flex items-center justify-center font-semibold shadow-sm transition-all"
+        >
+          2
+        </div>
+        <span
+          class="text-xs mt-1 font-medium"
+          [ngClass]="{
+            'text-primary-600': currentStep >= 2,
+            'text-gray-500': currentStep < 2
+          }"
+        >
+          Payment
+        </span>
       </div>
     </div>
   </div>
@@ -37,218 +61,264 @@
   <form
     [formGroup]="orderForm"
     (ngSubmit)="currentStep === 1 ? goToStep(2) : confirmOrder()"
-    class="bg-white rounded-lg shadow p-4 border border-gray-100"
+    class="card"
   >
-    <!-- Step 1: Order Configuration -->
-    <div *ngIf="currentStep === 1">
-      <!-- Payment Frequency Selection with Toggle Button -->
-      <div class="mb-3">
-        <label class="block text-xs font-medium mb-1 text-gray-700">
-          Payment Frequency
-        </label>
-        <div class="flex rounded-md shadow-sm">
-          <button
-            type="button"
-            (click)="orderForm.get('payment_frequency')?.setValue('daily')"
-            [ngClass]="{
-              'bg-[#0167F3] text-white':
-                orderForm.get('payment_frequency')?.value === 'daily',
-              'bg-white text-gray-700':
-                orderForm.get('payment_frequency')?.value !== 'daily'
-            }"
-            class="px-3 py-2.5 text-xs font-medium border border-gray-300 rounded-l-lg transition duration-200 ease flex-1"
-          >
-            Daily
-          </button>
-          <button
-            type="button"
-            (click)="orderForm.get('payment_frequency')?.setValue('weekly')"
-            [ngClass]="{
-              'bg-[#0167F3] text-white':
-                orderForm.get('payment_frequency')?.value === 'weekly',
-              'bg-white text-gray-700':
-                orderForm.get('payment_frequency')?.value !== 'weekly'
-            }"
-            class="px-3 py-2.5 text-xs font-medium border-t border-b border-gray-300 transition duration-200 ease flex-1"
-          >
-            Weekly
-          </button>
-          <button
-            type="button"
-            (click)="orderForm.get('payment_frequency')?.setValue('monthly')"
-            [ngClass]="{
-              'bg-[#0167F3] text-white':
-                orderForm.get('payment_frequency')?.value === 'monthly',
-              'bg-white text-gray-700':
-                orderForm.get('payment_frequency')?.value !== 'monthly'
-            }"
-            class="px-3 py-2.5 text-xs font-medium border border-gray-300 rounded-r-lg transition duration-200 ease flex-1"
-          >
-            Monthly
-          </button>
-        </div>
-      </div>
-
-      <!-- Installment Count Input -->
-      <div class="mb-3">
-        <label class="block text-xs font-medium mb-1 text-gray-700">
-          Number of Installments
-        </label>
-        <div class="relative">
-          <div
-            class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none"
-          >
-            <i class="bi bi-calculator text-gray-500 text-xs"></i>
-          </div>
-          <input
-            type="number"
-            formControlName="installment_count"
-            min="1"
-            class="w-full border border-gray-300 rounded-lg p-2.5 pl-7 text-gray-700 text-xs focus:ring-[#0167F3] focus:border-[#0167F3] transition duration-200"
-          />
-        </div>
-      </div>
-
-      <!-- Reminder Type Selection -->
-      <div class="mb-3">
-        <label class="block text-xs font-medium mb-1 text-gray-700">
-          Reminder Type
-        </label>
-        <div class="relative">
-          <div
-            class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none"
-          >
-            <i class="bi bi-bell text-gray-500 text-xs"></i>
-          </div>
-          <select
-            formControlName="reminder_type"
-            class="w-full border border-gray-300 rounded-lg p-2.5 pl-7 text-gray-700 text-xs focus:ring-[#0167F3] focus:border-[#0167F3] transition duration-200 bg-white"
-          >
-            <option value="email">Email</option>
-            <option value="call">Call</option>
-            <option value="sms">SMS</option>
-          </select>
-          <div
-            class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
-          ></div>
-        </div>
-      </div>
-
-      <!-- Quantity Input -->
-      <div class="mb-3">
-        <label class="block text-xs font-medium mb-1 text-gray-700">
-          Quantity
-        </label>
-        <div class="relative">
-          <div
-            class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none"
-          >
-            <i class="bi bi-box text-gray-500 text-xs"></i>
-          </div>
-          <input
-            type="number"
-            [value]="quantity"
-            class="w-full border border-gray-300 rounded-lg p-2.5 pl-7 bg-gray-50 text-gray-700 text-xs"
-            readonly
-          />
-        </div>
-      </div>
-
-      <!-- Calculated Fields -->
-      <div class="grid grid-cols-2 gap-2 my-3">
-        <div class="bg-blue-50 p-3 rounded-lg">
-          <label class="block text-xs font-medium mb-1 text-[#0167F3]">
-            <i class="bi bi-credit-card mr-1 text-xs"></i>Installment
+    <div class="card-body">
+      <!-- Step 1: Order Configuration -->
+      <div *ngIf="currentStep === 1">
+        <!-- Payment Frequency Selection with Toggle Button -->
+        <div class="form-group mb-4">
+          <label class="form-label flex items-center">
+            <i class="bi bi-calendar-event text-primary-500 mr-2"></i>Payment
+            Frequency
           </label>
-          <p class="text-base text-gray-800 font-bold">
+          <div class="flex rounded-md shadow-sm">
+            <button
+              type="button"
+              (click)="orderForm.get('payment_frequency')?.setValue('daily')"
+              [ngClass]="{
+                'bg-primary-600 text-white border-primary-600':
+                  orderForm.get('payment_frequency')?.value === 'daily',
+                'bg-white text-gray-700':
+                  orderForm.get('payment_frequency')?.value !== 'daily'
+              }"
+              class="px-4 py-2 text-sm font-medium border border-gray-300 rounded-l-lg transition-all flex-1 hover:bg-gray-50"
+            >
+              Daily
+            </button>
+            <button
+              type="button"
+              (click)="orderForm.get('payment_frequency')?.setValue('weekly')"
+              [ngClass]="{
+                'bg-primary-600 text-white border-primary-600':
+                  orderForm.get('payment_frequency')?.value === 'weekly',
+                'bg-white text-gray-700':
+                  orderForm.get('payment_frequency')?.value !== 'weekly'
+              }"
+              class="px-4 py-2 text-sm font-medium border-t border-b border-gray-300 transition-all flex-1 hover:bg-gray-50"
+            >
+              Weekly
+            </button>
+            <button
+              type="button"
+              (click)="orderForm.get('payment_frequency')?.setValue('monthly')"
+              [ngClass]="{
+                'bg-primary-600 text-white border-primary-600':
+                  orderForm.get('payment_frequency')?.value === 'monthly',
+                'bg-white text-gray-700':
+                  orderForm.get('payment_frequency')?.value !== 'monthly'
+              }"
+              class="px-4 py-2 text-sm font-medium border border-gray-300 rounded-r-lg transition-all flex-1 hover:bg-gray-50"
+            >
+              Monthly
+            </button>
+          </div>
+        </div>
+
+        <!-- Installment Count Input -->
+        <div class="form-group mb-4">
+          <label for="installment_count" class="form-label flex items-center">
+            <i class="bi bi-calculator text-primary-500 mr-2"></i>Number of
+            Installments
+          </label>
+          <div class="relative">
+            <input
+              type="number"
+              id="installment_count"
+              formControlName="installment_count"
+              min="1"
+              class="input w-full focus:border-primary-500 transition-colors pl-10"
+              [ngClass]="{
+                'border-red-500':
+                  orderForm.get('installment_count')?.invalid &&
+                  orderForm.get('installment_count')?.touched
+              }"
+            />
+            <div
+              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+            >
+              <i class="bi bi-calculator text-gray-500"></i>
+            </div>
+          </div>
+          <div
+            *ngIf="
+              orderForm.get('installment_count')?.invalid &&
+              orderForm.get('installment_count')?.touched
+            "
+            class="form-error"
+          >
+            Please enter a valid number of installments
+          </div>
+        </div>
+
+        <!-- Reminder Type Selection -->
+        <div class="form-group mb-4">
+          <label for="reminder_type" class="form-label flex items-center">
+            <i class="bi bi-bell text-primary-500 mr-2"></i>Reminder Type
+          </label>
+          <div class="relative">
+            <select
+              id="reminder_type"
+              formControlName="reminder_type"
+              class="select w-full focus:border-primary-500 transition-colors pl-10"
+            >
+              <option value="email">Email</option>
+              <option value="call">Call</option>
+              <option value="sms">SMS</option>
+            </select>
+            <div
+              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+            >
+              <i class="bi bi-bell text-gray-500"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantity Input -->
+        <div class="form-group mb-4">
+          <label for="quantity" class="form-label flex items-center">
+            <i class="bi bi-box text-primary-500 mr-2"></i>Quantity
+          </label>
+          <div class="relative">
+            <input
+              type="number"
+              id="quantity"
+              [value]="quantity"
+              class="input w-full bg-gray-50 pl-10"
+              readonly
+            />
+            <div
+              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+            >
+              <i class="bi bi-box text-gray-500"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calculated Fields -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+          <div
+            class="bg-blue-50 p-4 rounded-lg border border-blue-100 shadow-sm"
+          >
+            <div class="flex items-center mb-2">
+              <i class="bi bi-credit-card text-primary-600 mr-2 text-lg"></i>
+              <label class="text-sm font-semibold text-primary-600"
+                >Installment Amount</label
+              >
+            </div>
+            <p class="text-2xl font-bold text-gray-800">
+              {{ installmentAmount + getInstallmentFee() | number : "1.0-0" }}
+              <span class="text-sm text-gray-600">XAF</span>
+            </p>
+            <p class="text-xs text-gray-500 mt-1">
+              Per {{ orderForm.get("payment_frequency")?.value }}
+            </p>
+          </div>
+
+          <div
+            class="bg-blue-50 p-4 rounded-lg border border-blue-100 shadow-sm"
+          >
+            <div class="flex items-center mb-2">
+              <i class="bi bi-cash-stack text-primary-600 mr-2 text-lg"></i>
+              <label class="text-sm font-semibold text-primary-600"
+                >Total Amount</label
+              >
+            </div>
+            <p class="text-2xl font-bold text-gray-800">
+              {{ totalAmount | number : "1.0-0" }}
+              <span class="text-sm text-gray-600">XAF</span>
+            </p>
+            <p class="text-xs text-gray-500 mt-1">
+              + Service fees: {{ getTotalFee() | number : "1.0-0" }} XAF
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Payment Information -->
+      <div *ngIf="currentStep === 2">
+        <!-- Payment Method Information -->
+        <div class="flex flex-col items-center justify-center mb-6 py-4">
+          <img
+            src="/assets/images/product-details/mobile_money.png"
+            alt="Mobile Money"
+            class="h-16 mx-auto mb-4"
+          />
+          <p class="text-sm text-gray-700 mb-2 text-center">
+            Please enter your Mobile Money number to pay your first installment
+            of:
+          </p>
+          <p class="text-2xl font-bold text-primary-600 mt-2">
             {{ installmentAmount + getInstallmentFee() | number : "1.0-0" }} XAF
           </p>
         </div>
 
-        <div class="bg-blue-50 p-3 rounded-lg">
-          <label class="block text-xs font-medium mb-1 text-[#0167F3]">
-            <i class="bi bi-cash-stack mr-1 text-xs"></i>Total
+        <!-- Phone Number Input -->
+        <div class="form-group mb-4 max-w-md mx-auto">
+          <label for="phone_number" class="form-label flex items-center">
+            <i class="bi bi-phone text-primary-500 mr-2"></i>Mobile Money Number
           </label>
-          <p class="text-base text-gray-800 font-bold">
-            {{ totalAmount | number : "1.0-0" }} XAF
-          </p>
-          <p class="text-xs text-gray-500 mt-1">
-            + Fees: {{ getTotalFee() | number : "1.0-0" }} XAF
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 2: Payment Information -->
-    <div *ngIf="currentStep === 2">
-      <!-- Payment Method Information -->
-      <div class="mb-4 text-center">
-        <img
-          src="/assets/images/product-details/mobile_money.png"
-          alt="Mobile Money"
-          class="h-12 mx-auto mb-2"
-        />
-        <p class="text-sm text-gray-700 mb-2">
-          Please enter your Mobile Money number to pay your first installment
-          of:
-        </p>
-        <p class="text-xl font-bold text-[#0167F3]">
-          {{ installmentAmount + getInstallmentFee() | number : "1.0-0" }} XAF
-        </p>
-      </div>
-
-      <!-- Phone Number Input -->
-      <div class="mb-4">
-        <label class="block text-xs font-medium mb-1 text-gray-700">
-          Mobile Money Number
-        </label>
-        <div class="relative">
-          <div
-            class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none"
-          >
-            <i class="bi bi-phone text-gray-500 text-xs"></i>
+          <div class="relative">
+            <input
+              type="text"
+              id="phone_number"
+              formControlName="phone_number"
+              phoneFormat
+              placeholder="e.g., 677123456"
+              class="input w-full focus:border-primary-500 transition-colors pl-10"
+              [ngClass]="{
+                'border-red-500': phoneControl?.invalid && phoneControl?.touched
+              }"
+            />
+            <div
+              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+            >
+              <i class="bi bi-phone text-gray-500"></i>
+            </div>
           </div>
-          <input
-            type="text"
-            formControlName="phone_number"
-            phoneFormat
-            placeholder="e.g., 677123456"
-            class="w-full border border-gray-300 rounded-lg p-2.5 pl-7 text-gray-700 text-xs focus:ring-[#0167F3] focus:border-[#0167F3] transition duration-200"
-            [ngClass]="{
-              'border-red-500': phoneControl?.invalid && phoneControl?.touched
-            }"
-          />
-        </div>
-        <div class="mt-1 text-xs text-red-600" *ngIf="phoneControl?.touched">
-          <span *ngIf="phoneControl?.errors?.required">
-            Le numéro mobile money est requis
-          </span>
-          <span
-            *ngIf="
-              phoneControl?.errors?.pattern ||
-              phoneControl?.errors?.cameroonPhone
-            "
+          <div
+            *ngIf="phoneControl?.touched && phoneControl?.invalid"
+            class="form-error"
           >
-            Le numéro doit être un numéro camerounais valide (9 chiffres
-            commençant par 6)
-          </span>
-          <span
-            *ngIf="
-              phoneControl?.errors?.minlength || phoneControl?.errors?.maxlength
-            "
-          >
-            Le numéro doit contenir exactement 9 chiffres
-          </span>
+            <span *ngIf="phoneControl?.errors?.required">
+              Mobile money number is required
+            </span>
+            <span
+              *ngIf="
+                phoneControl?.errors?.pattern ||
+                phoneControl?.errors?.cameroonPhone
+              "
+            >
+              The number must be a valid Cameroonian number (9 digits starting
+              with 6)
+            </span>
+            <span
+              *ngIf="
+                phoneControl?.errors?.minlength ||
+                phoneControl?.errors?.maxlength
+              "
+            >
+              The number must contain exactly 9 digits
+            </span>
+          </div>
         </div>
-      </div>
 
-      <!-- Payment Instructions -->
-      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4">
-        <p class="text-xs text-yellow-800">
-          <i class="bi bi-info-circle mr-1"></i>
-          You will receive a payment confirmation request on your mobile phone.
-          Please confirm to complete the transaction.
-        </p>
+        <!-- Payment Instructions -->
+        <div
+          class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg mb-4 max-w-md mx-auto"
+        >
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <i class="bi bi-info-circle text-yellow-400 text-lg"></i>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-yellow-800">
+                You will receive a payment confirmation request on your mobile
+                phone. Please confirm to complete the transaction.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -257,10 +327,12 @@
       *ngIf="isSubmitted"
       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
     >
-      <div class="bg-white p-5 rounded-lg shadow-lg text-center max-w-sm">
-        <div
-          class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0167F3] mx-auto mb-4"
-        ></div>
+      <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-sm">
+        <div class="flex justify-center items-center mb-4">
+          <div
+            class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-primary-600"
+          ></div>
+        </div>
         <h3 class="text-lg font-bold mb-2">Processing Payment</h3>
         <p class="text-sm text-gray-600 mb-4">
           Please check your phone and confirm the payment request.
@@ -269,39 +341,45 @@
     </div>
 
     <!-- Navigation Buttons -->
-    <div class="flex justify-between mt-4">
+    <div
+      class="px-6 py-4 bg-gray-50 rounded-b-lg border-t border-gray-200 flex justify-between"
+    >
       <button
         *ngIf="currentStep === 2"
         type="button"
-        class="px-3 py-2.5 text-xs font-medium border border-gray-300 rounded-lg cursor-pointer"
+        class="btn btn-outline-secondary flex items-center"
         (click)="goToStep(1)"
       >
-        <i class="bi bi-arrow-left mr-1"></i>Back
+        <i class="bi bi-arrow-left mr-2"></i>Back
       </button>
       <button
         *ngIf="currentStep === 1"
         type="button"
-        class="px-3 py-2.5 text-xs font-medium border border-gray-300 rounded-lg"
+        class="btn btn-outline-secondary"
         (click)="closeModal()"
       >
         Cancel
       </button>
+
       <button
         type="submit"
         [disabled]="
           (currentStep === 2 && orderForm.get('phone_number')?.invalid) ||
           (currentStep === 1 && orderForm.invalid)
         "
-        class="px-3 py-2.5 text-xs font-medium bg-[#0167F3] text-white rounded-lg hover:bg-blue-700 transition duration-200"
+        class="btn btn-primary"
+        [ngClass]="{
+          'opacity-50 cursor-not-allowed':
+            (currentStep === 2 && orderForm.get('phone_number')?.invalid) ||
+            (currentStep === 1 && orderForm.invalid)
+        }"
       >
-        <span
-          class="cursor-pointer"
-          *ngIf="currentStep === 1"
-          (click)="goToStep(2)"
-        >
-          Continue <i class="bi bi-arrow-right ml-1"></i
-        ></span>
-        <span *ngIf="currentStep === 2">Confirm Payment</span>
+        <span *ngIf="currentStep === 1">
+          Continue <i class="bi bi-arrow-right ml-2"></i>
+        </span>
+        <span *ngIf="currentStep === 2">
+          <i class="bi bi-check-circle mr-2"></i> Confirm Payment
+        </span>
       </button>
     </div>
   </form>

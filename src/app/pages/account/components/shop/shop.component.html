@@ -1,0 +1,892 @@
+<div class="bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen py-8">
+  <div class="container mx-auto px-4">
+    <ng-container *ngIf="!isUserSeller; else sellerContent">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-8">
+          <h1 class="text-3xl font-bold text-gray-800 mb-2">Devenir vendeur</h1>
+          <p class="text-gray-600">
+            Commencez à vendre vos produits sur notre plateforme
+          </p>
+        </div>
+
+        <!-- Formulaire pour devenir vendeur -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+          <div class="p-6">
+            <form
+              [formGroup]="shopForm"
+              (ngSubmit)="createSellerAccount()"
+              class="space-y-6"
+            >
+              <!-- Informations de la boutique -->
+              <div
+                class="content-card bg-white p-6 rounded-xl shadow-sm border border-gray-100"
+              >
+                <h4 class="text-md font-semibold text-gray-700 mb-4">
+                  Informations de votre boutique
+                </h4>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                  <div class="space-y-2">
+                    <label for="name" class="text-sm font-medium text-gray-700">
+                      Nom de la boutique <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      formControlName="name"
+                      class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:border-blue-300 outline-none"
+                    />
+                    <p
+                      *ngIf="
+                        shopForm.get('name')?.invalid &&
+                        shopForm.get('name')?.touched
+                      "
+                      class="text-xs text-red-600 mt-1"
+                    >
+                      Le nom de la boutique est requis
+                    </p>
+                  </div>
+
+                  <div class="space-y-2">
+                    <label
+                      for="location"
+                      class="text-sm font-medium text-gray-700"
+                    >
+                      Emplacement <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="location"
+                      formControlName="location"
+                      class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:border-blue-300 outline-none"
+                    />
+                    <p
+                      *ngIf="
+                        shopForm.get('location')?.invalid &&
+                        shopForm.get('location')?.touched
+                      "
+                      class="text-xs text-red-600 mt-1"
+                    >
+                      L'emplacement est requis
+                    </p>
+                  </div>
+
+                  <div class="space-y-2">
+                    <label
+                      for="contact_number"
+                      class="text-sm font-medium text-gray-700"
+                    >
+                      Numéro de contact <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="contact_number"
+                      formControlName="contact_number"
+                      class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:border-blue-300 outline-none"
+                    />
+                    <p
+                      *ngIf="
+                        shopForm.get('contact_number')?.invalid &&
+                        shopForm.get('contact_number')?.touched
+                      "
+                      class="text-xs text-red-600 mt-1"
+                    >
+                      Le numéro de contact est requis
+                    </p>
+                  </div>
+
+                  <div class="space-y-2">
+                    <label
+                      for="website_url"
+                      class="text-sm font-medium text-gray-700"
+                    >
+                      Site web (optionnel)
+                    </label>
+                    <input
+                      type="text"
+                      id="website_url"
+                      formControlName="website_url"
+                      class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:border-blue-300 outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Description de la boutique -->
+              <div
+                class="content-card bg-white p-6 rounded-xl shadow-sm border border-gray-100"
+              >
+                <h4 class="text-md font-semibold text-gray-700 mb-4">
+                  Description de votre boutique
+                </h4>
+
+                <div class="space-y-2">
+                  <label
+                    for="description"
+                    class="text-sm font-medium text-gray-700"
+                  >
+                    Description <span class="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    id="description"
+                    rows="4"
+                    formControlName="description"
+                    class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:border-blue-300 outline-none"
+                    placeholder="Décrivez votre boutique, vos produits et votre activité..."
+                  ></textarea>
+                  <p
+                    *ngIf="
+                      shopForm.get('description')?.invalid &&
+                      shopForm.get('description')?.touched
+                    "
+                    class="text-xs text-red-600 mt-1"
+                  >
+                    La description est requise (minimum 10 caractères)
+                  </p>
+                </div>
+              </div>
+
+              <!-- Conditions d'utilisation -->
+              <div
+                class="content-card bg-white p-6 rounded-xl shadow-sm border border-gray-100"
+              >
+                <h4 class="text-md font-semibold text-gray-700 mb-4">
+                  Conditions d'utilisation
+                </h4>
+
+                <div class="space-y-4">
+                  <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                      <input
+                        id="terms"
+                        type="checkbox"
+                        formControlName="termsAccepted"
+                        class="checkbox"
+                      />
+                    </div>
+                    <div class="ml-3 text-sm">
+                      <label for="terms" class="text-gray-700">
+                        J'accepte les
+                        <a href="#" class="text-primary-600 hover:underline"
+                          >conditions d'utilisation</a
+                        >
+                        et la
+                        <a href="#" class="text-primary-600 hover:underline"
+                          >politique de confidentialité</a
+                        >
+                        de la plateforme.
+                      </label>
+                      <p
+                        *ngIf="
+                          shopForm.get('termsAccepted')?.invalid &&
+                          shopForm.get('termsAccepted')?.touched
+                        "
+                        class="text-xs text-red-600 mt-1"
+                      >
+                        Vous devez accepter les conditions d'utilisation
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="flex justify-center">
+                <button
+                  type="submit"
+                  [disabled]="shopForm.invalid || isSubmitting"
+                  class="py-2.5 px-6 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 w-full md:w-auto"
+                >
+                  <ng-container *ngIf="isSubmitting; else submitBtnText">
+                    <div class="flex items-center justify-center">
+                      <svg
+                        class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      <span>Création en cours...</span>
+                    </div>
+                  </ng-container>
+                  <ng-template #submitBtnText>
+                    <span>Créer ma boutique</span>
+                  </ng-template>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #sellerContent>
+      <!-- Header Section -->
+      <div class="mb-8">
+        <h2
+          class="text-2xl font-heading font-semibold text-gray-800 gradient-underline flex items-center"
+        >
+          <span class="bg-primary-600 w-2 h-10 mr-3 rounded-full"></span>
+          Ma Botique
+        </h2>
+      </div>
+
+      <!-- Shop Banner Section -->
+      <div class="mb-10">
+        <div class="relative bg-white rounded-xl shadow-lg overflow-hidden">
+          <!-- Cover Photo -->
+          <div class="h-60 lg:h-72 overflow-hidden relative">
+            <img
+              [src]="
+                shopData?.shop?.cover_photo_url ||
+                'assets/images/avatars/avatar.jpg'
+              "
+              alt="Cover photo"
+              class="w-full h-full object-cover"
+            />
+
+            <!-- Edit Cover Button -->
+            <button
+              (click)="openCoverFileInput()"
+              class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow text-primary-600 hover:bg-white"
+            >
+              <i class="bi bi-pencil"></i>
+            </button>
+
+            <input
+              #coverInput
+              type="file"
+              (change)="onCoverPhotoSelected($event)"
+              class="hidden"
+              accept="image/*"
+            />
+          </div>
+
+          <!-- Shop Info with Logo -->
+          <div class="relative px-6 pt-16 pb-6">
+            <!-- Logo -->
+            <div class="absolute -top-12 left-6">
+              <div class="relative">
+                <div
+                  class="w-24 h-24 rounded-xl bg-white p-1 shadow-md overflow-hidden"
+                >
+                  <img
+                    [src]="
+                      shopData?.shop?.logo_url ||
+                      'assets/images/avatars/avatar.jpg'
+                    "
+                    alt="Logo"
+                    class="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+
+                <!-- Edit Logo Button -->
+                <button
+                  (click)="openLogoFileInput()"
+                  class="absolute bottom-1 right-1 bg-white/90 p-1.5 rounded-full shadow-sm text-primary-600 hover:bg-white"
+                >
+                  <i class="bi bi-pencil text-sm"></i>
+                </button>
+
+                <input
+                  #logoInput
+                  type="file"
+                  (change)="onLogoSelected($event)"
+                  class="hidden"
+                  accept="image/*"
+                />
+              </div>
+            </div>
+
+            <!-- Shop Information -->
+            <div class="flex justify-between flex-wrap gap-4">
+              <div class="max-w-2xl">
+                <h2 class="text-2xl font-bold text-gray-800 mb-1">
+                  {{ shopData?.shop?.name || "Nom de boutique" }}
+                </h2>
+
+                <div class="flex flex-wrap items-center gap-2 mb-3">
+                  <span class="inline-flex items-center text-sm text-gray-600">
+                    <i class="bi bi-geo-alt text-primary-600 mr-1"></i>
+                    {{ shopData?.shop?.location || "Emplacement non défini" }}
+                  </span>
+
+                  <span class="inline-flex items-center text-sm text-gray-600">
+                    <i class="bi bi-telephone text-primary-600 mr-1"></i>
+                    {{ shopData?.shop?.contact_number || "Contact non défini" }}
+                  </span>
+
+                  <span
+                    class="inline-flex items-center text-sm text-gray-600"
+                    *ngIf="shopData?.shop?.website_url"
+                  >
+                    <i class="bi bi-globe text-primary-600 mr-1"></i>
+                    {{ shopData?.shop?.website_url }}
+                  </span>
+                </div>
+
+                <p class="text-gray-700">
+                  {{ shopData?.shop?.description || "Aucune description" }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs Navigation -->
+      <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+        <div class="border-b border-gray-200">
+          <nav class="flex overflow-x-auto">
+            <button
+              *ngFor="let tab of tabs"
+              (click)="activeTab = tab.id"
+              class="px-6 py-4 text-sm font-medium whitespace-nowrap border-b-2 transition-colors focus:outline-none relative"
+              [class.border-primary-600]="activeTab === tab.id"
+              [class.text-primary-600]="activeTab === tab.id"
+              [class.border-blue-300]="activeTab !== tab.id"
+              [class.text-gray-500]="activeTab !== tab.id"
+              [class.hover:text-gray-700]="activeTab !== tab.id"
+              [class.hover:border-gray-300]="activeTab !== tab.id"
+            >
+              <span class="flex items-center gap-2">
+                <i [class]="'bi ' + tab.icon"></i>
+                {{ tab.name }}
+              </span>
+              <!-- Indicateur de sélection plus visible -->
+              <span
+                *ngIf="activeTab === tab.id"
+                class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-400 to-primary-600"
+              ></span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="p-6" [ngSwitch]="activeTab">
+          <!-- Orders Tab -->
+          <div *ngSwitchCase="'orders'" class="space-y-6">
+            <div
+              class="flex flex-col sm:flex-row justify-between items-center gap-4"
+            >
+              <h2 class="text-xl font-semibold text-gray-800">Mes Commandes</h2>
+            </div>
+
+            <!-- Orders List -->
+            <div class="space-y-4">
+              <div *ngIf="isLoading" class="flex justify-center py-12">
+                <div class="flex items-center justify-center">
+                  <div
+                    class="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Empty state pour les commandes -->
+              <div
+                *ngIf="!isLoading && (!orders || orders.length === 0)"
+                class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center"
+              >
+                <div class="flex flex-col items-center justify-center">
+                  <div
+                    class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4"
+                  >
+                    <i class="bi bi-bag text-gray-300 text-4xl"></i>
+                  </div>
+                  <h3 class="text-lg font-medium text-gray-800 mb-2">
+                    Aucune commande trouvée
+                  </h3>
+                  <p class="text-gray-600 max-w-md mx-auto">
+                    Vous n'avez pas encore reçu de commandes. Quand vous en
+                    recevrez, elles apparaîtront ici.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Orders list content -->
+              <div
+                *ngFor="let order of orders"
+                class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6 hover:shadow-md transition-shadow"
+              >
+                <div class="flex flex-col md:flex-row gap-6">
+                  <!-- Product Details -->
+                  <div class="md:w-2/5">
+                    <div class="flex gap-4">
+                      <img
+                        [src]="
+                          order.product.images[0]?.image_url ||
+                          'assets/images/avatars/avatar.jpg'
+                        "
+                        alt="{{ order.product.name }}"
+                        class="w-20 h-20 rounded-lg object-cover flex-shrink-0"
+                      />
+                      <div>
+                        <h4 class="font-medium text-gray-900 mb-1">
+                          {{ order.product.name }}
+                        </h4>
+                        <p class="text-sm text-gray-600">
+                          Qté: {{ order.quantity }}
+                        </p>
+                        <p class="text-sm text-gray-600">
+                          Total:
+                          <span class="text-primary-600 font-medium"
+                            >{{ order.total_cost | number : "1.0-0" }} XAF</span
+                          >
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Customer Info -->
+                  <div class="md:w-1/5">
+                    <p class="text-xs text-gray-500 mb-1">Client</p>
+                    <div class="flex items-center">
+                      <div
+                        class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2 overflow-hidden"
+                      >
+                        <img
+                          *ngIf="order.user?.profile_url"
+                          [src]="order.user.profile_url"
+                          class="w-full h-full object-cover"
+                        />
+                        <span
+                          *ngIf="!order.user?.profile_url"
+                          class="text-xs font-medium text-gray-700"
+                          >{{ order.user.name.charAt(0) }}</span
+                        >
+                      </div>
+                      <span class="text-sm font-medium text-gray-800">{{
+                        order.user.name
+                      }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Status Info -->
+                  <div class="md:w-1/5">
+                    <p class="text-xs text-gray-500 mb-1">Statut & Date</p>
+                    <div>
+                      <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                        [class.bg-green-100]="order.is_completed"
+                        [class.text-green-800]="order.is_completed"
+                        [class.bg-yellow-100]="
+                          !order.is_completed &&
+                          order.remaining_installments > 0
+                        "
+                        [class.text-yellow-800]="
+                          !order.is_completed &&
+                          order.remaining_installments > 0
+                        "
+                        [class.bg-red-100]="
+                          !order.is_completed &&
+                          order.remaining_installments === 0
+                        "
+                        [class.text-red-800]="
+                          !order.is_completed &&
+                          order.remaining_installments === 0
+                        "
+                      >
+                        {{
+                          order.is_completed
+                            ? "Complété"
+                            : order.remaining_installments > 0
+                            ? "En cours"
+                            : "En attente"
+                        }}
+                      </span>
+                      <p class="text-xs text-gray-500 mt-1">
+                        {{ order.created_at | date : "dd/MM/yyyy" }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Payment Installments -->
+                  <div class="md:w-1/5">
+                    <p class="text-xs text-gray-500 mb-1">Versements</p>
+                    <div class="flex items-center gap-1">
+                      <div
+                        *ngFor="
+                          let payment of order.order_payments;
+                          let i = index
+                        "
+                        class="w-2 h-6 rounded-sm"
+                        [class.bg-green-500]="payment.status === 'success'"
+                        [class.bg-yellow-300]="payment.status === 'pending'"
+                        [class.bg-gray-300]="payment.status === 'upcoming'"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Products Tab -->
+          <div *ngSwitchCase="'products'" class="space-y-6">
+            <div
+              class="flex flex-col sm:flex-row justify-between items-center gap-4"
+            >
+              <h2 class="text-xl font-semibold text-gray-800">Mes Produits</h2>
+
+              <!-- Add Button -->
+              <div class="flex flex-wrap gap-2">
+                <button
+                  (click)="openAddProductModal()"
+                  class="py-2.5 px-6 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center"
+                >
+                  <i class="bi bi-plus-lg mr-2"></i>
+                  Ajouter
+                </button>
+              </div>
+            </div>
+
+            <!-- Products Grid Container -->
+            <div>
+              <!-- Loading State -->
+              <div *ngIf="isLoading" class="flex justify-center py-12">
+                <div class="flex items-center justify-center">
+                  <div
+                    class="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Empty State -->
+              <div
+                *ngIf="!isLoading && (!products || products.length === 0)"
+                class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center"
+              >
+                <div class="flex flex-col items-center justify-center">
+                  <div
+                    class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-4 animate-pulse"
+                  >
+                    <i class="bi bi-box text-gray-300 text-5xl"></i>
+                  </div>
+                  <h3 class="text-xl font-medium text-gray-800 mb-3">
+                    Aucun produit trouvé
+                  </h3>
+                  <p class="text-gray-600 max-w-md mx-auto mb-6">
+                    Vous n'avez pas encore ajouté de produits à votre boutique.
+                    Commencez dès maintenant pour attirer de nouveaux clients!
+                  </p>
+                  <button
+                    (click)="openAddProductModal()"
+                    class="py-3 px-6 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center"
+                  >
+                    <i class="bi bi-plus-lg mr-2"></i>
+                    Ajouter mon premier produit
+                  </button>
+                </div>
+              </div>
+
+              <!-- Regular Products Grid -->
+              <div
+                *ngIf="!isLoading && products && products.length > 0"
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"
+              >
+                <div
+                  *ngFor="let product of products"
+                  class="group bg-white rounded-xl overflow-hidden transform transition duration-300 hover:-translate-y-1 hover:shadow-lg border border-gray-100"
+                >
+                  <!-- Image avec badge de statut et boutons d'action -->
+                  <div class="relative aspect-w-4 aspect-h-3 overflow-hidden">
+                    <!-- Image principale -->
+                    <img
+                      [src]="
+                        product.images[0]?.image_url ||
+                        'assets/images/avatars/avatar.jpg'
+                      "
+                      alt="{{ product.name }}"
+                      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+
+                    <!-- Overlay subtil -->
+                    <div
+                      class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    ></div>
+
+                    <!-- Status Badge -->
+                    <div class="absolute top-3 right-3 z-10">
+                      <span
+                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                        [class.bg-green-100]="product.is_active"
+                        [class.text-green-800]="product.is_active"
+                        [class.border]="product.is_active"
+                        [class.border-green-200]="product.is_active"
+                        [class.bg-red-100]="!product.is_active"
+                        [class.text-red-800]="!product.is_active"
+                        [class.border]="!product.is_active"
+                        [class.border-red-200]="!product.is_active"
+                      >
+                        {{ product.is_active ? "Actif" : "Inactif" }}
+                      </span>
+                    </div>
+
+                    <!-- Actions Buttons Container -->
+                    <div
+                      class="absolute bottom-3 right-0 left-0 flex justify-center gap-2 opacity-0 group-hover:opacity-100 transform translate-y-1 group-hover:translate-y-0 transition-all duration-300"
+                    >
+                      <button
+                        (click)="editProduct(product)"
+                        class="bg-white/90 hover:bg-white text-gray-700 hover:text-primary-600 p-2 rounded-full shadow-md transition-colors"
+                      >
+                        <i class="bi bi-pencil"></i>
+                      </button>
+
+                      <button
+                        (click)="deleteProduct(product.id)"
+                        class="bg-white/90 hover:bg-white text-red-500 hover:text-red-600 p-2 rounded-full shadow-md transition-colors"
+                      >
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Product info -->
+                  <div class="p-4">
+                    <h4
+                      class="font-medium text-gray-900 mb-1 truncate group-hover:text-primary-600 transition-colors"
+                      title="{{ product.name }}"
+                    >
+                      {{ product.name }}
+                    </h4>
+
+                    <p
+                      class="text-sm text-gray-600 mb-3 line-clamp-2 h-10 group-hover:text-gray-700 transition-colors"
+                    >
+                      {{ product.description }}
+                    </p>
+
+                    <div
+                      class="flex justify-between items-center pt-2 border-t border-gray-100"
+                    >
+                      <span class="text-primary-600 font-bold"
+                        >{{ product.price | number : "1.0-0" }} XAF</span
+                      >
+                      <div class="flex items-center">
+                        <span
+                          class="text-xs font-medium rounded-full px-2 py-0.5"
+                          [class.bg-green-100]="product.stock_quantity > 10"
+                          [class.text-green-800]="product.stock_quantity > 10"
+                          [class.bg-yellow-100]="
+                            product.stock_quantity <= 10 &&
+                            product.stock_quantity > 0
+                          "
+                          [class.text-yellow-800]="
+                            product.stock_quantity <= 10 &&
+                            product.stock_quantity > 0
+                          "
+                          [class.bg-red-100]="product.stock_quantity <= 0"
+                          [class.text-red-800]="product.stock_quantity <= 0"
+                        >
+                          Stock: {{ product.stock_quantity }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Settings Tab -->
+          <div *ngSwitchCase="'settings'" class="space-y-6">
+            <div class="flex justify-between items-center mb-6">
+              <h3
+                class="text-lg font-semibold text-gray-800 gradient-underline"
+              >
+                Paramètres de la Boutique
+              </h3>
+            </div>
+
+            <form
+              [formGroup]="shopForm"
+              (ngSubmit)="updateShopSettings()"
+              class="space-y-6"
+            >
+              <!-- Informations de base -->
+              <div
+                class="content-card bg-white p-6 rounded-xl shadow-md border border-gray-100"
+              >
+                <h4 class="text-md font-semibold text-gray-700 mb-4">
+                  Informations générales
+                </h4>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                  <div class="space-y-2">
+                    <label for="name" class="text-sm font-medium text-gray-700">
+                      Nom de la boutique <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      formControlName="name"
+                      class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:border-blue-300 outline-none"
+                    />
+                    <p
+                      *ngIf="
+                        shopForm.get('name')?.invalid &&
+                        shopForm.get('name')?.touched
+                      "
+                      class="text-xs text-red-600 mt-1"
+                    >
+                      Le nom de la boutique est requis
+                    </p>
+                  </div>
+
+                  <div class="space-y-2">
+                    <label
+                      for="location"
+                      class="text-sm font-medium text-gray-700"
+                    >
+                      Emplacement <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="location"
+                      formControlName="location"
+                      class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:border-blue-300 outline-none"
+                    />
+                    <p
+                      *ngIf="
+                        shopForm.get('location')?.invalid &&
+                        shopForm.get('location')?.touched
+                      "
+                      class="text-xs text-red-600 mt-1"
+                    >
+                      L'emplacement est requis
+                    </p>
+                  </div>
+
+                  <div class="space-y-2">
+                    <label
+                      for="contact_number"
+                      class="text-sm font-medium text-gray-700"
+                    >
+                      Numéro de contact <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="contact_number"
+                      formControlName="contact_number"
+                      class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:border-blue-300 outline-none"
+                    />
+                    <p
+                      *ngIf="
+                        shopForm.get('contact_number')?.invalid &&
+                        shopForm.get('contact_number')?.touched
+                      "
+                      class="text-xs text-red-600 mt-1"
+                    >
+                      Le numéro de contact est requis
+                    </p>
+                  </div>
+
+                  <div class="space-y-2">
+                    <label
+                      for="website_url"
+                      class="text-sm font-medium text-gray-700"
+                    >
+                      Site web
+                    </label>
+                    <input
+                      type="text"
+                      id="website_url"
+                      formControlName="website_url"
+                      class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:border-blue-300 outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div
+                class="content-card bg-white p-6 rounded-xl shadow-md border border-gray-100"
+              >
+                <h4 class="text-md font-semibold text-gray-700 mb-4">
+                  Description
+                </h4>
+
+                <div class="space-y-2">
+                  <label
+                    for="description"
+                    class="text-sm font-medium text-gray-700"
+                  >
+                    Description de la boutique
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    id="description"
+                    rows="4"
+                    formControlName="description"
+                    class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:border-blue-300 outline-none"
+                  ></textarea>
+                  <p
+                    *ngIf="
+                      shopForm.get('description')?.invalid &&
+                      shopForm.get('description')?.touched
+                    "
+                    class="text-xs text-red-600 mt-1"
+                  >
+                    La description est requise (minimum 10 caractères)
+                  </p>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="flex justify-end">
+                <button
+                  type="submit"
+                  [disabled]="shopForm.invalid || isSubmitting"
+                  class="py-2.5 px-6 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
+                >
+                  <ng-container *ngIf="isSubmitting; else saveBtnText">
+                    <div class="flex items-center">
+                      <svg
+                        class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      <span>Enregistrement...</span>
+                    </div>
+                  </ng-container>
+                  <ng-template #saveBtnText>
+                    <span>Enregistrer les modifications</span>
+                  </ng-template>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

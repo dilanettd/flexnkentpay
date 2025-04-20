@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,11 +13,15 @@ import { ToastrService } from 'ngx-toastr';
 import { ProductService } from '../../../../core/services/product/product.service';
 import { CategoryService } from '../../../../core/services/category/category.service';
 import { ButtonSpinnerComponent } from '../../../../shared/components/button-spinner/button-spinner.component';
-import { finalize } from 'rxjs/operators';
-import { ICategory } from '../../../../core/models/product.model';
+import { finalize } from 'rxjs';
+import {
+  ICategory,
+  IProduct,
+  IUpdateProduct,
+} from '../../../../core/models/product.model';
 
 @Component({
-  selector: 'flexnkentpay-add-product',
+  selector: 'flexnkentpay-update-product',
   standalone: true,
   imports: [
     FormsModule,
@@ -25,17 +29,22 @@ import { ICategory } from '../../../../core/models/product.model';
     CommonModule,
     ButtonSpinnerComponent,
   ],
-  templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.scss'],
+  templateUrl: './update-product.component.html',
+  styleUrls: ['./update-product.component.scss'],
 })
-export class AddProductComponent implements OnInit {
+export class UpdateProductComponent implements OnInit {
+  @Input() product!: IProduct;
+
   step: number = 1;
-  uploadedImages: { url: string; file: File }[] = [];
+  maxStep: number = 4;
+  uploadedImages: { url: string; file: File | null; id?: number }[] = [];
   maxImages: number = 5;
   isLoading: boolean = false;
   categories: ICategory[] = [];
   isLoadingCategories: boolean = false;
   errorMessage: string = '';
+  deletedImageIds: number[] = [];
+  hasImagesChanged: boolean = false;
 
   productForm!: FormGroup;
 
@@ -51,17 +60,30 @@ export class AddProductComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForms();
     this.loadCategories();
+    this.loadProductImages();
   }
 
   initializeForms() {
     this.productForm = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(100)]],
-      brand: ['', [Validators.required, Validators.maxLength(50)]],
-      category: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(1)]],
-      stock_quantity: ['', [Validators.required, Validators.min(0)]],
-      description: ['', [Validators.required, Validators.minLength(20)]],
-      currency: ['XAF', Validators.required],
+      name: [
+        this.product.name,
+        [Validators.required, Validators.maxLength(100)],
+      ],
+      brand: [
+        this.product.brand || '',
+        [Validators.required, Validators.maxLength(50)],
+      ],
+      category: [this.product.category, Validators.required],
+      price: [this.product.price, [Validators.required, Validators.min(1)]],
+      stock_quantity: [
+        this.product.stock_quantity,
+        [Validators.required, Validators.min(0)],
+      ],
+      description: [
+        this.product.description || '',
+        [Validators.required, Validators.minLength(20)],
+      ],
+      currency: [this.product.currency, Validators.required],
     });
   }
 
@@ -79,6 +101,18 @@ export class AddProductComponent implements OnInit {
           this.toastr.error('Failed to load categories', 'Error');
         },
       });
+  }
+
+  loadProductImages() {
+    if (this.product && this.product.images && this.product.images.length > 0) {
+      this.product.images.forEach((image) => {
+        this.uploadedImages.push({
+          url: image.image_url,
+          file: null,
+          id: image.id,
+        });
+      });
+    }
   }
 
   getStepName(stepNumber: number): string {
@@ -183,25 +217,53 @@ export class AddProductComponent implements OnInit {
     this.isLoading = true;
 
     try {
-      const files = await this.resizeImages(this.uploadedImages);
-      const formData = new FormData();
-      const product = this.productForm.value;
+      const updateData: IUpdateProduct = {
+        name: this.productForm.value.name,
+        brand: this.productForm.value.brand,
+        category: this.productForm.value.category,
+        description: this.productForm.value.description,
+        currency: this.productForm.value.currency,
+        price: this.productForm.value.price,
+        stock_quantity: this.productForm.value.stock_quantity,
+      };
 
-      // Append product data to formData
-      Object.keys(product).forEach((key) => {
-        formData.append(key, product[key]);
-      });
+      await this.productService
+        .updateProduct(this.product.id, updateData)
+        .toPromise();
 
-      // Append images to formData
-      files.forEach((file, index) => {
-        formData.append(`images[${index}]`, file);
-      });
+      if (this.hasImagesChanged) {
+        const deleteImageRequests = this.deletedImageIds.map((imageId) =>
+          this.productService.deleteProductImage(imageId).toPromise()
+        );
 
-      await this.productService.addProduct(formData).toPromise();
-      this.toastr.success('Your product has been added successfully.');
+        // Add new images
+        const newImages = this.uploadedImages.filter(
+          (img) => img.file !== null
+        );
+        if (newImages.length > 0) {
+          const resizedFiles = await this.resizeImages(newImages);
+
+          const uploadRequests = resizedFiles.map((file) => {
+            const formData = new FormData();
+            formData.append('product_id', this.product.id.toString());
+            formData.append('images', file);
+            return this.productService.addImageToProduct(formData).toPromise();
+          });
+
+          // Wait for all image operations to complete
+          await Promise.all([...deleteImageRequests, ...uploadRequests]);
+        } else {
+          // Just handle deletions if there are no new images
+          if (deleteImageRequests.length > 0) {
+            await Promise.all(deleteImageRequests);
+          }
+        }
+      }
+
+      this.toastr.success('Product updated successfully.');
       this.modalService.dismissAll();
     } catch (error) {
-      console.error('Error submitting product:', error);
+      console.error('Error updating product:', error);
       this.toastr.error('An error occurred. Please try again.');
     } finally {
       this.isLoading = false;
@@ -239,24 +301,35 @@ export class AddProductComponent implements OnInit {
           url: e.target.result,
           file: file,
         });
+        this.hasImagesChanged = true;
       };
       reader.readAsDataURL(file);
     });
   }
 
   deleteImage(image: any) {
+    // If image has an id, it's an existing image that needs to be deleted from the server
+    if (image.id) {
+      this.deletedImageIds.push(image.id);
+    }
+
     this.uploadedImages = this.uploadedImages.filter((img) => img !== image);
+    this.hasImagesChanged = true;
   }
 
-  async resizeImages(files: { url: string; file: File }[]): Promise<File[]> {
+  async resizeImages(
+    files: { url: string; file: File | null; id?: number }[]
+  ): Promise<File[]> {
     const resizedFiles: File[] = [];
 
     for (const fileObj of files) {
-      try {
-        const file = await this.resizeImageFromUrl(fileObj.url);
-        resizedFiles.push(file);
-      } catch (error) {
-        console.error('Error compressing image:', error);
+      if (fileObj.file) {
+        try {
+          const file = await this.resizeImageFromUrl(fileObj.url);
+          resizedFiles.push(file);
+        } catch (error) {
+          console.error('Error compressing image:', error);
+        }
       }
     }
 

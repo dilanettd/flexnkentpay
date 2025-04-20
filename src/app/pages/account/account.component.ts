@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { IUser } from '../../core/models/auth.state.model';
@@ -18,32 +12,39 @@ import { CommonModule } from '@angular/common';
   styleUrl: './account.component.scss',
 })
 export class AccountComponent implements OnInit {
-  @ViewChild('tabContainer') tabContainer!: ElementRef;
   private authService = inject(AuthService);
+  private router = inject(Router);
+
+  me: IUser | null | undefined;
   userRole: string = 'customer';
-  shopName!: string | undefined;
-  shopLogoUrl!: string | undefined;
-
-  constructor(private router: Router) {}
-
-  scrollTabs(direction: 'left' | 'right'): void {
-    const container = this.tabContainer.nativeElement;
-    const scrollAmount = direction === 'left' ? -200 : 200;
-    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-  }
 
   ngOnInit(): void {
-    this.authService.getUser().subscribe((me: IUser | null) => {
-      this.userRole = me!.role;
-      if (me?.role === 'seller') {
-        const seller = me.seller;
-        this.shopName = seller.shop.name;
-        this.shopLogoUrl = seller.shop.logo_url;
-      }
+    this.authService.getUser().subscribe((user: IUser | null) => {
+      this.me = user;
+      this.userRole = user?.role || 'customer';
     });
+  }
+
+  getUserInitials(): string {
+    if (!this.me?.name) return 'U';
+
+    const nameParts = this.me.name.split(' ');
+
+    if (nameParts.length >= 2) {
+      return (
+        nameParts[0][0] + nameParts[nameParts.length - 1][0]
+      ).toUpperCase();
+    } else {
+      return (nameParts[0][0] + (nameParts[0][1] || 'X')).toUpperCase();
+    }
   }
 
   isActiveRoute(route: string): boolean {
     return this.router.isActive(route, true);
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }

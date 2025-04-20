@@ -12,6 +12,24 @@ export interface IProductImage {
   updated_at?: string;
 }
 
+export interface ICategory {
+  id?: number;
+  name: string;
+  description?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface IUpdateProduct {
+  name: string;
+  brand: string;
+  category: string;
+  description: string;
+  currency: string;
+  price: number;
+  stock_quantity: number;
+}
+
 export interface IProduct {
   id: number;
   shop_id: number;

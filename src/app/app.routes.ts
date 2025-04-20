@@ -91,6 +91,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'shop',
+        loadComponent: () =>
+          import('./pages/account/components/shop/shop.component').then(
+            (m) => m.ShopComponent
+          ),
+      },
+      {
         path: 'transactions',
         loadComponent: () =>
           import(

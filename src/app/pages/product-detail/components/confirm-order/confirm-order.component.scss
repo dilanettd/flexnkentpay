@@ -1,0 +1,153 @@
+/* Custom styles for OrderComponent that complement the Tailwind classes */
+
+:host {
+  display: block;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Progress indicator styling */
+.step-progress {
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 2px;
+    width: 100%;
+    background-color: #e5e7eb;
+    z-index: -1;
+  }
+
+  .step {
+    background-color: white;
+    z-index: 2;
+    transition: all 0.3s ease;
+
+    &.active {
+      background-color: var(--primary-600);
+      border-color: var(--primary-600);
+      color: white;
+    }
+  }
+}
+
+/* Toggle buttons */
+.toggle-button {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(1, 103, 243, 0.1);
+    transition: width 0.3s ease;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+
+  &.active {
+    background-color: var(--primary-600);
+    border-color: var(--primary-600);
+    color: white;
+
+    &::after {
+      display: none;
+    }
+  }
+}
+
+/* Card animation */
+.card {
+  transition: all 0.3s ease;
+  transform-origin: center;
+
+  &:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Summary boxes */
+.summary-box {
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Form input icons */
+.input-icon {
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+
+.input:focus + .input-icon {
+  color: var(--primary-600);
+}
+
+/* Loading animation */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Payment method image */
+.payment-image {
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Custom variables to match Tailwind theme */
+:root {
+  --primary-600: #0167f3;
+  --primary-700: #0050c9;
+}
+
+/* Animation for step transitions */
+.step-enter {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.step-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.step-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.step-exit-active {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.3s, transform 0.3s;
+}

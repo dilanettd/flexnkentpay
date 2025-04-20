@@ -1,97 +1,268 @@
-<div class="mx-auto mt-6">
-  <div class="flex justify-between items-center mb-6">
-    <h3 class="text-xl sm:text-2xl text-gray-800 font-semibold">
-      My Transactions
-    </h3>
-  </div>
-</div>
-<div *ngIf="isLoading" class="text-center my-6">
-  <p>Loading transactions...</p>
-</div>
-<div *ngIf="!isLoading && !error && txn.length === 0" class="text-center my-6">
-  <div class="flex flex-col items-center justify-center text-center">
-    <img
-      src="assets/images/empty-state.jpg"
-      alt="No items found"
-      class="mb-4 h-32 w-32 sm:h-48 sm:w-48 lg:h-72 lg:w-72 object-contain"
-    />
-    <p class="text-gray-500">No transactions found.</p>
-  </div>
-</div>
-<div *ngIf="!isLoading && txn.length > 0" class="overflow-x-auto">
-  <table class="table-auto w-full border border-gray-300 rounded-lg shadow-md">
-    <!-- Table Header -->
-    <thead
-      class="bg-gradient-to-r from-blue-50 to-blue-100 text-black rounded-t-lg"
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-8">
+    <h2
+      class="text-2xl font-heading font-semibold text-gray-800 gradient-underline flex items-center"
     >
-      <tr>
-        <th class="px-4 py-2 text-left">Transaction ID</th>
-        <th class="px-4 py-2 text-left">Provider Transaction ID</th>
-        <th class="px-4 py-2 text-left">Phone</th>
-        <th class="px-4 py-2 text-left">Amount</th>
-        <th class="px-4 py-2 text-left">Fees</th>
-        <th class="px-4 py-2 text-left">Date</th>
-        <th class="px-4 py-2 text-left">Status</th>
-      </tr>
-    </thead>
-    <!-- Table Body -->
-    <tbody>
-      <tr
+      <span class="bg-primary-600 w-2 h-10 mr-3 rounded-full"></span>
+      My Transactions
+    </h2>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="flex justify-center items-center py-16">
+    <div
+      class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"
+    ></div>
+    <p class="ml-3 text-gray-600">Loading your transactions...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div
+    *ngIf="!isLoading && !error && txn.length === 0"
+    class="bg-gray-50 rounded-xl p-12 text-center my-8 shadow-sm border border-gray-200"
+  >
+    <div class="flex flex-col items-center justify-center text-center">
+      <div class="bg-gray-100 p-6 rounded-full mb-6">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-16 w-16 text-gray-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+      </div>
+      <h4 class="h4 text-gray-800 mb-3">No transactions yet</h4>
+      <p class="text-gray-600 mb-6 max-w-md mx-auto">
+        You haven't made any transactions yet. Complete a purchase to see your
+        transaction history here.
+      </p>
+      <button class="btn btn-primary">Browse Products</button>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div
+    *ngIf="!isLoading && error"
+    class="bg-red-50 rounded-xl p-8 text-center my-8 shadow-sm border border-red-200"
+  >
+    <div class="flex flex-col items-center justify-center text-center">
+      <div class="bg-red-100 p-4 rounded-full mb-6">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-12 w-12 text-red-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </div>
+      <h4 class="h4 text-gray-800 mb-3">Oops! Something went wrong</h4>
+      <p class="text-gray-600 mb-6">{{ error }}</p>
+      <button class="btn btn-primary">Try Again</button>
+    </div>
+  </div>
+
+  <!-- Transaction Table -->
+  <div
+    *ngIf="!isLoading && txn.length > 0"
+    class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden"
+  >
+    <!-- Mobile View (Card Layout) -->
+    <div class="lg:hidden space-y-4 p-4">
+      <div
         *ngFor="let transaction of txn"
-        class="bg-white border-t border-gray-200 hover:bg-gray-50 cursor-pointer transition"
+        class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
       >
-        <!-- Transaction ID -->
-        <td class="px-4 py-2 font-medium text-gray-800">
-          {{ transaction.transaction_id }}
-        </td>
-        <!-- Provider Transaction ID -->
-        <td class="px-4 py-2">
-          <span *ngIf="transaction.provider_transaction_id; else noProviderId">
-            {{ transaction.provider_transaction_id }}
-          </span>
-          <ng-template #noProviderId>N/A</ng-template>
-        </td>
-        <!-- Phone -->
-        <td class="px-4 py-2 text-gray-600">
-          {{ transaction.phone_number }}
-        </td>
-        <!-- Amount -->
-        <td class="px-4 py-2 text-green-600 font-bold">
-          {{ transaction.amount | number : "1.0-0" }} XAF
-        </td>
-        <!-- Fees -->
-        <td class="px-4 py-2 text-gray-600">
-          <span *ngIf="transaction.fees; else noFees">
-            {{ transaction.fees | number : "1.0-0" }} XAF
-          </span>
-          <ng-template #noFees>N/A</ng-template>
-        </td>
-        <!-- Date -->
-        <td class="px-4 py-2 text-gray-500">
-          {{ transaction.created_at | date : "short" }}
-        </td>
-        <!-- Status -->
-        <td class="px-4 py-2">
-          <span
-            *ngIf="transaction.status === 'success'"
-            class="inline-flex items-center px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full"
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-medium text-gray-500"
+              >Transaction ID</span
+            >
+            <span
+              class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full"
+              [ngClass]="{
+                'text-green-800 bg-green-100': transaction.status === 'success',
+                'text-yellow-800 bg-yellow-100':
+                  transaction.status === 'pending',
+                'text-red-800 bg-red-100': transaction.status === 'failed'
+              }"
+            >
+              {{
+                transaction.status === "success"
+                  ? "Success"
+                  : transaction.status === "pending"
+                  ? "Pending"
+                  : "Failed"
+              }}
+            </span>
+          </div>
+          <p class="font-medium text-gray-800 mb-4">
+            {{ transaction.transaction_id }}
+          </p>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <span class="text-xs font-medium text-gray-500">Phone</span>
+              <p class="text-gray-800">{{ transaction.phone_number }}</p>
+            </div>
+            <div>
+              <span class="text-xs font-medium text-gray-500">Date</span>
+              <p class="text-gray-800">
+                {{ transaction.created_at | date : "short" }}
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-medium text-gray-500">Amount</span>
+              <p class="text-green-600 font-semibold">
+                {{ transaction.amount | number : "1.0-0" }} XAF
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-medium text-gray-500">Fees</span>
+              <p class="text-gray-800">
+                <span *ngIf="transaction.fees; else noFeesMobile">
+                  {{ transaction.fees | number : "1.0-0" }} XAF
+                </span>
+                <ng-template #noFeesMobile>N/A</ng-template>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop View (Table Layout) -->
+    <div class="hidden lg:block overflow-x-auto">
+      <table class="w-full">
+        <!-- Table Header -->
+        <thead class="border-b border-gray-200 bg-gray-50">
+          <tr>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Transaction ID
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Phone
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Amount
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Fees
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Date
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Status
+            </th>
+          </tr>
+        </thead>
+
+        <!-- Table Body -->
+        <tbody class="divide-y divide-gray-200">
+          <tr
+            *ngFor="let transaction of txn"
+            class="hover:bg-gray-50 transition-colors duration-150"
           >
-            ✔ Success
-          </span>
-          <span
-            *ngIf="transaction.status === 'pending'"
-            class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-800 bg-yellow-100 rounded-full"
-          >
-            ⏳ Pending
-          </span>
-          <span
-            *ngIf="transaction.status === 'failed'"
-            class="inline-flex items-center px-2 py-1 text-xs font-medium text-red-800 bg-red-100 rounded-full"
-          >
-            ✖ Failed
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            <!-- Transaction ID -->
+            <td
+              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-700"
+            >
+              {{ transaction.transaction_id }}
+            </td>
+
+            <!-- Phone -->
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+              {{ transaction.phone_number }}
+            </td>
+
+            <!-- Amount -->
+            <td
+              class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600"
+            >
+              {{ transaction.amount | number : "1.0-0" }} XAF
+            </td>
+
+            <!-- Fees -->
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+              <span *ngIf="transaction.fees; else noFees">
+                {{ transaction.fees | number : "1.0-0" }} XAF
+              </span>
+              <ng-template #noFees>
+                <span class="text-gray-400">N/A</span>
+              </ng-template>
+            </td>
+
+            <!-- Date -->
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+              {{ transaction.created_at | date : "medium" }}
+            </td>
+
+            <!-- Status -->
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                [ngClass]="{
+                  'bg-green-100 text-green-800':
+                    transaction.status === 'success',
+                  'bg-yellow-100 text-yellow-800':
+                    transaction.status === 'pending',
+                  'bg-red-100 text-red-800': transaction.status === 'failed'
+                }"
+              >
+                <span
+                  class="h-1.5 w-1.5 rounded-full mr-1.5"
+                  [ngClass]="{
+                    'bg-green-600': transaction.status === 'success',
+                    'bg-yellow-600': transaction.status === 'pending',
+                    'bg-red-600': transaction.status === 'failed'
+                  }"
+                ></span>
+                {{
+                  transaction.status === "success"
+                    ? "Success"
+                    : transaction.status === "pending"
+                    ? "Pending"
+                    : "Failed"
+                }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- No Pagination -->
+    <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+      <p class="text-sm text-gray-700">
+        Showing all
+        <span class="font-medium">{{ txn.length }}</span> transactions
+      </p>
+    </div>
+  </div>
 </div>

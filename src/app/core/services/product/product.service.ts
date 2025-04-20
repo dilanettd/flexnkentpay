@@ -5,6 +5,7 @@ import {
   IProductImage,
   IProductReview,
   IShopReview,
+  IUpdateProduct,
 } from '../../models/product.model';
 import { catchError, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -25,11 +26,24 @@ export class ProductService {
       .pipe(catchError(handleHttpError));
   }
 
+  // Update a product by ID
+  public updateProduct(
+    id: number,
+    product: IUpdateProduct
+  ): Observable<IProduct> {
+    return this.http
+      .put<IProduct>(`${this.apiUrl}/product/${id}`, product)
+      .pipe(catchError(handleHttpError));
+  }
+
+  public deleteProductImage(imageId: number): Observable<{}> {
+    return this.http
+      .delete<{}>(`${this.apiUrl}/product-images/${imageId}`)
+      .pipe(catchError(handleHttpError));
+  }
+
   // Add images to a specific product
-  public addImageToProduct(
-    productId: number,
-    image: FormData
-  ): Observable<IProductImage> {
+  public addImageToProduct(image: FormData): Observable<IProductImage> {
     return this.http
       .post<IProductImage>(`${this.apiUrl}/product-images`, image)
       .pipe(catchError(handleHttpError));

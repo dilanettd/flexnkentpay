@@ -1,113 +1,253 @@
-<div class="mx-auto mt-6">
-  <div class="flex justify-between items-center mb-6">
-    <h3 class="text-xl sm:text-2xl text-gray-800 font-semibold">
+<div class="container mx-auto px-2 py-4">
+  <div class="flex justify-between items-center mb-4">
+    <h2
+      class="text-2xl font-heading font-semibold text-gray-800 gradient-underline flex items-center"
+    >
+      <span class="bg-primary-600 w-2 h-10 mr-3 rounded-full"></span>
       My Purchases
-    </h3>
+    </h2>
   </div>
-</div>
-<div *ngIf="isLoading" class="text-center my-6">
-  <p>Loading orders...</p>
-</div>
-<div
-  *ngIf="!isLoading && !error && orders.length === 0"
-  class="text-center my-6"
->
-  <div class="flex flex-col items-center justify-center text-center">
-    <img
-      src="assets/images/empty-state.jpg"
-      alt="No items found"
-      class="mb-4 h-32 w-32 sm:h-48 sm:w-48 lg:h-72 lg:w-72 object-contain"
-    />
-    <p class="text-gray-500">No purchases found.</p>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="flex justify-center items-center py-16">
+    <div
+      class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"
+    ></div>
+    <p class="ml-3 text-gray-600">Loading your purchases...</p>
   </div>
-</div>
-<div
-  *ngIf="orders.length > 0"
-  class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6"
->
+
+  <!-- Empty State -->
   <div
-    *ngFor="let order of orders"
-    class="border rounded-lg shadow-xl p-6 bg-white flex flex-col md:flex-row gap-6 hover:shadow-2xl transition-shadow duration-300 ease-in-out"
+    *ngIf="!isLoading && !error && orders.length === 0"
+    class="bg-gray-50 rounded-xl p-12 text-center my-8 shadow-sm border border-gray-200"
   >
-    <!-- Product Section -->
-    <div class="flex items-center gap-6 md:w-2/3">
-      <img
-        [src]="
-          order.product.images[0]?.image_url ||
-          'https://via.placeholder.com/100'
-        "
-        alt="{{ order.product.name }}"
-        class="w-28 h-28 rounded-xl object-cover border-2 border-gray-300 transition-transform duration-300 ease-in-out transform hover:scale-105"
-      />
-      <div class="w-full">
-        <h3
-          class="text-xl font-semibold text-[#0167F3] mb-2 hover:text-[#0146b1] truncate"
-          title="{{ order.product.name }}"
+    <div class="flex flex-col items-center justify-center text-center">
+      <div class="bg-gray-100 p-6 rounded-full mb-6">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-16 w-16 text-gray-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
         >
-          {{ order.product.name }}
-        </h3>
-        <p class="text-sm text-gray-600 mb-1">
-          Quantity: <span class="font-semibold">{{ order.quantity }}</span>
-        </p>
-        <p class="text-sm text-gray-600 mb-1">
-          Total Cost:
-          <span class="font-semibold"
-            >{{ order.total_cost | number : "1.0-0" }} XAF</span
-          >
-        </p>
-        <p class="text-sm text-gray-600 mb-1">
-          Installment:
-          <span class="font-semibold"
-            >{{ order.installment_amount | number : "1.0-0" }} XAF</span
-          >
-        </p>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+          />
+        </svg>
       </div>
+      <h4 class="h4 text-gray-800 mb-3">No purchases yet</h4>
+      <p class="text-gray-600 mb-6 max-w-md mx-auto">
+        You haven't made any purchases yet. Start exploring our products and
+        find something you love!
+      </p>
+      <button class="btn btn-primary">Browse Products</button>
     </div>
-    <!-- Installments Section -->
-    <div class="flex gap-4 w-full flex-wrap">
-      <div
-        *ngFor="let payment of order.order_payments"
-        class="relative flex flex-col items-center justify-between w-full sm:w-1/5 p-4 border-2 border-gray-300 rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:scale-95"
-        [ngClass]="{
-          'bg-gray-200 text-white cursor-pointer': payment.status === 'pending',
-          'bg-gray-50 text-black cursor-not-allowed':
-            payment.status === 'success'
-        }"
-        (click)="payment.status === 'pending' && openPaymentModal(payment)"
-      >
-        <p class="text-xs font-medium text-gray-700">
-          {{ payment.installment_number }}
-        </p>
-        <p class="text-sm font-semibold text-gray-800">
-          {{ payment.amount_paid | number : "1.0-0" }} {{ " XAF" }}
-        </p>
-        <!-- Date Section -->
-        <p
-          class="text-xs text-gray-600 mt-2 truncate"
-          *ngIf="payment.status === 'success'"
+  </div>
+
+  <!-- Error State -->
+  <div
+    *ngIf="!isLoading && error"
+    class="bg-red-50 rounded-xl p-8 text-center my-8 shadow-sm border border-red-200"
+  >
+    <div class="flex flex-col items-center justify-center text-center">
+      <div class="bg-red-100 p-4 rounded-full mb-6">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-12 w-12 text-red-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
         >
-          Date: {{ payment.payment_date | date : "shortDate" }}
-        </p>
-        <p
-          class="text-xs text-gray-600 mt-2 truncate"
-          *ngIf="payment.status === 'pending'"
-        >
-          Due Date: {{ payment.due_date | date : "shortDate" }}
-        </p>
-        <!-- Progress Bar -->
-        <span
-          class="w-full h-2 rounded-sm mt-2"
-          [ngStyle]="{
-            backgroundColor:
-              payment.status === 'success' ? '#039422' : '#ffda33'
-          }"
-        ></span>
-        <!-- Tooltip -->
-        <div
-          *ngIf="payment.status === 'pending'"
-          class="absolute left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-gray-600 text-white text-xs rounded-md opacity-0 hover:opacity-100 transition-opacity duration-200 z-10"
-        >
-          Click to pay
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </div>
+      <h4 class="h4 text-gray-800 mb-3">Oops! Something went wrong</h4>
+      <p class="text-gray-600 mb-6">{{ error }}</p>
+      <button class="btn btn-primary" (click)="fetchUserOrders()">
+        Try Again
+      </button>
+    </div>
+  </div>
+
+  <!-- Purchases List -->
+  <div *ngIf="orders.length > 0" class="space-y-6">
+    <div
+      *ngFor="let order of orders"
+      class="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300"
+    >
+      <!-- Order Header -->
+      <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+        <div class="flex flex-wrap justify-between items-center">
+          <div>
+            <span class="text-xs font-medium text-gray-500">Order ID</span>
+            <p class="font-medium text-gray-800">{{ order.id }}</p>
+          </div>
+          <div class="flex space-x-6">
+            <div>
+              <span class="text-xs font-medium text-gray-500">Order Date</span>
+              <p class="font-medium text-gray-800">
+                {{ order.created_at | date }}
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-medium text-gray-500">Status</span>
+              <p
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+              >
+                Active
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Section -->
+      <div class="p-6">
+        <div class="flex flex-col md:flex-row gap-8">
+          <!-- Product Image and Details -->
+          <div
+            class="flex flex-col sm:flex-row items-start sm:items-center gap-6 md:w-1/2"
+          >
+            <div class="relative group">
+              <div
+                class="absolute -inset-0.5 bg-gradient-to-r from-primary-600 to-primary-400 rounded-xl opacity-75 group-hover:opacity-100 blur-sm transition duration-300"
+              ></div>
+              <img
+                [src]="
+                  order.product.images[0]?.image_url ||
+                  'https://via.placeholder.com/150'
+                "
+                alt="{{ order.product.name }}"
+                class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-lg object-cover shadow-md transition-all duration-300 group-hover:scale-105"
+              />
+            </div>
+            <div>
+              <h3
+                class="text-xl font-semibold text-primary-600 mb-2 hover:text-primary-700 transition-colors"
+              >
+                {{ order.product.name }}
+              </h3>
+              <div class="grid grid-cols-2 gap-x-8 gap-y-2">
+                <div>
+                  <span class="text-xs font-medium text-gray-500"
+                    >Quantity</span
+                  >
+                  <p class="font-semibold text-gray-800">
+                    {{ order.quantity }}
+                  </p>
+                </div>
+                <div>
+                  <span class="text-xs font-medium text-gray-500"
+                    >Total Cost</span
+                  >
+                  <p class="font-semibold text-gray-800">
+                    {{ order.total_cost | number : "1.0-0" }} XAF
+                  </p>
+                </div>
+                <div>
+                  <span class="text-xs font-medium text-gray-500"
+                    >Installment</span
+                  >
+                  <p class="font-semibold text-gray-800">
+                    {{ order.installment_amount | number : "1.0-0" }} XAF
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Installments Section -->
+          <div class="md:w-1/2 mt-6 md:mt-0">
+            <div class="mb-3">
+              <h4 class="text-sm font-semibold text-gray-700">
+                Payment Installments
+              </h4>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
+              <div
+                *ngFor="let payment of order.order_payments"
+                class="relative group"
+                [ngClass]="{
+                  'cursor-pointer': payment.status === 'pending',
+                  'cursor-default': payment.status === 'success'
+                }"
+                (click)="
+                  payment.status === 'pending' && openPaymentModal(payment)
+                "
+              >
+                <!-- Card Background with Gradient Effect -->
+                <div
+                  class="absolute inset-0 rounded-lg transition-all duration-300"
+                  [ngClass]="{
+                    'bg-gray-100 group-hover:bg-gray-200':
+                      payment.status === 'pending',
+                    'bg-green-50': payment.status === 'success'
+                  }"
+                ></div>
+
+                <!-- Payment Card Content -->
+                <div class="relative flex flex-col p-4 h-full">
+                  <!-- Payment Amount -->
+                  <div class="mb-3 pt-2">
+                    <span class="block text-xs text-gray-500 mb-1">Amount</span>
+                    <span class="font-bold text-gray-800"
+                      >{{ payment.amount_paid | number : "1.0-0" }} XAF</span
+                    >
+                  </div>
+
+                  <!-- Payment Date -->
+                  <div class="mt-auto">
+                    <span class="block text-xs text-gray-500 mb-1">
+                      {{
+                        payment.status === "success" ? "Paid on" : "Due Date"
+                      }}
+                    </span>
+                    <span
+                      class="text-sm"
+                      [ngClass]="{
+                        'text-gray-600': payment.status === 'success',
+                        'text-yellow-600 font-medium':
+                          payment.status === 'pending'
+                      }"
+                    >
+                      {{
+                        payment.status === "success"
+                          ? (payment.payment_date | date : "mediumDate")
+                          : (payment.due_date | date : "mediumDate")
+                      }}
+                    </span>
+                  </div>
+
+                  <!-- Status Indicator Bar -->
+                  <div class="w-full h-1.5 rounded-full mt-4 overflow-hidden">
+                    <div
+                      class="h-full rounded-full"
+                      [ngClass]="{
+                        'bg-green-500': payment.status === 'success',
+                        'bg-yellow-400': payment.status === 'pending'
+                      }"
+                    ></div>
+                  </div>
+
+                  <!-- Pay Button for Pending Payments -->
+                  <div
+                    *ngIf="payment.status === 'pending'"
+                    class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  >
+                    <button class="btn btn-sm btn-primary">Pay Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
