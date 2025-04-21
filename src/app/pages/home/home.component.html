@@ -1,94 +1,133 @@
 <!-- Start Hero Area -->
-<section class="relative overflow-hidden">
-  <div class="container mx-auto px-4">
-    <div class="hero-slider">
-      <!-- Start Single Slider -->
+<section class="relative overflow-hidden hero-section">
+  <div class="hero-slider">
+    <!-- Hero Slides - Dynamic Content -->
+    <div *ngFor="let slide of heroSlides" class="hero-slide-item">
       <div
-        class="relative min-h-[400px] md:min-h-[500px] rounded-2xl overflow-hidden"
+        class="relative min-h-[550px] md:min-h-[650px] overflow-hidden rounded-2xl mx-2"
       >
         <div
-          class="absolute inset-0 bg-cover bg-center"
-          style="background-image: url(assets/images/hero/slider-bg1.jpg)"
+          class="absolute inset-0 bg-cover bg-center transform transition-transform duration-700 hover:scale-105"
+          [style.background-image]="'url(' + slide.image + ')'"
         >
-          <div class="absolute inset-0 bg-black/40"></div>
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-black/80 to-black/50"
+          ></div>
         </div>
-        <div class="relative h-full flex items-center p-6 md:p-12">
-          <div class="max-w-xl">
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">
-              <span class="block mb-2">Transform Your Payment</span>
-              Habits
+        <div
+          class="container mx-auto px-4 py-24 relative h-full flex items-center"
+        >
+          <div class="max-w-2xl animate-fade-in-right">
+            <h2
+              class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight"
+            >
+              {{ slide.title }}
             </h2>
-            <p class="text-white/90 text-sm md:text-base mb-6">
-              Explore our innovative payment solutions that simplify and enhance
-              your financial operations, ensuring seamless and secure
-              transactions
+            <p class="text-white/90 text-lg md:text-xl mb-10 leading-relaxed">
+              {{ slide.subtitle }}
             </p>
-            <a href="product-grids.html" class="btn btn-primary"> Shop Now </a>
+            <a
+              [routerLink]="slide.buttonLink"
+              class="btn btn-primary bg-gradient-to-r from-primary-600 to-primary-500 text-white px-8 py-3 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300 font-medium flex items-center justify-center w-max"
+            >
+              {{ slide.buttonText }}
+              <i class="lni lni-arrow-right ml-2"></i>
+            </a>
           </div>
         </div>
       </div>
-      <!-- Similar structure for other slides -->
     </div>
   </div>
 </section>
 
-<!-- Start Trending Product Area -->
-<section class="py-12 bg-gray-50">
+<!-- SECTION 1: Trending Products Section with Modern Design -->
+<section class="py-20 bg-white">
   <div class="container mx-auto px-4">
-    <div class="text-center mb-12">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Trending Product</h2>
-      <p class="text-gray-600 max-w-2xl mx-auto">
-        There are many variations of passages of Lorem Ipsum available, but the
-        majority have suffered alteration in some form.
-      </p>
+    <div
+      class="flex flex-col md:flex-row md:items-start md:justify-between mb-12"
+    >
+      <div>
+        <span
+          class="text-primary-600 font-semibold text-sm uppercase tracking-wider inline-block bg-primary-50 px-3 py-1 rounded-full mb-3"
+          >What's Hot</span
+        >
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Trending Products</h2>
+        <div class="w-24 h-1 bg-primary-500 rounded-full mb-3"></div>
+        <p class="text-gray-600 max-w-xl">
+          Discover our most popular products that customers love right now
+        </p>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
       <div
         *ngFor="let product of recentProducts"
-        class="group bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 overflow-hidden"
+        class="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden h-full flex flex-col transform hover:-translate-y-2"
+        [routerLink]="['/product', product.id]"
       >
-        <!-- Image Container -->
-        <div class="relative pt-[75%]">
-          <!-- 4:3 Aspect Ratio -->
-          <img
-            [src]="
-              product.images[0].image_url || 'assets/images/default-product.jpg'
-            "
-            [alt]="product.name"
-            class="absolute inset-0 w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-300"
-          />
+        <!-- Badge position on top right corner -->
+        <div class="relative">
+          <!-- Image Container -->
+          <div class="relative overflow-hidden aspect-square">
+            <img
+              [src]="
+                product.images[0]?.image_url ||
+                'assets/images/default-product.jpg'
+              "
+              [alt]="product.name"
+              class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+            />
 
-          <span
-            *ngIf="product.min_installment_price"
-            class="absolute top-2 left-2 bg-blue-600 text-white text-xs font-medium px-2 py-1 rounded-full"
-          >
-            New
-          </span>
+            <!-- Overlay with gradient -->
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"
+            ></div>
 
-          <div
-            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
-          >
-            <a
-              [routerLink]="['/product', product.id]"
-              class="bg-white text-blue-600 hover:bg-blue-600 hover:text-white px-4 py-2 rounded-full text-sm font-medium transform hover:scale-105 transition-all duration-300 flex items-center space-x-2"
+            <!-- Quick action button -->
+            <div
+              class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
             >
-              <i class="lni lni-cart"></i>
-              <span>View Details</span>
-            </a>
+              <button
+                class="bg-white text-primary-600 hover:bg-primary-600 hover:text-white px-5 py-3 rounded-full text-sm font-medium transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 shadow-lg"
+              >
+                <i class="lni lni-eye mr-2"></i>
+                <span>View Details</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Badges -->
+          <div class="absolute top-3 left-3 flex flex-col gap-2">
+            <span
+              *ngIf="product.min_installment_price"
+              class="bg-blue-600 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm"
+            >
+              New
+            </span>
+          </div>
+
+          <div class="absolute top-3 right-3">
+            <span
+              *ngIf="product.installment_count > 1"
+              class="bg-green-600 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm"
+            >
+              {{ product.installment_count }}x
+            </span>
           </div>
         </div>
 
         <!-- Product Info -->
-        <div class="p-4">
-          <span class="text-xs text-gray-500">{{ product.category }}</span>
+        <div class="p-5 flex flex-col flex-grow">
+          <span class="text-xs text-gray-500 uppercase tracking-wider">{{
+            product.category
+          }}</span>
           <h3
-            class="font-semibold text-gray-800 text-sm md:text-base mt-1 mb-2 line-clamp-2"
+            class="font-semibold text-gray-800 text-base md:text-lg mt-1 mb-2 line-clamp-2 flex-grow"
           >
             {{ product.name }}
           </h3>
 
-          <div class="flex items-center space-x-1 mb-2">
+          <div class="flex items-center space-x-1 mb-3">
             <div class="flex text-yellow-400 text-sm">
               <i
                 *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
@@ -100,15 +139,16 @@
             <span class="text-xs text-gray-500">({{ product.rating }})</span>
           </div>
 
-          <div class="flex items-center justify-between">
+          <div
+            class="flex items-center justify-between mt-auto pt-3 border-t border-gray-100"
+          >
             <span class="text-lg font-bold text-gray-900">
               {{ product.price }} {{ product.currency }}
             </span>
             <button
-              [routerLink]="['/product', product.id]"
-              class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white flex items-center justify-center transition-colors duration-300"
+              class="w-10 h-10 rounded-full bg-primary-50 hover:bg-primary-600 text-primary-600 hover:text-white flex items-center justify-center transition-colors duration-300"
             >
-              <i class="lni lni-cart text-base md:text-lg"></i>
+              <i class="lni lni-cart text-lg"></i>
             </button>
           </div>
         </div>
@@ -117,46 +157,76 @@
   </div>
 </section>
 
-<!-- Start Top Shops Area -->
-<section class="py-12">
+<!-- SECTION 2: Top Shops Carousel Section with Modern Design -->
+<section class="py-20 bg-gray-50">
   <div class="container mx-auto px-4">
-    <div class="text-center mb-12">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Top Shops</h2>
-      <p class="text-gray-600 max-w-2xl mx-auto">
-        Discover the best-rated stores, offering exceptional quality and service
-      </p>
+    <div
+      class="flex flex-col md:flex-row md:items-start md:justify-between mb-12"
+    >
+      <div>
+        <span
+          class="text-primary-600 font-semibold text-sm uppercase tracking-wider inline-block bg-primary-50 px-3 py-1 rounded-full mb-3"
+          >Our Partners</span
+        >
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Top Rated Shops</h2>
+        <div class="w-24 h-1 bg-primary-500 rounded-full mb-3"></div>
+        <p class="text-gray-600 max-w-xl">
+          Discover the best-rated stores, offering exceptional quality and
+          service
+        </p>
+      </div>
     </div>
 
-    <owl-carousel-o [options]="customOptions" class="overflow-hidden">
+    <owl-carousel-o
+      [options]="customOptions"
+      class="overflow-hidden shop-carousel"
+    >
       <ng-container *ngFor="let shop of topRatedShops">
         <ng-template carouselSlide [id]="shop.id">
           <div
             [routerLink]="['/shop', shop.id]"
-            class="group bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 mx-2 overflow-hidden max-w-64 border"
+            class="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 mx-2 overflow-hidden border border-gray-100 cursor-pointer transform hover:-translate-y-2 w-64 h-80"
           >
-            <div class="relative pt-[75%]">
-              <img
-                [src]="shop.logo_url"
-                [alt]="'Logo de ' + shop.name"
-                class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-              />
+            <!-- Cover Image -->
+            <div class="relative overflow-hidden">
               <div
-                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center"
+                class="absolute inset-0 bg-gradient-to-b from-black/60 to-transparent"
+              ></div>
+              <img
+                [src]="
+                  shop.cover_photo_url || 'assets/images/shop-default-cover.jpg'
+                "
+                alt="Cover photo"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
+
+            <!-- Logo Centered on Cover Image -->
+            <div class="relative -mt-12 flex justify-center">
+              <div
+                class="w-24 h-24 rounded-full border-4 border-white bg-white overflow-hidden shadow-lg"
               >
-                <button
-                  class="bg-white px-4 py-2 rounded-full text-sm font-medium"
-                >
-                  <i class="fas fa-eye mr-2"></i>
-                  Visit
-                </button>
+                <img
+                  [src]="shop.logo_url || 'assets/images/shop-default-logo.jpg'"
+                  [alt]="'Logo de ' + shop.name"
+                  class="w-full h-full object-cover"
+                />
               </div>
             </div>
 
-            <div class="p-4">
+            <div class="p-5 text-center">
               <h3 class="font-bold text-gray-800 text-lg mb-2">
                 {{ shop.name }}
               </h3>
-              <div class="flex items-center space-x-1">
+
+              <div class="mt-4">
+                <button
+                  class="text-sm text-primary-600 hover:text-white font-medium flex items-center justify-center mx-auto group-hover:bg-primary-600 px-4 py-2 rounded-full transition-all duration-300 border border-primary-600"
+                >
+                  <i class="lni lni-store mr-2"></i> Visit Shop
+                </button>
+              </div>
+              <div class="flex items-center space-x-1 justify-center mb-2">
                 <div class="flex text-yellow-400">
                   <ng-container
                     *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
@@ -169,12 +239,306 @@
                     ></i>
                   </ng-container>
                 </div>
-                <span class="text-sm text-gray-500">{{ shop.rating }}</span>
+                <span class="text-sm text-gray-500">({{ shop.rating }})</span>
               </div>
             </div>
           </div>
         </ng-template>
       </ng-container>
     </owl-carousel-o>
+  </div>
+</section>
+
+<!-- SECTION 3: Top Categories Section with Tabs and Consistent Product Cards -->
+<section class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div
+      class="flex flex-col md:flex-row md:items-start md:justify-between mb-12"
+    >
+      <div>
+        <span
+          class="text-primary-600 font-semibold text-sm uppercase tracking-wider inline-block bg-primary-50 px-3 py-1 rounded-full mb-3"
+          >Discover</span
+        >
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Top Categories</h2>
+        <div class="w-24 h-1 bg-primary-500 rounded-full mb-3"></div>
+        <p class="text-gray-600 max-w-xl">
+          Browse the most popular categories with our best products selection
+        </p>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="flex justify-center items-center h-64">
+      <div
+        class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"
+      ></div>
+    </div>
+
+    <!-- Empty State -->
+    <div
+      *ngIf="!isLoading && (!topCategories || topCategories.length === 0)"
+      class="flex flex-col items-center justify-center py-16 bg-gray-50 rounded-2xl"
+    >
+      <div
+        class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6"
+      >
+        <i class="lni lni-search text-4xl text-gray-400"></i>
+      </div>
+      <h3 class="text-xl font-semibold text-gray-700 mb-3">
+        No Categories Found
+      </h3>
+      <p class="text-gray-500 text-center max-w-md">
+        We couldn't find any categories to display. Please check back later as
+        we add more products.
+      </p>
+    </div>
+
+    <!-- Categories Tabs -->
+    <div
+      *ngIf="!isLoading && topCategories && topCategories.length > 0"
+      class="category-tabs"
+    >
+      <!-- Tabs Navigation - Improved Design -->
+      <div
+        class="mb-10 border-b border-gray-200 overflow-x-auto hide-scrollbar"
+      >
+        <ul class="flex flex-nowrap whitespace-nowrap -mb-px justify-center">
+          <li
+            *ngFor="let category of topCategories; let i = index"
+            class="mx-1"
+          >
+            <button
+              [class]="
+                'inline-block py-3 px-6 md:px-8 font-medium text-sm md:text-base border-b-2 transition-colors duration-300 rounded-t-lg ' +
+                (activeTabIndex === i
+                  ? 'border-primary-600 text-primary-600 bg-white'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300')
+              "
+              (click)="activeTabIndex = i"
+            >
+              {{ category.category }}
+              <span
+                class="ml-2 text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full"
+                >{{ category.product_count }}</span
+              >
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Tabs Content -->
+      <div
+        class="tab-content bg-white rounded-2xl shadow-md p-8 border border-gray-100"
+      >
+        <div *ngFor="let category of topCategories; let i = index">
+          <div *ngIf="activeTabIndex === i" class="tab-pane fade-in">
+            <div class="mb-8">
+              <h3
+                class="text-2xl font-bold text-gray-800 mb-3 flex items-center"
+              >
+                <i class="lni lni-frame-expand text-primary-600 mr-3"></i>
+                {{ category.category }}
+              </h3>
+              <div class="w-20 h-1 bg-primary-500 rounded-full"></div>
+            </div>
+
+            <!-- Empty State for Products -->
+            <div
+              *ngIf="!category.products || category.products.length === 0"
+              class="flex flex-col items-center justify-center py-16 bg-gray-50 rounded-2xl"
+            >
+              <div
+                class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4"
+              >
+                <i class="lni lni-package text-3xl text-gray-400"></i>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-700 mb-2">
+                No Products Found
+              </h4>
+              <p class="text-gray-500 text-center max-w-md">
+                There are no products available in this category at the moment.
+              </p>
+            </div>
+
+            <!-- Products Grid - Using the SAME Card Design as Trending Products -->
+            <div
+              *ngIf="category.products && category.products.length > 0"
+              class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8"
+            >
+              <div
+                *ngFor="let product of category.products.slice(0, 5)"
+                class="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden h-full flex flex-col transform hover:-translate-y-2"
+                [routerLink]="['/product', product.id]"
+              >
+                <!-- Badge position on top right corner -->
+                <div class="relative">
+                  <!-- Image Container -->
+                  <div class="relative overflow-hidden aspect-square">
+                    <img
+                      [src]="
+                        (product.images && product.images[0]?.image_url) ||
+                        'assets/images/default-product.jpg'
+                      "
+                      [alt]="product.name"
+                      class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                    />
+
+                    <!-- Overlay with gradient -->
+                    <div
+                      class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    ></div>
+
+                    <!-- Quick action button -->
+                    <div
+                      class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    >
+                      <button
+                        class="bg-white text-primary-600 hover:bg-primary-600 hover:text-white px-5 py-3 rounded-full text-sm font-medium transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 shadow-lg"
+                      >
+                        <i class="lni lni-eye mr-2"></i>
+                        <span>View Details</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Badges -->
+                  <div class="absolute top-3 left-3 flex flex-col gap-2">
+                    <span
+                      *ngIf="product.min_installment_price"
+                      class="bg-blue-600 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm"
+                    >
+                      New
+                    </span>
+                  </div>
+
+                  <div class="absolute top-3 right-3">
+                    <span
+                      *ngIf="product.installment_count > 1"
+                      class="bg-green-600 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm"
+                    >
+                      {{ product.installment_count }}x
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="p-5 flex flex-col flex-grow">
+                  <span
+                    class="text-xs text-gray-500 uppercase tracking-wider"
+                    >{{ product.category }}</span
+                  >
+                  <h3
+                    class="font-semibold text-gray-800 text-base md:text-lg mt-1 mb-2 line-clamp-2 flex-grow"
+                  >
+                    {{ product.name }}
+                  </h3>
+
+                  <div class="flex items-center space-x-1 mb-3">
+                    <div class="flex text-yellow-400 text-sm">
+                      <i
+                        *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                        [class]="
+                          i < product.rating
+                            ? 'lni lni-star-filled'
+                            : 'lni lni-star'
+                        "
+                      ></i>
+                    </div>
+                    <span class="text-xs text-gray-500"
+                      >({{ product.rating }})</span
+                    >
+                  </div>
+
+                  <div
+                    class="flex items-center justify-between mt-auto pt-3 border-t border-gray-100"
+                  >
+                    <span class="text-lg font-bold text-gray-900">
+                      {{ product.price }} {{ product.currency }}
+                    </span>
+                    <button
+                      class="w-10 h-10 rounded-full bg-primary-50 hover:bg-primary-600 text-primary-600 hover:text-white flex items-center justify-center transition-colors duration-300"
+                    >
+                      <i class="lni lni-cart text-lg"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: Features / Why Choose Us Section - Now at the bottom -->
+<section class="bg-gray-50 py-20">
+  <div class="container mx-auto px-4">
+    <div
+      class="flex flex-col md:flex-row md:items-start md:justify-between mb-12"
+    >
+      <div>
+        <span
+          class="text-primary-600 font-semibold text-sm uppercase tracking-wider inline-block bg-primary-50 px-3 py-1 rounded-full mb-3"
+          >Why Choose Us</span
+        >
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">
+          Shop with Confidence
+        </h2>
+        <div class="w-24 h-1 bg-primary-500 rounded-full mb-3"></div>
+        <p class="text-gray-600 max-w-xl">
+          FlexnKentPay offers you the best shopping experience with flexible
+          payment options
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Feature 1 -->
+      <div
+        class="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-2"
+      >
+        <div
+          class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6"
+        >
+          <i class="lni lni-credit-cards text-3xl text-primary-600"></i>
+        </div>
+        <h3 class="text-2xl font-semibold mb-4">Flexible Payments</h3>
+        <p class="text-gray-600 leading-relaxed">
+          Pay in installments that fit your budget and financial plan
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div
+        class="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-2"
+      >
+        <div
+          class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6"
+        >
+          <i class="lni lni-shield text-3xl text-primary-600"></i>
+        </div>
+        <h3 class="text-2xl font-semibold mb-4">Secure Transactions</h3>
+        <p class="text-gray-600 leading-relaxed">
+          All payments are protected with state-of-the-art security
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div
+        class="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-2"
+      >
+        <div
+          class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6"
+        >
+          <i class="lni lni-customer text-3xl text-primary-600"></i>
+        </div>
+        <h3 class="text-2xl font-semibold mb-4">Customer Support</h3>
+        <p class="text-gray-600 leading-relaxed">
+          Our dedicated team is ready to assist you with any questions
+        </p>
+      </div>
+    </div>
   </div>
 </section>

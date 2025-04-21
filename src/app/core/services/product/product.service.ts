@@ -68,6 +68,58 @@ export class ProductService {
       .pipe(catchError(handleHttpError));
   }
 
+  // Add to existing ProductService in src/app/core/services/product/product.service.ts
+
+  /**
+   * Get top categories with the most products
+   *
+   * @param limit Optional limit parameter (default: 5)
+   * @returns Observable with top categories
+   */
+  public getTopCategories(limit: number = 5): Observable<any> {
+    return this.http
+      .get<any>(`${this.apiUrl}/categories/top`, {
+        params: { limit: limit.toString() },
+      })
+      .pipe(catchError(handleHttpError));
+  }
+
+  /**
+   * Get products by category
+   *
+   * @param category Category name
+   * @param limit Optional limit parameter (default: 4)
+   * @returns Observable with products in the category
+   */
+  public getProductsByCategory(
+    category: string,
+    limit: number = 4
+  ): Observable<IProduct[]> {
+    return this.http
+      .get<IProduct[]>(`${this.apiUrl}/products/search`, {
+        params: {
+          category: category,
+          limit: limit.toString(),
+        },
+      })
+      .pipe(catchError(handleHttpError));
+  }
+
+  //Get top categories with their products in a single request
+  public getTopCategoriesWithProducts(
+    categoryLimit: number = 5,
+    productLimit: number = 10
+  ): Observable<any[]> {
+    return this.http
+      .get<any[]>(`${this.apiUrl}/categories/top-with-products`, {
+        params: {
+          categoryLimit: categoryLimit.toString(),
+          productLimit: productLimit.toString(),
+        },
+      })
+      .pipe(catchError(handleHttpError));
+  }
+
   // Get product using the QR code
   public getProductByCode(code: string): Observable<IProduct> {
     return this.http

@@ -363,15 +363,11 @@
 
       <button
         type="submit"
-        [disabled]="
-          (currentStep === 2 && orderForm.get('phone_number')?.invalid) ||
-          (currentStep === 1 && orderForm.invalid)
-        "
+        [disabled]="currentStep === 2 && orderForm.get('phone_number')?.invalid"
         class="btn btn-primary"
         [ngClass]="{
           'opacity-50 cursor-not-allowed':
-            (currentStep === 2 && orderForm.get('phone_number')?.invalid) ||
-            (currentStep === 1 && orderForm.invalid)
+            currentStep === 2 && orderForm.get('phone_number')?.invalid
         }"
       >
         <span *ngIf="currentStep === 1">
