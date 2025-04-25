@@ -14,6 +14,7 @@ import { IUser } from '../../../../core/models/auth.state.model';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { UserService } from '../../../../core/services/user/user.service';
 import { ButtonSpinnerComponent } from '../../../../shared/components/button-spinner/button-spinner.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-profile',
@@ -23,6 +24,7 @@ import { ButtonSpinnerComponent } from '../../../../shared/components/button-spi
     ReactiveFormsModule,
     CommonModule,
     ButtonSpinnerComponent,
+    TranslateModule,
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
@@ -42,6 +44,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private toastr = inject(ToastrService);
+  private translateService = inject(TranslateService);
 
   ngOnInit(): void {
     this.profileFormInit();
@@ -99,7 +102,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
         .updateProfilePicture(this.selectedProfileFile)
         .subscribe({
           next: (me) => {
-            this.toastr.success('Photo de profil mise à jour avec succès!');
+            this.toastr.success(
+              this.translateService.instant('PROFILE.MESSAGES.UPLOAD_SUCCESS')
+            );
             this.authService.setUser(me);
             if (me.profile_url) this.profileUrl = me.profile_url;
             this.isLoading = false;
@@ -109,13 +114,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.isLoading = false;
             const errorMessage =
               err.error?.message ||
-              "Une erreur s'est produite lors de la mise à jour de l'image de profil.";
+              this.translateService.instant('PROFILE.MESSAGES.UPLOAD_ERROR');
             this.toastr.error(errorMessage);
           },
         });
       this.subscriptions.add(saveProfileSubscription);
     } else {
-      this.toastr.warning('Veuillez sélectionner une image à télécharger.');
+      this.toastr.warning(
+        this.translateService.instant('PROFILE.MESSAGES.SELECT_IMAGE')
+      );
     }
   }
 
@@ -129,7 +136,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
         .updateProfile(userUpdateData)
         .subscribe({
           next: (me: IUser) => {
-            this.toastr.success('Profil mis à jour avec succès!');
+            this.toastr.success(
+              this.translateService.instant(
+                'PROFILE.MESSAGES.PROFILE_UPDATE_SUCCESS'
+              )
+            );
             this.authService.setUser(me);
             this.isLoading = false;
             this.isEditMode = false;
@@ -138,7 +149,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.isLoading = false;
             const errorMessage =
               err.error?.message ||
-              'Une erreur est survenue lors de la mise à jour du profil.';
+              this.translateService.instant(
+                'PROFILE.MESSAGES.PROFILE_UPDATE_ERROR'
+              );
             this.toastr.error(errorMessage);
           },
         });
@@ -149,7 +162,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   togglePasswordSection() {
-    this.toastr.info('Fonctionnalité de changement de mot de passe à venir');
+    this.toastr.info(
+      this.translateService.instant('PROFILE.MESSAGES.PASSWORD_FEATURE')
+    );
   }
 
   validateAllFormFields(formGroup: UntypedFormGroup) {

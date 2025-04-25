@@ -6,8 +6,12 @@
     >
       <i class="bi bi-credit-card text-primary-600 text-2xl"></i>
     </div>
-    <h1 class="h3 text-primary-600 mb-1">Confirm Payment</h1>
-    <p class="text-gray-500 text-sm">Complete your transaction securely</p>
+    <h1 class="h3 text-primary-600 mb-1">
+      {{ "PAYMENT.CONFIRMATION.TITLE" | translate }}
+    </h1>
+    <p class="text-gray-500 text-sm">
+      {{ "PAYMENT.CONFIRMATION.SUBTITLE" | translate }}
+    </p>
   </div>
 
   <form [formGroup]="paymentForm" (ngSubmit)="validatePayment()" class="card">
@@ -22,7 +26,9 @@
         <div
           class="flex flex-col items-center bg-gray-50 rounded-lg p-4 border border-gray-100"
         >
-          <span class="text-sm text-gray-700 mb-2">Amount to pay:</span>
+          <span class="text-sm text-gray-700 mb-2">{{
+            "PAYMENT.CONFIRMATION.AMOUNT" | translate
+          }}</span>
           <span class="text-2xl font-bold text-primary-600">
             {{ order_payment.amount_paid | number : "1.0-0" }}
             <span class="text-sm font-normal">XAF</span>
@@ -33,7 +39,8 @@
       <!-- Phone Number Input -->
       <div class="form-group mb-4">
         <label for="phone_number" class="form-label flex items-center">
-          <i class="bi bi-phone text-primary-500 mr-2"></i>Mobile Money Number
+          <i class="bi bi-phone text-primary-500 mr-2"></i
+          >{{ "PAYMENT.CONFIRMATION.MOBILE_MONEY" | translate }}
         </label>
         <div class="relative">
           <input
@@ -41,7 +48,7 @@
             id="phone_number"
             formControlName="phone_number"
             phoneFormat
-            placeholder="e.g., 677123456"
+            placeholder="{{ 'PAYMENT.CONFIRMATION.PLACEHOLDER' | translate }}"
             class="input w-full focus:border-primary-500 transition-colors pl-10"
             [ngClass]="{
               'border-red-500': phoneControl?.invalid && phoneControl?.touched
@@ -58,7 +65,7 @@
           class="form-error"
         >
           <span *ngIf="phoneControl?.errors?.required">
-            Mobile money number is required
+            {{ "PAYMENT.CONFIRMATION.VALIDATION.REQUIRED" | translate }}
           </span>
           <span
             *ngIf="
@@ -66,15 +73,14 @@
               phoneControl?.errors?.cameroonPhone
             "
           >
-            The number must be a valid Cameroonian number (9 digits starting
-            with 6)
+            {{ "PAYMENT.CONFIRMATION.VALIDATION.VALID_NUMBER" | translate }}
           </span>
           <span
             *ngIf="
               phoneControl?.errors?.minlength || phoneControl?.errors?.maxlength
             "
           >
-            The number must contain exactly 9 digits
+            {{ "PAYMENT.CONFIRMATION.VALIDATION.LENGTH" | translate }}
           </span>
         </div>
       </div>
@@ -89,8 +95,7 @@
           </div>
           <div class="ml-3">
             <p class="text-sm text-yellow-800">
-              You will receive a payment confirmation request on your mobile
-              phone. Please confirm to complete the transaction.
+              {{ "PAYMENT.CONFIRMATION.INSTRUCTIONS" | translate }}
             </p>
           </div>
         </div>
@@ -99,7 +104,7 @@
       <!-- Payment security info -->
       <div class="flex items-center justify-center text-gray-500 text-xs mb-4">
         <i class="bi bi-shield-lock mr-2"></i>
-        <span>Your payment is secured with end-to-end encryption</span>
+        <span>{{ "PAYMENT.CONFIRMATION.SECURITY" | translate }}</span>
       </div>
     </div>
 
@@ -112,7 +117,7 @@
         class="btn btn-outline-secondary"
         (click)="closeModal()"
       >
-        Cancel
+        {{ "PAYMENT.CONFIRMATION.CANCEL" | translate }}
       </button>
 
       <button
@@ -125,11 +130,13 @@
       >
         <ng-container *ngIf="isSubmitting; else btnText">
           <spinner></spinner>
-          <span class="ml-2">Processing...</span>
+          <span class="ml-2">{{
+            "PAYMENT.CONFIRMATION.PROCESSING" | translate
+          }}</span>
         </ng-container>
         <ng-template #btnText>
           <i class="bi bi-check-circle mr-2"></i>
-          <span>Confirm Payment</span>
+          <span>{{ "PAYMENT.CONFIRMATION.CONFIRM" | translate }}</span>
         </ng-template>
       </button>
     </div>
@@ -146,16 +153,20 @@
           class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-primary-600"
         ></div>
       </div>
-      <h3 class="text-lg font-bold mb-2">Processing Payment</h3>
+      <h3 class="text-lg font-bold mb-2">
+        {{ "PAYMENT.PROCESSING.TITLE" | translate }}
+      </h3>
       <p class="text-sm text-gray-600 mb-4">
-        Please check your phone and confirm the payment request.
+        {{ "PAYMENT.PROCESSING.DESCRIPTION" | translate }}
       </p>
 
       <!-- Added processing steps -->
       <div
         class="flex flex-col items-start text-left border-t border-gray-200 pt-4 mt-2"
       >
-        <p class="text-sm font-medium text-gray-700 mb-2">Payment process:</p>
+        <p class="text-sm font-medium text-gray-700 mb-2">
+          {{ "PAYMENT.PROCESSING.STEPS.TITLE" | translate }}
+        </p>
         <div class="space-y-2 w-full">
           <div class="flex items-center">
             <div
@@ -163,17 +174,23 @@
             >
               <i class="bi bi-check text-white text-xs"></i>
             </div>
-            <span class="text-sm text-gray-600">Request sent</span>
+            <span class="text-sm text-gray-600">{{
+              "PAYMENT.PROCESSING.STEPS.SENT" | translate
+            }}</span>
           </div>
           <div class="flex items-center">
             <div
               class="w-5 h-5 rounded-full border-2 border-primary-600 border-t-transparent animate-spin mr-3"
             ></div>
-            <span class="text-sm text-gray-600">Waiting for confirmation</span>
+            <span class="text-sm text-gray-600">{{
+              "PAYMENT.PROCESSING.STEPS.WAITING" | translate
+            }}</span>
           </div>
           <div class="flex items-center opacity-50">
             <div class="w-5 h-5 rounded-full bg-gray-300 mr-3"></div>
-            <span class="text-sm text-gray-600">Finalizing transaction</span>
+            <span class="text-sm text-gray-600">{{
+              "PAYMENT.PROCESSING.STEPS.FINALIZING" | translate
+            }}</span>
           </div>
         </div>
       </div>

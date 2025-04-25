@@ -32,7 +32,7 @@ export const appConfig: ApplicationConfig = {
       withLocalStorage()
     ),
     TranslateModule.forRoot({
-      defaultLanguage: 'en',
+      defaultLanguage: 'fr', // Changé de 'en' à 'fr'
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,

@@ -4,7 +4,7 @@
       class="text-2xl font-heading font-semibold text-gray-800 gradient-underline flex items-center"
     >
       <span class="bg-primary-600 w-2 h-10 mr-3 rounded-full"></span>
-      My Transactions
+      {{ "TRANSACTIONS.TITLE" | translate }}
     </h2>
   </div>
 
@@ -13,7 +13,7 @@
     <div
       class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"
     ></div>
-    <p class="ml-3 text-gray-600">Loading your transactions...</p>
+    <p class="ml-3 text-gray-600">{{ "TRANSACTIONS.LOADING" | translate }}</p>
   </div>
 
   <!-- Empty State -->
@@ -38,12 +38,15 @@
           />
         </svg>
       </div>
-      <h4 class="h4 text-gray-800 mb-3">No transactions yet</h4>
+      <h4 class="h4 text-gray-800 mb-3">
+        {{ "TRANSACTIONS.EMPTY.TITLE" | translate }}
+      </h4>
       <p class="text-gray-600 mb-6 max-w-md mx-auto">
-        You haven't made any transactions yet. Complete a purchase to see your
-        transaction history here.
+        {{ "TRANSACTIONS.EMPTY.MESSAGE" | translate }}
       </p>
-      <button class="btn btn-primary">Browse Products</button>
+      <button class="btn btn-primary" routerLink="/products">
+        {{ "TRANSACTIONS.BUTTONS.BROWSE_PRODUCTS" | translate }}
+      </button>
     </div>
   </div>
 
@@ -69,9 +72,13 @@
           />
         </svg>
       </div>
-      <h4 class="h4 text-gray-800 mb-3">Oops! Something went wrong</h4>
+      <h4 class="h4 text-gray-800 mb-3">
+        {{ "TRANSACTIONS.ERROR.TITLE" | translate }}
+      </h4>
       <p class="text-gray-600 mb-6">{{ error }}</p>
-      <button class="btn btn-primary">Try Again</button>
+      <button class="btn btn-primary" (click)="retryFetch()">
+        {{ "TRANSACTIONS.BUTTONS.TRY_AGAIN" | translate }}
+      </button>
     </div>
   </div>
 
@@ -88,9 +95,9 @@
       >
         <div class="p-4">
           <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-medium text-gray-500"
-              >Transaction ID</span
-            >
+            <span class="text-xs font-medium text-gray-500">{{
+              "TRANSACTIONS.TABLE.TRANSACTION_ID" | translate
+            }}</span>
             <span
               class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full"
               [ngClass]="{
@@ -102,10 +109,10 @@
             >
               {{
                 transaction.status === "success"
-                  ? "Success"
+                  ? ("TRANSACTIONS.STATUS.SUCCESS" | translate)
                   : transaction.status === "pending"
-                  ? "Pending"
-                  : "Failed"
+                  ? ("TRANSACTIONS.STATUS.PENDING" | translate)
+                  : ("TRANSACTIONS.STATUS.FAILED" | translate)
               }}
             </span>
           </div>
@@ -115,28 +122,38 @@
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <span class="text-xs font-medium text-gray-500">Phone</span>
+              <span class="text-xs font-medium text-gray-500">{{
+                "TRANSACTIONS.TABLE.PHONE" | translate
+              }}</span>
               <p class="text-gray-800">{{ transaction.phone_number }}</p>
             </div>
             <div>
-              <span class="text-xs font-medium text-gray-500">Date</span>
+              <span class="text-xs font-medium text-gray-500">{{
+                "TRANSACTIONS.TABLE.DATE" | translate
+              }}</span>
               <p class="text-gray-800">
                 {{ transaction.created_at | date : "short" }}
               </p>
             </div>
             <div>
-              <span class="text-xs font-medium text-gray-500">Amount</span>
+              <span class="text-xs font-medium text-gray-500">{{
+                "TRANSACTIONS.TABLE.AMOUNT" | translate
+              }}</span>
               <p class="text-green-600 font-semibold">
                 {{ transaction.amount | number : "1.0-0" }} XAF
               </p>
             </div>
             <div>
-              <span class="text-xs font-medium text-gray-500">Fees</span>
+              <span class="text-xs font-medium text-gray-500">{{
+                "TRANSACTIONS.TABLE.FEES" | translate
+              }}</span>
               <p class="text-gray-800">
                 <span *ngIf="transaction.fees; else noFeesMobile">
                   {{ transaction.fees | number : "1.0-0" }} XAF
                 </span>
-                <ng-template #noFeesMobile>N/A</ng-template>
+                <ng-template #noFeesMobile>{{
+                  "TRANSACTIONS.TABLE.NOT_AVAILABLE" | translate
+                }}</ng-template>
               </p>
             </div>
           </div>
@@ -153,32 +170,32 @@
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Transaction ID
+              {{ "TRANSACTIONS.TABLE.TRANSACTION_ID" | translate }}
             </th>
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Phone
+              {{ "TRANSACTIONS.TABLE.PHONE" | translate }}
             </th>
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Amount
+              {{ "TRANSACTIONS.TABLE.AMOUNT" | translate }}
             </th>
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Fees
+              {{ "TRANSACTIONS.TABLE.FEES" | translate }}
             </th>
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Date
+              {{ "TRANSACTIONS.TABLE.DATE" | translate }}
             </th>
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Status
+              {{ "TRANSACTIONS.TABLE.STATUS" | translate }}
             </th>
           </tr>
         </thead>
@@ -214,7 +231,9 @@
                 {{ transaction.fees | number : "1.0-0" }} XAF
               </span>
               <ng-template #noFees>
-                <span class="text-gray-400">N/A</span>
+                <span class="text-gray-400">{{
+                  "TRANSACTIONS.TABLE.NOT_AVAILABLE" | translate
+                }}</span>
               </ng-template>
             </td>
 
@@ -245,10 +264,10 @@
                 ></span>
                 {{
                   transaction.status === "success"
-                    ? "Success"
+                    ? ("TRANSACTIONS.STATUS.SUCCESS" | translate)
                     : transaction.status === "pending"
-                    ? "Pending"
-                    : "Failed"
+                    ? ("TRANSACTIONS.STATUS.PENDING" | translate)
+                    : ("TRANSACTIONS.STATUS.FAILED" | translate)
                 }}
               </span>
             </td>
@@ -260,8 +279,9 @@
     <!-- No Pagination -->
     <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
       <p class="text-sm text-gray-700">
-        Showing all
-        <span class="font-medium">{{ txn.length }}</span> transactions
+        {{ "TRANSACTIONS.TABLE.SHOWING_ALL" | translate }}
+        <span class="font-medium">{{ txn.length }}</span>
+        {{ "TRANSACTIONS.TABLE.TRANSACTIONS" | translate }}
       </p>
     </div>
   </div>

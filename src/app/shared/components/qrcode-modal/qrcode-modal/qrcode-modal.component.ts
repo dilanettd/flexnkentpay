@@ -11,11 +11,12 @@ import {
   DecodeHintType,
   BarcodeFormat,
 } from '@zxing/library';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-qrcode-modal',
   standalone: true,
-  imports: [ZXingScannerModule, CommonModule],
+  imports: [ZXingScannerModule, CommonModule, TranslateModule],
   templateUrl: './qrcode-modal.component.html',
   styleUrl: './qrcode-modal.component.scss',
 })
@@ -39,7 +40,8 @@ export class QrcodeModalComponent implements OnInit, OnDestroy {
   constructor(
     public activeModal: NgbActiveModal,
     private router: Router,
-    private productService: ProductService
+    private productService: ProductService,
+    private translateService: TranslateService
   ) {
     // Configure the reader to only look for QR codes
     const hints = new Map();
@@ -93,7 +95,9 @@ export class QrcodeModalComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.destroy$))
           .subscribe((error: Error) => {
             console.error('Scanner error:', error);
-            this.errorMessage = 'An error occurred while accessing the camera.';
+            this.errorMessage = this.translateService.instant(
+              'QR_SCANNER.ERROR.CAMERA_ACCESS'
+            );
             this.isLoading = false;
           });
       } else {
@@ -106,7 +110,9 @@ export class QrcodeModalComponent implements OnInit, OnDestroy {
   private handleNoCameras(): void {
     this.hasCameras = false;
     this.scannerEnabled = false;
-    this.errorMessage = 'No cameras available. Please use the upload option.';
+    this.errorMessage = this.translateService.instant(
+      'QR_SCANNER.ERROR.NO_CAMERAS'
+    );
     console.log('No cameras found');
   }
 
@@ -152,8 +158,9 @@ export class QrcodeModalComponent implements OnInit, OnDestroy {
         const ctx = canvas.getContext('2d');
 
         if (!ctx) {
-          this.errorMessage =
-            'Unable to process image. Browser may not support canvas.';
+          this.errorMessage = this.translateService.instant(
+            'QR_SCANNER.ERROR.CANVAS_NOT_SUPPORTED'
+          );
           this.isLoading = false;
           return;
         }
@@ -177,24 +184,32 @@ export class QrcodeModalComponent implements OnInit, OnDestroy {
                 this.qrResult = result.getText();
                 this.fetchProductByCode(this.qrResult);
               } else {
-                this.errorMessage = 'No QR code found in the image.';
+                this.errorMessage = this.translateService.instant(
+                  'QR_SCANNER.ERROR.NO_QR_FOUND'
+                );
                 this.isLoading = false;
               }
             })
             .catch((err) => {
               console.error('Decoding error:', err);
-              this.errorMessage = 'Failed to decode QR code from image.';
+              this.errorMessage = this.translateService.instant(
+                'QR_SCANNER.ERROR.DECODE_FAILED'
+              );
               this.isLoading = false;
             });
         } catch (error) {
           console.error('Decoding error:', error);
-          this.errorMessage = 'Failed to process the image.';
+          this.errorMessage = this.translateService.instant(
+            'QR_SCANNER.ERROR.PROCESS_FAILED'
+          );
           this.isLoading = false;
         }
       };
 
       img.onerror = () => {
-        this.errorMessage = 'Failed to load the image.';
+        this.errorMessage = this.translateService.instant(
+          'QR_SCANNER.ERROR.LOAD_FAILED'
+        );
         this.isLoading = false;
       };
 
@@ -202,7 +217,9 @@ export class QrcodeModalComponent implements OnInit, OnDestroy {
     };
 
     reader.onerror = () => {
-      this.errorMessage = 'Failed to read the file.';
+      this.errorMessage = this.translateService.instant(
+        'QR_SCANNER.ERROR.READ_FAILED'
+      );
       this.isLoading = false;
     };
 
@@ -218,7 +235,9 @@ export class QrcodeModalComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         catchError((error) => {
-          this.errorMessage = 'Product not found or connection error.';
+          this.errorMessage = this.translateService.instant(
+            'QR_SCANNER.ERROR.PRODUCT_NOT_FOUND'
+          );
           this.isLoading = false;
           return of(null);
         })
@@ -229,7 +248,9 @@ export class QrcodeModalComponent implements OnInit, OnDestroy {
           this.activeModal.close(product);
           this.router.navigate(['/product', product.id]);
         } else {
-          this.errorMessage = 'No product found for this code.';
+          this.errorMessage = this.translateService.instant(
+            'QR_SCANNER.ERROR.NO_PRODUCT'
+          );
         }
       });
   }

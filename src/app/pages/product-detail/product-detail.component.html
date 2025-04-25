@@ -8,12 +8,15 @@
             href="/"
             class="text-primary-600 hover:text-primary-700 flex items-center"
           >
-            <i class="bi bi-house-door mr-1"></i> Home
+            <i class="bi bi-house-door mr-1"></i>
+            {{ "PRODUCT_DETAIL.BREADCRUMBS.HOME" | translate }}
           </a>
         </li>
         <li class="flex items-center">
           <i class="bi bi-chevron-right text-gray-400 mx-2 text-xs"></i>
-          <span class="text-gray-600">Product Details</span>
+          <span class="text-gray-600">{{
+            "PRODUCT_DETAIL.BREADCRUMBS.PRODUCT_DETAILS" | translate
+          }}</span>
         </li>
       </ol>
     </nav>
@@ -26,20 +29,23 @@
       <div
         class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"
       ></div>
-      <p class="mt-4 text-gray-600">Loading product details...</p>
+      <p class="mt-4 text-gray-600">
+        {{ "PRODUCT_DETAIL.LOADING" | translate }}
+      </p>
     </div>
     } @else if (!product()) {
     <div class="container mx-auto text-center py-16">
       <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
         <i class="bi bi-exclamation-circle text-yellow-500 text-4xl mb-4"></i>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">
-          Product Not Found
+          {{ "PRODUCT_DETAIL.NOT_FOUND.TITLE" | translate }}
         </h3>
         <p class="text-gray-600 mb-4">
-          The product you're looking for is unavailable or doesn't exist.
+          {{ "PRODUCT_DETAIL.NOT_FOUND.MESSAGE" | translate }}
         </p>
         <a href="/" class="btn btn-primary">
-          <i class="bi bi-arrow-left mr-2"></i>Return to Home
+          <i class="bi bi-arrow-left mr-2"></i
+          >{{ "PRODUCT_DETAIL.NOT_FOUND.RETURN_HOME" | translate }}
         </a>
       </div>
     </div>
@@ -63,7 +69,7 @@
               />
             </div>
             <div class="thumbnails grid grid-cols-5 gap-2">
-              @for (image of product()?.images || []; track image.image_url) {
+              @for (image of product()!.images || []; track image.image_url) {
               <div
                 class="thumbnail-wrapper relative rounded-md overflow-hidden cursor-pointer transition-all hover:shadow-md"
                 [ngClass]="{
@@ -89,7 +95,7 @@
           <!-- Product Info -->
           <div class="product-info">
             <h2 class="text-2xl font-bold text-gray-800 mb-3">
-              {{ product()?.name || "Unnamed Product" }}
+              {{ product()!.name || "Unnamed Product" }}
             </h2>
 
             <div class="flex items-center space-x-3 mb-4">
@@ -107,19 +113,19 @@
                   }
                 </div>
                 <span class="text-sm text-gray-600"
-                  >({{ product()?.rating || 0 }})</span
+                  >({{ product()!.rating || 0 }})</span
                 >
               </div>
 
               <!-- Category badge -->
               <span
                 class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm flex items-center"
-                *ngIf="product()?.category"
+                *ngIf="product()!.category"
               >
                 <i class="bi bi-tag text-primary-500 mr-2"></i>
-                {{ product()?.category }}
+                {{ product()!.category }}
                 <span class="mx-2 text-gray-400">|</span>
-                {{ product()?.subcategory }}
+                {{ product()!.subcategory }}
               </span>
             </div>
 
@@ -127,20 +133,59 @@
               <span
                 class="text-3xl font-bold text-primary-600"
                 *ngIf="
-                  product()?.price !== undefined && product()?.price !== null
+                  product()!.price !== undefined && product()!.price !== null
                 "
               >
-                {{ product()?.price | currency : product()?.currency || "USD" }}
+                {{ product()!.price | currency : product()!.currency || "USD" }}
               </span>
             </div>
 
+            <!-- Stock Status Banner -->
+            @if (product()!.stock_quantity <= 0) {
+            <div
+              class="mb-4 bg-red-100 border border-red-200 rounded-lg p-4 text-center"
+            >
+              <i class="bi bi-exclamation-triangle text-red-500 mr-2"></i>
+              <span class="text-red-600 font-medium">{{
+                "PRODUCT_DETAIL.STOCK.OUT_OF_STOCK" | translate
+              }}</span>
+            </div>
+            } @else if (product()!.stock_quantity < 5) {
+            <div
+              class="mb-4 bg-yellow-100 border border-yellow-200 rounded-lg p-4 text-center"
+            >
+              <i class="bi bi-exclamation-circle text-yellow-500 mr-2"></i>
+              <span class="text-yellow-700 font-medium">
+                {{
+                  "PRODUCT_DETAIL.STOCK.LOW_STOCK"
+                    | translate : { count: product()!.stock_quantity }
+                }}
+              </span>
+            </div>
+            } @else {
+            <div
+              class="mb-4 bg-green-100 border border-green-200 rounded-lg p-4 text-center"
+            >
+              <i class="bi bi-check-circle text-green-500 mr-2"></i>
+              <span class="text-green-700 font-medium">
+                {{
+                  "PRODUCT_DETAIL.STOCK.IN_STOCK"
+                    | translate : { count: product()!.stock_quantity }
+                }}
+              </span>
+            </div>
+            }
+
             <div class="description mb-6">
               <h3 class="text-lg font-semibold text-gray-700 mb-2">
-                Description
+                {{ "PRODUCT_DETAIL.DESCRIPTION" | translate }}
               </h3>
               <div class="bg-gray-50 p-4 rounded-lg max-h-64 overflow-y-auto">
                 <p class="text-gray-600">
-                  {{ product()?.description || "No description available" }}
+                  {{
+                    product()!.description ||
+                      ("PRODUCT_DETAIL.NO_DESCRIPTION" | translate)
+                  }}
                 </p>
               </div>
             </div>
@@ -151,15 +196,17 @@
                   for="quantity"
                   class="form-label text-gray-700 flex items-center"
                 >
-                  <i class="bi bi-123 text-primary-500 mr-2"></i>Quantity
+                  <i class="bi bi-123 text-primary-500 mr-2"></i
+                  >{{ "PRODUCT_DETAIL.QUANTITY" | translate }}
                 </label>
                 <select
                   id="quantity"
                   [ngModel]="quantity()"
                   (ngModelChange)="updateQuantity($event)"
                   class="select w-full"
+                  [disabled]="product()!.stock_quantity <= 0"
                 >
-                  @for (qty of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track qty) {
+                  @for (qty of getAvailableQuantities(); track qty) {
                   <option [value]="qty">{{ qty }}</option>
                   }
                 </select>
@@ -169,19 +216,52 @@
                 <button
                   class="btn btn-primary w-full"
                   (click)="openOrderModal()"
+                  [disabled]="
+                    product()!.stock_quantity <= 0 ||
+                    quantity() > product()!.stock_quantity
+                  "
+                  [ngClass]="{
+                    'btn-disabled':
+                      product()!.stock_quantity <= 0 ||
+                      quantity() > product()!.stock_quantity
+                  }"
                 >
-                  <i class="bi bi-bag-check mr-2"></i>Purchase Now
+                  <i class="bi bi-bag-check mr-2"></i
+                  >{{ "PRODUCT_DETAIL.PURCHASE_NOW" | translate }}
                 </button>
               </div>
             </div>
 
-            <div class="shop-info mt-6" *ngIf="product()?.shop_id">
+            <div class="shop-info mt-6" *ngIf="product()!.shop_id">
               <button
                 class="btn btn-outline-primary w-full"
                 (click)="navigateToShop()"
               >
-                <i class="bi bi-shop mr-2"></i>View Shop
+                <i class="bi bi-shop mr-2"></i
+                >{{ "PRODUCT_DETAIL.VIEW_SHOP" | translate }}
               </button>
+            </div>
+
+            <!-- Payment Methods Section -->
+            <div class="payment-methods mb-6">
+              <h3
+                class="text-lg font-semibold text-gray-700 mb-2 flex items-center"
+              >
+                <i class="bi bi-credit-card text-primary-500 mr-2"></i>
+                {{ "PRODUCT_DETAIL.PAYMENT_METHODS.TITLE" | translate }}
+              </h3>
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <div class="flex items-center justify-center">
+                  <img
+                    src="assets/images/product-details/mobile_money.png"
+                    alt="Mobile Money"
+                    class="h-12 object-contain mb-2"
+                  />
+                </div>
+                <p class="text-center text-sm text-gray-600 mt-2">
+                  {{ "PRODUCT_DETAIL.PAYMENT_METHODS.DESCRIPTION" | translate }}
+                </p>
+              </div>
             </div>
 
             <!-- Share Options -->
@@ -189,8 +269,8 @@
               <h3
                 class="text-lg font-semibold text-gray-700 mb-3 flex items-center"
               >
-                <i class="bi bi-share text-primary-500 mr-2"></i>Share This
-                Product
+                <i class="bi bi-share text-primary-500 mr-2"></i
+                >{{ "PRODUCT_DETAIL.SHARE.TITLE" | translate }}
               </h3>
               <div class="social-icons grid grid-cols-5 gap-2">
                 <!-- Facebook -->
@@ -245,7 +325,7 @@
                   (click)="shareProduct('qrcode')"
                 >
                   <i class="bi bi-qr-code mr-1"></i>
-                  View QR Code
+                  {{ "PRODUCT_DETAIL.SHARE.VIEW_QR" | translate }}
                 </button>
               </div>
             </div>
@@ -259,17 +339,18 @@
             <div class="review-action">
               <div class="card p-4 text-center">
                 <h3 class="text-lg font-semibold text-gray-800 mb-3">
-                  Enjoyed the product?
+                  {{ "PRODUCT_DETAIL.REVIEWS.ENJOYED" | translate }}
                 </h3>
                 <p class="text-gray-600 mb-4">
-                  Share your experience with other customers
+                  {{ "PRODUCT_DETAIL.REVIEWS.SHARE_EXPERIENCE" | translate }}
                 </p>
                 <button
                   (click)="review()"
                   type="button"
                   class="btn btn-primary w-full"
                 >
-                  <i class="bi bi-star mr-2"></i>Leave a Review
+                  <i class="bi bi-star mr-2"></i
+                  >{{ "PRODUCT_DETAIL.REVIEWS.LEAVE_REVIEW" | translate }}
                 </button>
               </div>
             </div>
@@ -280,7 +361,7 @@
                 <div class="flex items-center justify-between mb-4">
                   <h3 class="text-lg font-semibold text-gray-800">
                     <i class="bi bi-chat-square-text text-primary-500 mr-2"></i
-                    >Customer Reviews
+                    >{{ "PRODUCT_DETAIL.REVIEWS.TITLE" | translate }}
                   </h3>
                 </div>
 
@@ -291,7 +372,7 @@
                     <div class="flex items-start gap-3">
                       <img
                         [src]="
-                          review.user?.profile_url ||
+                          review.user!.profile_url ||
                           'assets/images/default-profile.png'
                         "
                         alt="Reviewer"
@@ -300,7 +381,10 @@
                       <div class="flex-1">
                         <div class="flex justify-between">
                           <h4 class="font-medium text-gray-800">
-                            {{ review.user?.name || "Anonymous" }}
+                            {{
+                              review.user!.name ||
+                                ("PRODUCT_DETAIL.REVIEWS.ANONYMOUS" | translate)
+                            }}
                           </h4>
                           <span class="text-xs text-gray-500">{{
                             review.created_at | date : "medium"
@@ -321,7 +405,10 @@
                         </div>
 
                         <p class="text-gray-600 mt-2">
-                          {{ review.review || "No comments provided" }}
+                          {{
+                            review.review ||
+                              ("PRODUCT_DETAIL.REVIEWS.NO_COMMENTS" | translate)
+                          }}
                         </p>
                       </div>
                     </div>
@@ -332,10 +419,10 @@
                 <div class="bg-gray-50 p-6 rounded-lg text-center">
                   <i class="bi bi-chat-square text-gray-400 text-3xl mb-2"></i>
                   <p class="text-gray-600">
-                    No reviews available for this product yet.
+                    {{ "PRODUCT_DETAIL.REVIEWS.NO_REVIEWS" | translate }}
                   </p>
                   <p class="text-sm text-gray-500 mt-2">
-                    Be the first to share your experience!
+                    {{ "PRODUCT_DETAIL.REVIEWS.BE_FIRST" | translate }}
                   </p>
                 </div>
                 }

@@ -4,7 +4,7 @@
       class="text-2xl font-heading font-semibold text-gray-800 gradient-underline flex items-center"
     >
       <span class="bg-primary-600 w-2 h-10 mr-3 rounded-full"></span>
-      My Purchases
+      {{ "PURCHASES.TITLE" | translate }}
     </h2>
   </div>
 
@@ -13,7 +13,7 @@
     <div
       class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"
     ></div>
-    <p class="ml-3 text-gray-600">Loading your purchases...</p>
+    <p class="ml-3 text-gray-600">{{ "PURCHASES.LOADING" | translate }}</p>
   </div>
 
   <!-- Empty State -->
@@ -38,12 +38,15 @@
           />
         </svg>
       </div>
-      <h4 class="h4 text-gray-800 mb-3">No purchases yet</h4>
+      <h4 class="h4 text-gray-800 mb-3">
+        {{ "PURCHASES.EMPTY.TITLE" | translate }}
+      </h4>
       <p class="text-gray-600 mb-6 max-w-md mx-auto">
-        You haven't made any purchases yet. Start exploring our products and
-        find something you love!
+        {{ "PURCHASES.EMPTY.MESSAGE" | translate }}
       </p>
-      <button class="btn btn-primary">Browse Products</button>
+      <button class="btn btn-primary">
+        {{ "PURCHASES.EMPTY.BROWSE" | translate }}
+      </button>
     </div>
   </div>
 
@@ -69,10 +72,12 @@
           />
         </svg>
       </div>
-      <h4 class="h4 text-gray-800 mb-3">Oops! Something went wrong</h4>
+      <h4 class="h4 text-gray-800 mb-3">
+        {{ "PURCHASES.ERROR.TITLE" | translate }}
+      </h4>
       <p class="text-gray-600 mb-6">{{ error }}</p>
       <button class="btn btn-primary" (click)="fetchUserOrders()">
-        Try Again
+        {{ "PURCHASES.ERROR.TRY_AGAIN" | translate }}
       </button>
     </div>
   </div>
@@ -87,23 +92,60 @@
       <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
         <div class="flex flex-wrap justify-between items-center">
           <div>
-            <span class="text-xs font-medium text-gray-500">Order ID</span>
+            <span class="text-xs font-medium text-gray-500">{{
+              "PURCHASES.ORDER.ID" | translate
+            }}</span>
             <p class="font-medium text-gray-800">{{ order.id }}</p>
           </div>
-          <div class="flex space-x-6">
+          <div class="flex flex-wrap items-center gap-6">
             <div>
-              <span class="text-xs font-medium text-gray-500">Order Date</span>
+              <span class="text-xs font-medium text-gray-500">{{
+                "PURCHASES.ORDER.DATE" | translate
+              }}</span>
               <p class="font-medium text-gray-800">
                 {{ order.created_at | date }}
               </p>
             </div>
             <div>
-              <span class="text-xs font-medium text-gray-500">Status</span>
+              <span class="text-xs font-medium text-gray-500">{{
+                "PURCHASES.ORDER.STATUS" | translate
+              }}</span>
               <p
-                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                [ngClass]="{
+                  'bg-green-100 text-green-800': order.is_confirmed === 1,
+                  'bg-yellow-100 text-yellow-800': order.is_confirmed === 0
+                }"
               >
-                Active
+                {{
+                  order.is_confirmed === 1
+                    ? ("PURCHASES.ORDER.CONFIRMED" | translate)
+                    : ("PURCHASES.ORDER.PENDING" | translate)
+                }}
               </p>
+            </div>
+            <!-- Bouton d'annulation pour les commandes non confirmées -->
+            <div *ngIf="order.is_confirmed === 0">
+              <button
+                class="btn btn-sm btn-danger flex items-center"
+                (click)="cancelOrder(order)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 mr-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+                {{ "PURCHASES.CANCEL.BUTTON" | translate }}
+              </button>
             </div>
           </div>
         </div>
@@ -137,25 +179,25 @@
               </h3>
               <div class="grid grid-cols-2 gap-x-8 gap-y-2">
                 <div>
-                  <span class="text-xs font-medium text-gray-500"
-                    >Quantity</span
-                  >
+                  <span class="text-xs font-medium text-gray-500">{{
+                    "PURCHASES.ORDER.QUANTITY" | translate
+                  }}</span>
                   <p class="font-semibold text-gray-800">
                     {{ order.quantity }}
                   </p>
                 </div>
                 <div>
-                  <span class="text-xs font-medium text-gray-500"
-                    >Total Cost</span
-                  >
+                  <span class="text-xs font-medium text-gray-500">{{
+                    "PURCHASES.ORDER.TOTAL_COST" | translate
+                  }}</span>
                   <p class="font-semibold text-gray-800">
                     {{ order.total_cost | number : "1.0-0" }} XAF
                   </p>
                 </div>
                 <div>
-                  <span class="text-xs font-medium text-gray-500"
-                    >Installment</span
-                  >
+                  <span class="text-xs font-medium text-gray-500">{{
+                    "PURCHASES.ORDER.INSTALLMENT" | translate
+                  }}</span>
                   <p class="font-semibold text-gray-800">
                     {{ order.installment_amount | number : "1.0-0" }} XAF
                   </p>
@@ -168,7 +210,7 @@
           <div class="md:w-1/2 mt-6 md:mt-0">
             <div class="mb-3">
               <h4 class="text-sm font-semibold text-gray-700">
-                Payment Installments
+                {{ "PURCHASES.PAYMENT.TITLE" | translate }}
               </h4>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
@@ -197,7 +239,9 @@
                 <div class="relative flex flex-col p-4 h-full">
                   <!-- Payment Amount -->
                   <div class="mb-3 pt-2">
-                    <span class="block text-xs text-gray-500 mb-1">Amount</span>
+                    <span class="block text-xs text-gray-500 mb-1">{{
+                      "PURCHASES.PAYMENT.AMOUNT" | translate
+                    }}</span>
                     <span class="font-bold text-gray-800"
                       >{{ payment.amount_paid | number : "1.0-0" }} XAF</span
                     >
@@ -207,7 +251,9 @@
                   <div class="mt-auto">
                     <span class="block text-xs text-gray-500 mb-1">
                       {{
-                        payment.status === "success" ? "Paid on" : "Due Date"
+                        payment.status === "success"
+                          ? ("PURCHASES.PAYMENT.PAID_ON" | translate)
+                          : ("PURCHASES.PAYMENT.DUE_DATE" | translate)
                       }}
                     </span>
                     <span
@@ -242,7 +288,9 @@
                     *ngIf="payment.status === 'pending'"
                     class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   >
-                    <button class="btn btn-sm btn-primary">Pay Now</button>
+                    <button class="btn btn-sm btn-primary">
+                      {{ "PURCHASES.PAYMENT.PAY_NOW" | translate }}
+                    </button>
                   </div>
                 </div>
               </div>

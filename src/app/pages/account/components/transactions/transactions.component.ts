@@ -3,11 +3,13 @@ import { IMomoTransaction } from '../../../../core/models/order-model';
 import { OrderService } from '../../../../core/services/order/order.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'flexnkentpay-transactions',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule, RouterLink],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.scss',
 })
@@ -19,7 +21,10 @@ export class TransactionsComponent {
   logo: string =
     'https://upload.wikimedia.org/wikipedia/fr/thumb/e/e9/Mtn-logo-svg.svg/1200px-Mtn-logo-svg.svg.png';
 
-  constructor(private orderService: OrderService) {}
+  constructor(
+    private orderService: OrderService,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.fetchUserOrders();
@@ -34,11 +39,23 @@ export class TransactionsComponent {
           this.isLoading = false;
         },
         error: (err) => {
-          this.error = 'Unable to fetch orders. Please try again.';
+          this.error = this.translateService.instant(
+            'TRANSACTIONS.ERROR.FETCH_FAILED'
+          );
           this.isLoading = false;
         },
       })
     );
+  }
+
+  retryFetch(): void {
+    this.error = null;
+    this.fetchUserOrders();
+  }
+
+  browseProducts(): void {
+    // Navigate to products page
+    // Cette fonction sera utilisée pour le bouton "Browse Products"
   }
 
   ngOnDestroy(): void {

@@ -8,8 +8,9 @@ import { SellerService } from '../../core/services/seller/seller.service';
 import { RouterLink } from '@angular/router';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { forkJoin, map, Observable, switchMap } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslationService } from '../../core/services/translation/translation.service';
 
-// Définir les interfaces pour les types complexes
 export interface TopCategory {
   category: string;
   product_count: number;
@@ -23,16 +24,16 @@ interface CategoryProductResult {
 
 interface HeroSlide {
   image: string;
-  title: string;
-  subtitle: string;
-  buttonText: string;
+  titleKey: string;
+  subtitleKey: string;
+  buttonTextKey: string;
   buttonLink: string;
 }
 
 @Component({
   selector: 'flexnkentpay-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, CarouselModule],
+  imports: [CommonModule, RouterLink, CarouselModule, TranslateModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -42,30 +43,28 @@ export class HomeComponent implements OnInit {
   topCategories: TopCategory[] = [];
   isLoading = true;
   activeTabIndex = 0; // Pour le système d'onglets des catégories
+  currentLang = 'fr';
 
   heroSlides: HeroSlide[] = [
     {
       image: 'assets/images/hero/slider-bg1.jpg',
-      title: 'Transform Your Payment Habits',
-      subtitle:
-        'Explore our innovative payment solutions that simplify and enhance your financial operations, ensuring seamless and secure transactions',
-      buttonText: 'Shop Now',
+      titleKey: 'HOME.HERO.SLIDE1.TITLE',
+      subtitleKey: 'HOME.HERO.SLIDE1.SUBTITLE',
+      buttonTextKey: 'HOME.HERO.SLIDE1.BUTTON',
       buttonLink: '/products',
     },
     {
       image: 'assets/images/hero/slider-bg2.jpg',
-      title: 'Shop Now, Pay Later',
-      subtitle:
-        'Enjoy the flexibility of installment payments on all your favorite products',
-      buttonText: 'Explore Products',
+      titleKey: 'HOME.HERO.SLIDE2.TITLE',
+      subtitleKey: 'HOME.HERO.SLIDE2.SUBTITLE',
+      buttonTextKey: 'HOME.HERO.SLIDE2.BUTTON',
       buttonLink: '/products',
     },
     {
       image: 'assets/images/hero/slider-bg3.jpg',
-      title: 'Secure & Reliable Shopping',
-      subtitle:
-        'Experience safe transactions and trusted vendors for all your shopping needs',
-      buttonText: 'Learn More',
+      titleKey: 'HOME.HERO.SLIDE3.TITLE',
+      subtitleKey: 'HOME.HERO.SLIDE3.SUBTITLE',
+      buttonTextKey: 'HOME.HERO.SLIDE3.BUTTON',
       buttonLink: '/contact',
     },
   ];
@@ -94,9 +93,16 @@ export class HomeComponent implements OnInit {
 
   private productService = inject(ProductService);
   private sellerService = inject(SellerService);
+  private translateService = inject(TranslateService);
+  private translationService = inject(TranslationService);
 
   ngOnInit(): void {
     this.isLoading = true;
+
+    // S'abonner aux changements de langue
+    this.translationService.currentLang$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
 
     // Get recent products
     this.productService.getRecentProducts().subscribe({

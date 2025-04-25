@@ -28,6 +28,13 @@ export class OrderService {
     return this.http.post<IOrder>(`${this.apiUrl}/order`, order);
   }
 
+  // Annuler une commande
+  cancelOrder(orderId: string | number): Observable<any> {
+    return this.http
+      .delete<any>(`${this.apiUrl}/orders/${orderId}/cancel`)
+      .pipe(catchError(handleHttpError));
+  }
+
   getAllOrders(params: {
     keyword?: string;
     status?: string;

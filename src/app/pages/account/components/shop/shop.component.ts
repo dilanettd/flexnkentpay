@@ -30,6 +30,7 @@ import { ButtonSpinnerComponent } from '../../../../shared/components/button-spi
 import { IOrder } from '../../../../core/models/order-model';
 import { Router } from '@angular/router';
 import { UpdateProductComponent } from '../update-product/update-product.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 // Interfaces
 interface Tab {
@@ -54,6 +55,7 @@ interface CreateSellerData {
     FormsModule,
     ReactiveFormsModule,
     ButtonSpinnerComponent,
+    TranslateModule,
   ],
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss'],
@@ -89,6 +91,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   private toastr = inject(ToastrService);
   private modalService = inject(NgbModal);
   private router = inject(Router);
+  private translateService = inject(TranslateService);
 
   // User and shop data
   me: IUser | null | undefined;
@@ -128,17 +131,17 @@ export class ShopComponent implements OnInit, OnDestroy {
   tabs: Tab[] = [
     {
       id: 'orders',
-      name: 'Commandes',
+      name: 'SHOP.TABS.ORDERS',
       icon: 'bi-cart',
     },
     {
       id: 'products',
-      name: 'Produits',
+      name: 'SHOP.TABS.PRODUCTS',
       icon: 'bi-box',
     },
     {
       id: 'settings',
-      name: 'Paramètres',
+      name: 'SHOP.TABS.SETTINGS',
       icon: 'bi-gear',
     },
   ];
@@ -146,6 +149,13 @@ export class ShopComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForms();
     this.loadUserData();
+    this.updateTabNames();
+  }
+
+  updateTabNames(): void {
+    this.tabs.forEach((tab) => {
+      tab.name = this.translateService.instant(tab.name);
+    });
   }
 
   initForms(): void {
@@ -215,7 +225,9 @@ export class ShopComponent implements OnInit, OnDestroy {
         next: (response: any) => {
           this.authService.setUser(response);
 
-          this.toastr.success('Votre boutique a été créée avec succès!');
+          this.toastr.success(
+            this.translateService.instant('SHOP.MESSAGES.SHOP_CREATED_SUCCESS')
+          );
           this.loadUserData();
 
           this.isSubmitting = false;
@@ -223,7 +235,7 @@ export class ShopComponent implements OnInit, OnDestroy {
         error: (error: any) => {
           const errorMessage =
             error.error?.message ||
-            "Une erreur s'est produite lors de la création de votre boutique. Veuillez réessayer.";
+            this.translateService.instant('SHOP.MESSAGES.SHOP_CREATION_ERROR');
           this.toastr.error(errorMessage);
           this.isSubmitting = false;
         },
@@ -243,7 +255,11 @@ export class ShopComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         },
         error: (error) => {
-          this.toastr.error('Erreur lors du chargement des produits');
+          this.toastr.error(
+            this.translateService.instant(
+              'SHOP.MESSAGES.PRODUCTS_LOADING_ERROR'
+            )
+          );
           this.isLoading = false;
         },
       });
@@ -261,7 +277,9 @@ export class ShopComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       },
       error: (error) => {
-        this.toastr.error('Erreur lors du chargement des commandes');
+        this.toastr.error(
+          this.translateService.instant('SHOP.MESSAGES.ORDERS_LOADING_ERROR')
+        );
         this.isLoading = false;
       },
     });
@@ -307,13 +325,17 @@ export class ShopComponent implements OnInit, OnDestroy {
             if (this.shopData) {
               this.shopData.shop.logo_url = response.seller.shop.logo_url;
             }
-            this.toastr.success('Logo mis à jour avec succès');
+            this.toastr.success(
+              this.translateService.instant('SHOP.MESSAGES.LOGO_UPDATE_SUCCESS')
+            );
           }
           this.selectedLogoFile = null;
           this.isSubmitting = false;
         },
         error: (error) => {
-          this.toastr.error('Erreur lors de la mise à jour du logo');
+          this.toastr.error(
+            this.translateService.instant('SHOP.MESSAGES.LOGO_UPDATE_ERROR')
+          );
           this.isSubmitting = false;
         },
       });
@@ -335,14 +357,18 @@ export class ShopComponent implements OnInit, OnDestroy {
               this.shopData.shop.cover_photo_url =
                 response.seller.shop.cover_photo_url;
             }
-            this.toastr.success('Image de couverture mise à jour avec succès');
+            this.toastr.success(
+              this.translateService.instant(
+                'SHOP.MESSAGES.COVER_UPDATE_SUCCESS'
+              )
+            );
           }
           this.selectedCoverFile = null;
           this.isSubmitting = false;
         },
         error: (error) => {
           this.toastr.error(
-            "Erreur lors de la mise à jour de l'image de couverture"
+            this.translateService.instant('SHOP.MESSAGES.COVER_UPDATE_ERROR')
           );
           this.isSubmitting = false;
         },
@@ -362,7 +388,9 @@ export class ShopComponent implements OnInit, OnDestroy {
     }
 
     if (
-      window.confirm('Êtes-vous sûr de vouloir enregistrer ces modifications ?')
+      window.confirm(
+        this.translateService.instant('SHOP.MESSAGES.CONFIRM_SETTINGS_UPDATE')
+      )
     ) {
       this.isSubmitting = true;
       const shopData: IUpdateShop = {
@@ -379,12 +407,18 @@ export class ShopComponent implements OnInit, OnDestroy {
           next: (response) => {
             this.authService.setUser(response);
             this.toastr.success(
-              'Paramètres de la boutique mis à jour avec succès'
+              this.translateService.instant(
+                'SHOP.MESSAGES.SETTINGS_UPDATE_SUCCESS'
+              )
             );
             this.isSubmitting = false;
           },
           error: (error) => {
-            this.toastr.error('Erreur lors de la mise à jour des paramètres');
+            this.toastr.error(
+              this.translateService.instant(
+                'SHOP.MESSAGES.SETTINGS_UPDATE_ERROR'
+              )
+            );
             this.isSubmitting = false;
           },
         });
@@ -416,7 +450,7 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   deleteProduct(productId: number): void {
     const confirmDelete = window.confirm(
-      'Êtes-vous sûr de vouloir supprimer ce produit ? Cette action est irréversible.'
+      this.translateService.instant('SHOP.MESSAGES.CONFIRM_PRODUCT_DELETE')
     );
 
     if (confirmDelete) {
@@ -424,12 +458,18 @@ export class ShopComponent implements OnInit, OnDestroy {
 
       this.productService.deleteProductById(productId).subscribe({
         next: () => {
-          this.toastr.success('Produit supprimé avec succès');
+          this.toastr.success(
+            this.translateService.instant(
+              'SHOP.MESSAGES.PRODUCT_DELETE_SUCCESS'
+            )
+          );
           this.loadProducts();
           this.isSubmitting = false;
         },
         error: (error) => {
-          this.toastr.error('Erreur lors de la suppression du produit');
+          this.toastr.error(
+            this.translateService.instant('SHOP.MESSAGES.PRODUCT_DELETE_ERROR')
+          );
           this.isSubmitting = false;
         },
       });

@@ -48,19 +48,24 @@
     <section *ngIf="step === 1" class="card">
       <div class="card-body">
         <div class="title text-center mb-5">
-          <h2 class="h4 mb-2">Update Product Information</h2>
+          <h2 class="h4 mb-2">
+            {{ "UPDATE_PRODUCT.PRODUCT_INFO.TITLE" | translate }}
+          </h2>
           <div class="w-16 h-1 bg-primary-500 mx-auto rounded-full"></div>
         </div>
 
         <div class="form-group mb-4">
           <label for="name" class="form-label flex items-center">
-            <i class="bi bi-tag text-primary-500 mr-2"></i>Product Name
+            <i class="bi bi-tag text-primary-500 mr-2"></i
+            >{{ "ADD_PRODUCT.PRODUCT_INFO.NAME.LABEL" | translate }}
           </label>
           <input
             type="text"
             id="name"
             formControlName="name"
-            placeholder="Enter product name"
+            placeholder="{{
+              'ADD_PRODUCT.PRODUCT_INFO.NAME.PLACEHOLDER' | translate
+            }}"
             class="input w-full focus:border-primary-500 transition-colors"
             [ngClass]="{
               'border-red-500':
@@ -75,19 +80,22 @@
             "
             class="form-error"
           >
-            Product name is required
+            {{ "ADD_PRODUCT.PRODUCT_INFO.NAME.ERROR" | translate }}
           </div>
         </div>
 
         <div class="form-group mb-4">
           <label for="brand" class="form-label flex items-center">
-            <i class="bi bi-award text-primary-500 mr-2"></i>Brand
+            <i class="bi bi-award text-primary-500 mr-2"></i
+            >{{ "ADD_PRODUCT.PRODUCT_INFO.BRAND.LABEL" | translate }}
           </label>
           <input
             type="text"
             id="brand"
             formControlName="brand"
-            placeholder="Enter brand name"
+            placeholder="{{
+              'ADD_PRODUCT.PRODUCT_INFO.BRAND.PLACEHOLDER' | translate
+            }}"
             class="input w-full focus:border-primary-500 transition-colors"
             [ngClass]="{
               'border-red-500':
@@ -102,13 +110,14 @@
             "
             class="form-error"
           >
-            Brand is required
+            {{ "ADD_PRODUCT.PRODUCT_INFO.BRAND.ERROR" | translate }}
           </div>
         </div>
 
         <div class="form-group mb-4">
           <label for="category" class="form-label flex items-center">
-            <i class="bi bi-folder text-primary-500 mr-2"></i>Category
+            <i class="bi bi-folder text-primary-500 mr-2"></i
+            >{{ "ADD_PRODUCT.PRODUCT_INFO.CATEGORY.LABEL" | translate }}
           </label>
           <select
             id="category"
@@ -120,7 +129,9 @@
                 productForm.get('category')?.touched
             }"
           >
-            <option value="" disabled>Select a category</option>
+            <option value="" disabled>
+              {{ "ADD_PRODUCT.PRODUCT_INFO.CATEGORY.PLACEHOLDER" | translate }}
+            </option>
             <option *ngFor="let category of categories" [value]="category.name">
               {{ category.name }}
             </option>
@@ -132,7 +143,7 @@
             "
             class="form-error"
           >
-            Please select a category
+            {{ "ADD_PRODUCT.PRODUCT_INFO.CATEGORY.ERROR" | translate }}
           </div>
         </div>
       </div>
@@ -142,20 +153,25 @@
     <section *ngIf="step === 2" class="card">
       <div class="card-body">
         <div class="title text-center mb-5">
-          <h2 class="h4 mb-2">Update Product Details</h2>
+          <h2 class="h4 mb-2">
+            {{ "UPDATE_PRODUCT.PRODUCT_DETAILS.TITLE" | translate }}
+          </h2>
           <div class="w-16 h-1 bg-primary-500 mx-auto rounded-full"></div>
         </div>
 
         <div class="form-group mb-4">
           <label for="price" class="form-label flex items-center">
-            <i class="bi bi-currency-dollar text-primary-500 mr-2"></i>Price
+            <i class="bi bi-currency-dollar text-primary-500 mr-2"></i
+            >{{ "ADD_PRODUCT.PRODUCT_DETAILS.PRICE.LABEL" | translate }}
           </label>
           <div class="input-group">
             <input
               type="number"
               id="price"
               formControlName="price"
-              placeholder="0.00"
+              placeholder="{{
+                'ADD_PRODUCT.PRODUCT_DETAILS.PRICE.PLACEHOLDER' | translate
+              }}"
               class="input w-full focus:border-primary-500 transition-colors"
               [ngClass]="{
                 'border-red-500':
@@ -174,24 +190,27 @@
             "
             class="form-error"
           >
-            <span *ngIf="productForm.get('price')?.errors?.['required']"
-              >Price is required</span
-            >
-            <span *ngIf="productForm.get('price')?.errors?.['min']"
-              >Price must be greater than 0</span
-            >
+            <span *ngIf="productForm.get('price')?.errors?.['required']">{{
+              "ADD_PRODUCT.PRODUCT_DETAILS.PRICE.ERROR.REQUIRED" | translate
+            }}</span>
+            <span *ngIf="productForm.get('price')?.errors?.['min']">{{
+              "ADD_PRODUCT.PRODUCT_DETAILS.PRICE.ERROR.MIN" | translate
+            }}</span>
           </div>
         </div>
 
         <div class="form-group mb-4">
           <label for="stock_quantity" class="form-label flex items-center">
-            <i class="bi bi-box text-primary-500 mr-2"></i>Stock Quantity
+            <i class="bi bi-box text-primary-500 mr-2"></i
+            >{{ "ADD_PRODUCT.PRODUCT_DETAILS.STOCK.LABEL" | translate }}
           </label>
           <input
             type="number"
             id="stock_quantity"
             formControlName="stock_quantity"
-            placeholder="Enter quantity"
+            placeholder="{{
+              'ADD_PRODUCT.PRODUCT_DETAILS.STOCK.PLACEHOLDER' | translate
+            }}"
             class="input w-full focus:border-primary-500 transition-colors"
             [ngClass]="{
               'border-red-500':
@@ -206,7 +225,7 @@
             "
             class="form-error"
           >
-            Stock quantity is required
+            {{ "ADD_PRODUCT.PRODUCT_DETAILS.STOCK.ERROR" | translate }}
           </div>
         </div>
 
@@ -214,18 +233,24 @@
           class="flex justify-between items-center bg-gray-50 p-4 rounded-lg mt-4"
         >
           <div>
-            <p class="text-sm font-medium text-gray-700">Product Stats</p>
+            <p class="text-sm font-medium text-gray-700">
+              {{ "UPDATE_PRODUCT.PRODUCT_STATS" | translate }}
+            </p>
             <div class="flex items-center mt-1">
               <i class="bi bi-star-fill text-yellow-500 mr-1"></i>
               <span class="text-sm"
-                >Rating: {{ product.rating | number : "1.1-1" }}</span
+                >{{ "UPDATE_PRODUCT.RATING" | translate }}:
+                {{ product.rating | number : "1.1-1" }}</span
               >
             </div>
           </div>
           <div>
             <div class="flex items-center">
               <i class="bi bi-eye text-primary-600 mr-1"></i>
-              <span class="text-sm">Views: {{ product.visit }}</span>
+              <span class="text-sm"
+                >{{ "UPDATE_PRODUCT.VIEWS" | translate }}:
+                {{ product.visit }}</span
+              >
             </div>
           </div>
         </div>
@@ -236,19 +261,24 @@
     <section *ngIf="step === 3" class="card">
       <div class="card-body">
         <div class="title text-center mb-5">
-          <h2 class="h4 mb-2">Update Product Description</h2>
+          <h2 class="h4 mb-2">
+            {{ "UPDATE_PRODUCT.DESCRIPTION.TITLE" | translate }}
+          </h2>
           <div class="w-16 h-1 bg-primary-500 mx-auto rounded-full"></div>
         </div>
 
         <div class="form-group mb-4">
           <label for="description" class="form-label flex items-center">
-            <i class="bi bi-file-text text-primary-500 mr-2"></i>Description
+            <i class="bi bi-file-text text-primary-500 mr-2"></i
+            >{{ "ADD_PRODUCT.DESCRIPTION.LABEL" | translate }}
           </label>
           <textarea
             id="description"
             formControlName="description"
             rows="6"
-            placeholder="Describe your product..."
+            placeholder="{{
+              'ADD_PRODUCT.DESCRIPTION.PLACEHOLDER' | translate
+            }}"
             class="input w-full focus:border-primary-500 transition-colors"
             [ngClass]="{
               'border-red-500':
@@ -263,30 +293,35 @@
             "
             class="form-error"
           >
-            <span *ngIf="productForm.get('description')?.errors?.['required']"
-              >Description is required</span
+            <span
+              *ngIf="productForm.get('description')?.errors?.['required']"
+              >{{ "ADD_PRODUCT.DESCRIPTION.ERROR" | translate }}</span
             >
-            <span *ngIf="productForm.get('description')?.errors?.['minlength']"
-              >Description must be at least 20 characters</span
+            <span
+              *ngIf="productForm.get('description')?.errors?.['minlength']"
+              >{{ "ADD_PRODUCT.DESCRIPTION.ERROR" | translate }}</span
             >
           </div>
           <p class="form-text mt-2">
-            Include details about features, condition, and any other important
-            information
+            {{ "ADD_PRODUCT.DESCRIPTION.HINT" | translate }}
           </p>
         </div>
 
         <div class="bg-gray-50 p-4 rounded-lg mt-4">
           <p class="text-sm font-medium text-gray-700 mb-2">
-            Product Information
+            {{ "UPDATE_PRODUCT.PRODUCT_INFO_LABEL" | translate }}
           </p>
           <div class="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <p class="text-gray-500">Product Code</p>
+              <p class="text-gray-500">
+                {{ "UPDATE_PRODUCT.PRODUCT_CODE" | translate }}
+              </p>
               <p class="font-medium">{{ product.product_code }}</p>
             </div>
             <div>
-              <p class="text-gray-500">Last Updated</p>
+              <p class="text-gray-500">
+                {{ "UPDATE_PRODUCT.LAST_UPDATED" | translate }}
+              </p>
               <p class="font-medium">{{ product.updated_at | date }}</p>
             </div>
           </div>
@@ -298,14 +333,19 @@
     <section *ngIf="step === 4" class="card">
       <div class="card-body">
         <div class="title text-center mb-5">
-          <h2 class="h4 mb-2">Update Product Images</h2>
+          <h2 class="h4 mb-2">
+            {{ "UPDATE_PRODUCT.IMAGES.TITLE" | translate }}
+          </h2>
           <div class="w-16 h-1 bg-primary-500 mx-auto rounded-full"></div>
         </div>
 
         <div class="form-group mb-4">
           <label class="form-label flex items-center">
-            <i class="bi bi-images text-primary-500 mr-2"></i>Manage Images
-            <span class="text-gray-500 ml-2">(minimum 2, maximum 5)</span>
+            <i class="bi bi-images text-primary-500 mr-2"></i
+            >{{ "UPDATE_PRODUCT.IMAGES.MANAGE" | translate }}
+            <span class="text-gray-500 ml-2">{{
+              "ADD_PRODUCT.IMAGES.LIMIT" | translate
+            }}</span>
           </label>
 
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
@@ -328,9 +368,10 @@
                 class="bi bi-cloud-arrow-up text-3xl text-primary-500 mb-2"
               ></i>
               <span class="text-sm text-gray-600 text-center">
-                Click to upload<br />
+                {{ "ADD_PRODUCT.IMAGES.UPLOAD" | translate }}<br />
                 <span class="text-xs"
-                  >{{ uploadedImages.length }}/{{ maxImages }} images</span
+                  >{{ uploadedImages.length }}/{{ maxImages }}
+                  {{ "ADD_PRODUCT.IMAGES.COUNT" | translate }}</span
                 >
               </span>
             </div>
@@ -362,14 +403,14 @@
                 *ngIf="image.id"
                 class="absolute top-1 left-1 bg-primary-600 text-white text-xs px-1.5 py-0.5 rounded-full"
               >
-                Existing
+                {{ "UPDATE_PRODUCT.IMAGES.EXISTING" | translate }}
               </div>
               <!-- Badge for new images -->
               <div
                 *ngIf="image.file"
                 class="absolute top-1 left-1 bg-green-600 text-white text-xs px-1.5 py-0.5 rounded-full"
               >
-                New
+                {{ "UPDATE_PRODUCT.IMAGES.NEW" | translate }}
               </div>
             </div>
           </div>
@@ -378,7 +419,7 @@
             *ngIf="uploadedImages.length < 2 && step === 4"
             class="form-error mt-2"
           >
-            Please upload at least 2 images
+            {{ "ADD_PRODUCT.IMAGES.ERROR" | translate }}
           </div>
 
           <div
@@ -391,8 +432,7 @@
               </div>
               <div class="ml-3">
                 <p class="text-sm text-yellow-700">
-                  You've made changes to the product images. These changes will
-                  be saved when you click "Update Product".
+                  {{ "UPDATE_PRODUCT.IMAGES.CHANGES_WARNING" | translate }}
                 </p>
               </div>
             </div>
@@ -410,7 +450,8 @@
       class="btn btn-outline-secondary flex items-center"
       type="button"
     >
-      <i class="bi bi-arrow-left mr-2"></i> Previous
+      <i class="bi bi-arrow-left mr-2"></i>
+      {{ "ADD_PRODUCT.BUTTONS.PREVIOUS" | translate }}
     </button>
     <div></div>
     <!-- Spacer -->
@@ -420,7 +461,8 @@
       class="btn btn-primary flex items-center"
       type="button"
     >
-      Next <i class="bi bi-arrow-right ml-2"></i>
+      {{ "ADD_PRODUCT.BUTTONS.NEXT" | translate }}
+      <i class="bi bi-arrow-right ml-2"></i>
     </button>
     <button
       *ngIf="step === maxStep"
@@ -431,11 +473,13 @@
     >
       <ng-container *ngIf="isLoading; else submitText">
         <spinner></spinner>
-        <span class="ml-2">Updating...</span>
+        <span class="ml-2">{{
+          "UPDATE_PRODUCT.BUTTONS.UPDATING" | translate
+        }}</span>
       </ng-container>
       <ng-template #submitText>
         <i class="bi bi-check-circle mr-2"></i>
-        <span>Update Product</span>
+        <span>{{ "UPDATE_PRODUCT.BUTTONS.UPDATE" | translate }}</span>
       </ng-template>
     </button>
   </div>

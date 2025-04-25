@@ -34,10 +34,8 @@
             </ng-container>
           </div>
           <span class="text-white ml-2"
-            >{{ shop.rating || "0" }} ({{
-              shop.visit_count || "0"
-            }}
-            visits)</span
+            >{{ shop.rating || "0" }} ({{ shop.visit_count || "0" }}
+            {{ "SHOP_DETAILS.VISITS" | translate }})</span
           >
         </div>
       </div>
@@ -46,9 +44,11 @@
 
   <!-- Description du magasin -->
   <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-    <h2 class="text-xl font-semibold text-gray-800 mb-3">About the Shop</h2>
+    <h2 class="text-xl font-semibold text-gray-800 mb-3">
+      {{ "SHOP_DETAILS.ABOUT" | translate }}
+    </h2>
     <p class="text-gray-600">
-      {{ shop.description || "No description available for this shop." }}
+      {{ shop.description || ("SHOP_DETAILS.NO_DESCRIPTION" | translate) }}
     </p>
   </div>
 
@@ -60,7 +60,7 @@
         <div class="bg-primary-50 p-4 border-b border-gray-200">
           <h3 class="text-lg font-semibold text-gray-800 flex items-center">
             <i class="bi bi-person-badge text-primary-600 mr-2"></i>
-            Seller Information
+            {{ "SHOP_DETAILS.SELLER_INFO" | translate }}
           </h3>
         </div>
 
@@ -68,9 +68,13 @@
           <li class="p-4 flex items-center">
             <i class="bi bi-geo-alt text-primary-500 text-xl mr-3"></i>
             <div>
-              <span class="font-medium text-gray-700">Address:</span>
+              <span class="font-medium text-gray-700">{{
+                "SHOP_DETAILS.ADDRESS" | translate
+              }}</span>
               <p class="text-gray-600">
-                {{ shop.location || "Not specified" }}
+                {{
+                  shop.location || ("SHOP_DETAILS.NOT_SPECIFIED" | translate)
+                }}
               </p>
             </div>
           </li>
@@ -78,13 +82,15 @@
           <li class="p-4 flex items-center">
             <i class="bi bi-envelope text-primary-500 text-xl mr-3"></i>
             <div>
-              <span class="font-medium text-gray-700">Email:</span>
+              <span class="font-medium text-gray-700">{{
+                "SHOP_DETAILS.EMAIL" | translate
+              }}</span>
               <p>
                 <a
                   href="mailto:{{ shop.email || 'contact@example.com' }}"
                   class="text-primary-600 hover:underline"
                 >
-                  {{ shop.email || "Not specified" }}
+                  {{ shop.email || ("SHOP_DETAILS.NOT_SPECIFIED" | translate) }}
                 </a>
               </p>
             </div>
@@ -93,13 +99,18 @@
           <li class="p-4 flex items-center">
             <i class="bi bi-telephone text-primary-500 text-xl mr-3"></i>
             <div>
-              <span class="font-medium text-gray-700">Phone:</span>
+              <span class="font-medium text-gray-700">{{
+                "SHOP_DETAILS.PHONE" | translate
+              }}</span>
               <p>
                 <a
                   href="tel:{{ shop.contact_number }}"
                   class="text-primary-600 hover:underline"
                 >
-                  {{ shop.contact_number || "Not specified" }}
+                  {{
+                    shop.contact_number ||
+                      ("SHOP_DETAILS.NOT_SPECIFIED" | translate)
+                  }}
                 </a>
               </p>
             </div>
@@ -108,14 +119,19 @@
           <li class="p-4 flex items-center">
             <i class="bi bi-globe text-primary-500 text-xl mr-3"></i>
             <div>
-              <span class="font-medium text-gray-700">Website:</span>
+              <span class="font-medium text-gray-700">{{
+                "SHOP_DETAILS.WEBSITE" | translate
+              }}</span>
               <p>
                 <a
                   href="{{ shop.website_url }}"
                   target="_blank"
                   class="text-primary-600 hover:underline"
                 >
-                  {{ shop.website_url || "Not specified" }}
+                  {{
+                    shop.website_url ||
+                      ("SHOP_DETAILS.NOT_SPECIFIED" | translate)
+                  }}
                 </a>
               </p>
             </div>
@@ -124,7 +140,9 @@
 
         <!-- Share Options -->
         <div class="p-4 border-t border-gray-200">
-          <h4 class="font-medium text-gray-700 mb-3">Share this shop:</h4>
+          <h4 class="font-medium text-gray-700 mb-3">
+            {{ "SHOP_DETAILS.SHARE" | translate }}
+          </h4>
           <div class="flex space-x-4">
             <a
               [href]="generateShareUrl('facebook')"
@@ -135,6 +153,7 @@
             >
               <i class="bi bi-facebook"></i>
             </a>
+
             <a
               [href]="generateShareUrl('linkedin')"
               target="_blank"
@@ -144,6 +163,7 @@
             >
               <i class="bi bi-linkedin"></i>
             </a>
+
             <a
               [href]="generateShareUrl('twitter')"
               target="_blank"
@@ -153,6 +173,7 @@
             >
               <i class="bi bi-twitter-x"></i>
             </a>
+
             <a
               [href]="generateShareUrl('whatsapp')"
               target="_blank"
@@ -177,7 +198,7 @@
           >
             <h3 class="text-lg font-semibold text-gray-800 flex items-center">
               <i class="bi bi-bag text-primary-600 mr-2"></i>
-              Shop Products
+              {{ "SHOP_DETAILS.PRODUCTS.TITLE" | translate }}
             </h3>
           </div>
 
@@ -186,7 +207,9 @@
             <div
               class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"
             ></div>
-            <p class="mt-4 text-gray-600">Loading products...</p>
+            <p class="mt-4 text-gray-600">
+              {{ "SHOP_DETAILS.PRODUCTS.LOADING" | translate }}
+            </p>
           </div>
 
           <!-- Products Grid -->
@@ -226,11 +249,13 @@
                   <span class="text-primary-600 font-bold"
                     >{{ product.price }} {{ product.currency }}</span
                   >
+
                   <a
                     [routerLink]="['/product', product.id]"
                     class="btn-sm btn-primary"
                   >
-                    <i class="bi bi-eye mr-1"></i> View
+                    <i class="bi bi-eye mr-1"></i>
+                    {{ "SHOP_DETAILS.PRODUCTS.VIEW" | translate }}
                   </a>
                 </div>
               </div>
@@ -243,7 +268,9 @@
             class="p-8 text-center"
           >
             <i class="bi bi-bag-x text-gray-400 text-4xl mb-2"></i>
-            <p class="text-gray-600">No products available from this shop.</p>
+            <p class="text-gray-600">
+              {{ "SHOP_DETAILS.PRODUCTS.NO_PRODUCTS" | translate }}
+            </p>
           </div>
         </div>
       </div>
@@ -256,10 +283,11 @@
           >
             <h3 class="text-lg font-semibold text-gray-800 flex items-center">
               <i class="bi bi-star text-primary-600 mr-2"></i>
-              Customer Reviews
+              {{ "SHOP_DETAILS.REVIEWS.TITLE" | translate }}
             </h3>
             <button (click)="review()" class="btn-sm btn-primary">
-              <i class="bi bi-plus-circle mr-1"></i> Add Review
+              <i class="bi bi-plus-circle mr-1"></i>
+              {{ "SHOP_DETAILS.REVIEWS.ADD" | translate }}
             </button>
           </div>
 
@@ -285,7 +313,10 @@
                     <div class="flex-1">
                       <div class="flex justify-between">
                         <h4 class="font-medium text-gray-800">
-                          {{ review.user?.name || "Anonymous" }}
+                          {{
+                            review.user?.name ||
+                              ("SHOP_DETAILS.REVIEWS.ANONYMOUS" | translate)
+                          }}
                         </h4>
                         <span class="text-xs text-gray-500">{{
                           review.created_at | date : "medium"
@@ -306,7 +337,10 @@
                       </div>
 
                       <p class="text-gray-600 mt-2">
-                        {{ review.review || "No comments provided" }}
+                        {{
+                          review.review ||
+                            ("SHOP_DETAILS.REVIEWS.NO_COMMENTS" | translate)
+                        }}
                       </p>
                     </div>
                   </div>
@@ -319,10 +353,10 @@
               <div class="text-center py-8">
                 <i class="bi bi-chat-square text-gray-400 text-4xl mb-2"></i>
                 <p class="text-gray-600">
-                  No reviews available for this shop yet.
+                  {{ "SHOP_DETAILS.REVIEWS.NO_REVIEWS" | translate }}
                 </p>
                 <p class="text-sm text-gray-500 mt-2">
-                  Be the first to share your experience!
+                  {{ "SHOP_DETAILS.REVIEWS.BE_FIRST" | translate }}
                 </p>
               </div>
             </ng-template>

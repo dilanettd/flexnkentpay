@@ -2,10 +2,12 @@
   <div class="card-body p-6">
     <!-- Header -->
     <div class="title text-center mb-5">
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">QR Code Scanner</h3>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">
+        {{ "QR_SCANNER.TITLE" | translate }}
+      </h3>
       <div class="w-16 h-1 bg-primary-500 mx-auto rounded-full"></div>
       <p class="text-sm text-gray-600 mt-2">
-        Scan a QR code or upload an image
+        {{ "QR_SCANNER.SUBTITLE" | translate }}
       </p>
     </div>
 
@@ -21,7 +23,8 @@
               : 'text-gray-700 hover:bg-gray-300'
           "
         >
-          <i class="bi bi-camera text-primary-500 mr-2"></i>Camera
+          <i class="bi bi-camera text-primary-500 mr-2"></i
+          >{{ "QR_SCANNER.CAMERA_TAB" | translate }}
         </button>
         <button
           (click)="scanMethod = 'gallery'"
@@ -32,7 +35,8 @@
               : 'text-gray-700 hover:bg-gray-300'
           "
         >
-          <i class="bi bi-images text-primary-500 mr-2"></i>Gallery
+          <i class="bi bi-images text-primary-500 mr-2"></i
+          >{{ "QR_SCANNER.GALLERY_TAB" | translate }}
         </button>
       </div>
     </div>
@@ -96,9 +100,9 @@
       >
         <i class="bi bi-camera-off text-4xl text-gray-400 mb-4 block"></i>
         <h3 class="text-lg font-semibold text-gray-800 mb-2">
-          Camera not available
+          {{ "QR_SCANNER.CAMERA_NOT_AVAILABLE" | translate }}
         </h3>
-        <p class="text-gray-600">Please use the upload option below</p>
+        <p class="text-gray-600">{{ "QR_SCANNER.USE_UPLOAD" | translate }}</p>
       </div>
 
       <!-- Upload Section -->
@@ -110,7 +114,8 @@
         }"
       >
         <label class="form-label flex items-center mb-4">
-          <i class="bi bi-upload text-primary-500 mr-2"></i>Upload QR code image
+          <i class="bi bi-upload text-primary-500 mr-2"></i
+          >{{ "QR_SCANNER.UPLOAD_LABEL" | translate }}
         </label>
         <div
           class="relative border-2 border-dashed border-primary-400 rounded-xl p-8 text-center cursor-pointer hover:bg-primary-50/50 transition-all duration-300"
@@ -126,8 +131,12 @@
           <i
             class="bi bi-cloud-upload text-4xl text-primary-500 mb-4 block"
           ></i>
-          <p class="text-gray-700">Click or drag an image here</p>
-          <p class="text-sm text-gray-500 mt-2">PNG, JPG up to 5MB</p>
+          <p class="text-gray-700">
+            {{ "QR_SCANNER.UPLOAD_TEXT" | translate }}
+          </p>
+          <p class="text-sm text-gray-500 mt-2">
+            {{ "QR_SCANNER.UPLOAD_HINT" | translate }}
+          </p>
         </div>
       </div>
 
@@ -146,7 +155,7 @@
           class="mt-2 text-red-600 hover:text-red-800 text-sm font-medium flex items-center"
         >
           <i class="bi bi-arrow-repeat mr-1"></i>
-          Retry scan
+          {{ "QR_SCANNER.RETRY_SCAN" | translate }}
         </button>
       </div>
     </div>
@@ -159,14 +168,14 @@
         class="btn btn-primary flex-1 py-2.5 shadow-sm hover:shadow transition-all"
         (click)="retryScanner()"
       >
-        <i class="bi bi-camera mr-2"></i>New scan
+        <i class="bi bi-camera mr-2"></i>{{ "QR_SCANNER.NEW_SCAN" | translate }}
       </button>
       <button
         type="button"
         class="btn btn-outline-primary flex-1 py-2.5 transition-all"
         (click)="closeModal()"
       >
-        Cancel
+        {{ "QR_SCANNER.CANCEL_BUTTON" | translate }}
       </button>
     </div>
   </div>

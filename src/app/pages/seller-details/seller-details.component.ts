@@ -12,11 +12,12 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { LoginModalComponent } from '../../shared/components/login-modal/login-modal.component';
 import { Meta, Title } from '@angular/platform-browser';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-seller-details',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslateModule],
   templateUrl: './seller-details.component.html',
   styleUrl: './seller-details.component.scss',
 })
@@ -39,7 +40,8 @@ export class SellerDetailsComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private authService: AuthService,
     private metaService: Meta,
-    private titleService: Title
+    private titleService: Title,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {
@@ -87,7 +89,9 @@ export class SellerDetailsComponent implements OnInit, OnDestroy {
         this.getShopReviews(this.shopId);
       });
     } else {
-      this.toastr.error('Vous devez être connecté pour laisser un avis.');
+      this.toastr.error(
+        this.translateService.instant('SHOP_DETAILS.REVIEWS.LOGIN_REQUIRED')
+      );
       this.modalService.open(LoginModalComponent);
     }
   }

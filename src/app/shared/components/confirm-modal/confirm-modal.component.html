@@ -39,9 +39,11 @@
   <!-- Action Buttons -->
   <div class="flex justify-evenly">
     <button class="btn btn-outline-primary" (click)="closeModal()">
-      Cancel
+      {{ "QR_SCANNER.CANCEL_BUTTON" | translate }}
     </button>
 
-    <a [href]="confirmLink" class="btn btn-primary"> Confirm </a>
+    <a [href]="confirmLink" class="btn btn-primary">
+      {{ "REGISTER.CONFIRM" | translate }}
+    </a>
   </div>
 </div>

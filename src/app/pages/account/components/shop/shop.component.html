@@ -3,9 +3,11 @@
     <ng-container *ngIf="!isUserSeller; else sellerContent">
       <div class="max-w-3xl mx-auto">
         <div class="text-center mb-8">
-          <h1 class="text-3xl font-bold text-gray-800 mb-2">Devenir vendeur</h1>
+          <h1 class="text-3xl font-bold text-gray-800 mb-2">
+            {{ "SHOP.BECOME_SELLER.TITLE" | translate }}
+          </h1>
           <p class="text-gray-600">
-            Commencez à vendre vos produits sur notre plateforme
+            {{ "SHOP.BECOME_SELLER.SUBTITLE" | translate }}
           </p>
         </div>
 
@@ -22,13 +24,14 @@
                 class="content-card bg-white p-6 rounded-xl shadow-sm border border-gray-100"
               >
                 <h4 class="text-md font-semibold text-gray-700 mb-4">
-                  Informations de votre boutique
+                  {{ "SHOP.FORM.SHOP_INFO_TITLE" | translate }}
                 </h4>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                   <div class="space-y-2">
                     <label for="name" class="text-sm font-medium text-gray-700">
-                      Nom de la boutique <span class="text-red-500">*</span>
+                      {{ "SHOP.FORM.SHOP_NAME" | translate }}
+                      <span class="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -43,7 +46,7 @@
                       "
                       class="text-xs text-red-600 mt-1"
                     >
-                      Le nom de la boutique est requis
+                      {{ "SHOP.VALIDATION.NAME_REQUIRED" | translate }}
                     </p>
                   </div>
 
@@ -52,7 +55,8 @@
                       for="location"
                       class="text-sm font-medium text-gray-700"
                     >
-                      Emplacement <span class="text-red-500">*</span>
+                      {{ "SHOP.FORM.LOCATION" | translate }}
+                      <span class="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -67,7 +71,7 @@
                       "
                       class="text-xs text-red-600 mt-1"
                     >
-                      L'emplacement est requis
+                      {{ "SHOP.VALIDATION.LOCATION_REQUIRED" | translate }}
                     </p>
                   </div>
 
@@ -76,7 +80,8 @@
                       for="contact_number"
                       class="text-sm font-medium text-gray-700"
                     >
-                      Numéro de contact <span class="text-red-500">*</span>
+                      {{ "SHOP.FORM.CONTACT_NUMBER" | translate }}
+                      <span class="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -91,7 +96,7 @@
                       "
                       class="text-xs text-red-600 mt-1"
                     >
-                      Le numéro de contact est requis
+                      {{ "SHOP.VALIDATION.CONTACT_REQUIRED" | translate }}
                     </p>
                   </div>
 
@@ -100,7 +105,8 @@
                       for="website_url"
                       class="text-sm font-medium text-gray-700"
                     >
-                      Site web (optionnel)
+                      {{ "SHOP.FORM.WEBSITE" | translate }}
+                      {{ "SHOP.FORM.OPTIONAL" | translate }}
                     </label>
                     <input
                       type="text"
@@ -117,7 +123,7 @@
                 class="content-card bg-white p-6 rounded-xl shadow-sm border border-gray-100"
               >
                 <h4 class="text-md font-semibold text-gray-700 mb-4">
-                  Description de votre boutique
+                  {{ "SHOP.FORM.SHOP_DESCRIPTION_TITLE" | translate }}
                 </h4>
 
                 <div class="space-y-2">
@@ -125,14 +131,17 @@
                     for="description"
                     class="text-sm font-medium text-gray-700"
                   >
-                    Description <span class="text-red-500">*</span>
+                    {{ "SHOP.FORM.DESCRIPTION" | translate }}
+                    <span class="text-red-500">*</span>
                   </label>
                   <textarea
                     id="description"
                     rows="4"
                     formControlName="description"
                     class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:border-blue-300 outline-none"
-                    placeholder="Décrivez votre boutique, vos produits et votre activité..."
+                    placeholder="{{
+                      'SHOP.FORM.DESCRIPTION_PLACEHOLDER' | translate
+                    }}"
                   ></textarea>
                   <p
                     *ngIf="
@@ -141,7 +150,7 @@
                     "
                     class="text-xs text-red-600 mt-1"
                   >
-                    La description est requise (minimum 10 caractères)
+                    {{ "SHOP.VALIDATION.DESCRIPTION_REQUIRED" | translate }}
                   </p>
                 </div>
               </div>
@@ -151,7 +160,7 @@
                 class="content-card bg-white p-6 rounded-xl shadow-sm border border-gray-100"
               >
                 <h4 class="text-md font-semibold text-gray-700 mb-4">
-                  Conditions d'utilisation
+                  {{ "SHOP.FORM.TERMS_TITLE" | translate }}
                 </h4>
 
                 <div class="space-y-4">
@@ -166,15 +175,15 @@
                     </div>
                     <div class="ml-3 text-sm">
                       <label for="terms" class="text-gray-700">
-                        J'accepte les
-                        <a href="#" class="text-primary-600 hover:underline"
-                          >conditions d'utilisation</a
-                        >
-                        et la
-                        <a href="#" class="text-primary-600 hover:underline"
-                          >politique de confidentialité</a
-                        >
-                        de la plateforme.
+                        {{ "SHOP.FORM.ACCEPT" | translate }}
+                        <a href="#" class="text-primary-600 hover:underline">{{
+                          "SHOP.FORM.TERMS" | translate
+                        }}</a>
+                        {{ "SHOP.FORM.AND" | translate }}
+                        <a href="#" class="text-primary-600 hover:underline">{{
+                          "SHOP.FORM.PRIVACY_POLICY" | translate
+                        }}</a>
+                        {{ "SHOP.FORM.OF_PLATFORM" | translate }}
                       </label>
                       <p
                         *ngIf="
@@ -183,7 +192,7 @@
                         "
                         class="text-xs text-red-600 mt-1"
                       >
-                        Vous devez accepter les conditions d'utilisation
+                        {{ "SHOP.VALIDATION.TERMS_REQUIRED" | translate }}
                       </p>
                     </div>
                   </div>
@@ -219,11 +228,11 @@
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
-                      <span>Création en cours...</span>
+                      <span>{{ "SHOP.BUTTONS.CREATING" | translate }}</span>
                     </div>
                   </ng-container>
                   <ng-template #submitBtnText>
-                    <span>Créer ma boutique</span>
+                    <span>{{ "SHOP.BUTTONS.CREATE_SHOP" | translate }}</span>
                   </ng-template>
                 </button>
               </div>
@@ -240,7 +249,7 @@
           class="text-2xl font-heading font-semibold text-gray-800 gradient-underline flex items-center"
         >
           <span class="bg-primary-600 w-2 h-10 mr-3 rounded-full"></span>
-          Ma Botique
+          {{ "SHOP.MY_SHOP" | translate }}
         </h2>
       </div>
 
@@ -254,7 +263,7 @@
                 shopData?.shop?.cover_photo_url ||
                 'assets/images/avatars/avatar.jpg'
               "
-              alt="Cover photo"
+              alt="{{ 'SHOP.COVER_PHOTO_ALT' | translate }}"
               class="w-full h-full object-cover"
             />
 
@@ -288,7 +297,7 @@
                       shopData?.shop?.logo_url ||
                       'assets/images/avatars/avatar.jpg'
                     "
-                    alt="Logo"
+                    alt="{{ 'SHOP.LOGO_ALT' | translate }}"
                     class="w-full h-full object-cover rounded-lg"
                   />
                 </div>
@@ -310,23 +319,31 @@
                 />
               </div>
             </div>
-
             <!-- Shop Information -->
             <div class="flex justify-between flex-wrap gap-4">
               <div class="max-w-2xl">
                 <h2 class="text-2xl font-bold text-gray-800 mb-1">
-                  {{ shopData?.shop?.name || "Nom de boutique" }}
+                  {{
+                    shopData?.shop?.name ||
+                      ("SHOP.DEFAULT_SHOP_NAME" | translate)
+                  }}
                 </h2>
 
                 <div class="flex flex-wrap items-center gap-2 mb-3">
                   <span class="inline-flex items-center text-sm text-gray-600">
                     <i class="bi bi-geo-alt text-primary-600 mr-1"></i>
-                    {{ shopData?.shop?.location || "Emplacement non défini" }}
+                    {{
+                      shopData?.shop?.location ||
+                        ("SHOP.DEFAULT_LOCATION" | translate)
+                    }}
                   </span>
 
                   <span class="inline-flex items-center text-sm text-gray-600">
                     <i class="bi bi-telephone text-primary-600 mr-1"></i>
-                    {{ shopData?.shop?.contact_number || "Contact non défini" }}
+                    {{
+                      shopData?.shop?.contact_number ||
+                        ("SHOP.DEFAULT_CONTACT" | translate)
+                    }}
                   </span>
 
                   <span
@@ -339,7 +356,10 @@
                 </div>
 
                 <p class="text-gray-700">
-                  {{ shopData?.shop?.description || "Aucune description" }}
+                  {{
+                    shopData?.shop?.description ||
+                      ("SHOP.DEFAULT_DESCRIPTION" | translate)
+                  }}
                 </p>
               </div>
             </div>
@@ -382,7 +402,9 @@
             <div
               class="flex flex-col sm:flex-row justify-between items-center gap-4"
             >
-              <h2 class="text-xl font-semibold text-gray-800">Mes Commandes</h2>
+              <h2 class="text-xl font-semibold text-gray-800">
+                {{ "SHOP.ORDERS.TITLE" | translate }}
+              </h2>
             </div>
 
             <!-- Orders List -->
@@ -407,11 +429,10 @@
                     <i class="bi bi-bag text-gray-300 text-4xl"></i>
                   </div>
                   <h3 class="text-lg font-medium text-gray-800 mb-2">
-                    Aucune commande trouvée
+                    {{ "SHOP.ORDERS.NO_ORDERS_TITLE" | translate }}
                   </h3>
                   <p class="text-gray-600 max-w-md mx-auto">
-                    Vous n'avez pas encore reçu de commandes. Quand vous en
-                    recevrez, elles apparaîtront ici.
+                    {{ "SHOP.ORDERS.NO_ORDERS_MESSAGE" | translate }}
                   </p>
                 </div>
               </div>
@@ -438,10 +459,11 @@
                           {{ order.product.name }}
                         </h4>
                         <p class="text-sm text-gray-600">
-                          Qté: {{ order.quantity }}
+                          {{ "SHOP.ORDERS.QUANTITY" | translate }}:
+                          {{ order.quantity }}
                         </p>
                         <p class="text-sm text-gray-600">
-                          Total:
+                          {{ "SHOP.ORDERS.TOTAL" | translate }}:
                           <span class="text-primary-600 font-medium"
                             >{{ order.total_cost | number : "1.0-0" }} XAF</span
                           >
@@ -452,7 +474,9 @@
 
                   <!-- Customer Info -->
                   <div class="md:w-1/5">
-                    <p class="text-xs text-gray-500 mb-1">Client</p>
+                    <p class="text-xs text-gray-500 mb-1">
+                      {{ "SHOP.ORDERS.CUSTOMER" | translate }}
+                    </p>
                     <div class="flex items-center">
                       <div
                         class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2 overflow-hidden"
@@ -476,7 +500,9 @@
 
                   <!-- Status Info -->
                   <div class="md:w-1/5">
-                    <p class="text-xs text-gray-500 mb-1">Statut & Date</p>
+                    <p class="text-xs text-gray-500 mb-1">
+                      {{ "SHOP.ORDERS.STATUS_DATE" | translate }}
+                    </p>
                     <div>
                       <span
                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
@@ -501,10 +527,10 @@
                       >
                         {{
                           order.is_completed
-                            ? "Complété"
+                            ? ("SHOP.ORDERS.STATUS_COMPLETED" | translate)
                             : order.remaining_installments > 0
-                            ? "En cours"
-                            : "En attente"
+                            ? ("SHOP.ORDERS.STATUS_IN_PROGRESS" | translate)
+                            : ("SHOP.ORDERS.STATUS_PENDING" | translate)
                         }}
                       </span>
                       <p class="text-xs text-gray-500 mt-1">
@@ -515,7 +541,9 @@
 
                   <!-- Payment Installments -->
                   <div class="md:w-1/5">
-                    <p class="text-xs text-gray-500 mb-1">Versements</p>
+                    <p class="text-xs text-gray-500 mb-1">
+                      {{ "SHOP.ORDERS.INSTALLMENTS" | translate }}
+                    </p>
                     <div class="flex items-center gap-1">
                       <div
                         *ngFor="
@@ -533,13 +561,14 @@
               </div>
             </div>
           </div>
-
           <!-- Products Tab -->
           <div *ngSwitchCase="'products'" class="space-y-6">
             <div
               class="flex flex-col sm:flex-row justify-between items-center gap-4"
             >
-              <h2 class="text-xl font-semibold text-gray-800">Mes Produits</h2>
+              <h2 class="text-xl font-semibold text-gray-800">
+                {{ "SHOP.PRODUCTS.TITLE" | translate }}
+              </h2>
 
               <!-- Add Button -->
               <div class="flex flex-wrap gap-2">
@@ -548,7 +577,7 @@
                   class="py-2.5 px-6 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center"
                 >
                   <i class="bi bi-plus-lg mr-2"></i>
-                  Ajouter
+                  {{ "SHOP.BUTTONS.ADD" | translate }}
                 </button>
               </div>
             </div>
@@ -576,18 +605,17 @@
                     <i class="bi bi-box text-gray-300 text-5xl"></i>
                   </div>
                   <h3 class="text-xl font-medium text-gray-800 mb-3">
-                    Aucun produit trouvé
+                    {{ "SHOP.PRODUCTS.NO_PRODUCTS_TITLE" | translate }}
                   </h3>
                   <p class="text-gray-600 max-w-md mx-auto mb-6">
-                    Vous n'avez pas encore ajouté de produits à votre boutique.
-                    Commencez dès maintenant pour attirer de nouveaux clients!
+                    {{ "SHOP.PRODUCTS.NO_PRODUCTS_MESSAGE" | translate }}
                   </p>
                   <button
                     (click)="openAddProductModal()"
                     class="py-3 px-6 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center"
                   >
                     <i class="bi bi-plus-lg mr-2"></i>
-                    Ajouter mon premier produit
+                    {{ "SHOP.BUTTONS.ADD_FIRST_PRODUCT" | translate }}
                   </button>
                 </div>
               </div>
@@ -631,7 +659,11 @@
                         [class.border]="!product.is_active"
                         [class.border-red-200]="!product.is_active"
                       >
-                        {{ product.is_active ? "Actif" : "Inactif" }}
+                        {{
+                          product.is_active
+                            ? ("SHOP.PRODUCTS.STATUS_ACTIVE" | translate)
+                            : ("SHOP.PRODUCTS.STATUS_INACTIVE" | translate)
+                        }}
                       </span>
                     </div>
 
@@ -692,7 +724,8 @@
                           [class.bg-red-100]="product.stock_quantity <= 0"
                           [class.text-red-800]="product.stock_quantity <= 0"
                         >
-                          Stock: {{ product.stock_quantity }}
+                          {{ "SHOP.PRODUCTS.STOCK" | translate }}:
+                          {{ product.stock_quantity }}
                         </span>
                       </div>
                     </div>
@@ -701,14 +734,13 @@
               </div>
             </div>
           </div>
-
           <!-- Settings Tab -->
           <div *ngSwitchCase="'settings'" class="space-y-6">
             <div class="flex justify-between items-center mb-6">
               <h3
                 class="text-lg font-semibold text-gray-800 gradient-underline"
               >
-                Paramètres de la Boutique
+                {{ "SHOP.SETTINGS.TITLE" | translate }}
               </h3>
             </div>
 
@@ -722,13 +754,14 @@
                 class="content-card bg-white p-6 rounded-xl shadow-md border border-gray-100"
               >
                 <h4 class="text-md font-semibold text-gray-700 mb-4">
-                  Informations générales
+                  {{ "SHOP.SETTINGS.GENERAL_INFO" | translate }}
                 </h4>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                   <div class="space-y-2">
                     <label for="name" class="text-sm font-medium text-gray-700">
-                      Nom de la boutique <span class="text-red-500">*</span>
+                      {{ "SHOP.FORM.SHOP_NAME" | translate }}
+                      <span class="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -743,7 +776,7 @@
                       "
                       class="text-xs text-red-600 mt-1"
                     >
-                      Le nom de la boutique est requis
+                      {{ "SHOP.VALIDATION.NAME_REQUIRED" | translate }}
                     </p>
                   </div>
 
@@ -752,7 +785,8 @@
                       for="location"
                       class="text-sm font-medium text-gray-700"
                     >
-                      Emplacement <span class="text-red-500">*</span>
+                      {{ "SHOP.FORM.LOCATION" | translate }}
+                      <span class="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -767,7 +801,7 @@
                       "
                       class="text-xs text-red-600 mt-1"
                     >
-                      L'emplacement est requis
+                      {{ "SHOP.VALIDATION.LOCATION_REQUIRED" | translate }}
                     </p>
                   </div>
 
@@ -776,7 +810,8 @@
                       for="contact_number"
                       class="text-sm font-medium text-gray-700"
                     >
-                      Numéro de contact <span class="text-red-500">*</span>
+                      {{ "SHOP.FORM.CONTACT_NUMBER" | translate }}
+                      <span class="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -791,7 +826,7 @@
                       "
                       class="text-xs text-red-600 mt-1"
                     >
-                      Le numéro de contact est requis
+                      {{ "SHOP.VALIDATION.CONTACT_REQUIRED" | translate }}
                     </p>
                   </div>
 
@@ -800,7 +835,7 @@
                       for="website_url"
                       class="text-sm font-medium text-gray-700"
                     >
-                      Site web
+                      {{ "SHOP.FORM.WEBSITE" | translate }}
                     </label>
                     <input
                       type="text"
@@ -817,7 +852,7 @@
                 class="content-card bg-white p-6 rounded-xl shadow-md border border-gray-100"
               >
                 <h4 class="text-md font-semibold text-gray-700 mb-4">
-                  Description
+                  {{ "SHOP.FORM.DESCRIPTION" | translate }}
                 </h4>
 
                 <div class="space-y-2">
@@ -825,7 +860,7 @@
                     for="description"
                     class="text-sm font-medium text-gray-700"
                   >
-                    Description de la boutique
+                    {{ "SHOP.SETTINGS.SHOP_DESCRIPTION" | translate }}
                     <span class="text-red-500">*</span>
                   </label>
                   <textarea
@@ -841,7 +876,7 @@
                     "
                     class="text-xs text-red-600 mt-1"
                   >
-                    La description est requise (minimum 10 caractères)
+                    {{ "SHOP.VALIDATION.DESCRIPTION_REQUIRED" | translate }}
                   </p>
                 </div>
               </div>
@@ -875,11 +910,11 @@
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
-                      <span>Enregistrement...</span>
+                      <span>{{ "SHOP.BUTTONS.SAVING" | translate }}</span>
                     </div>
                   </ng-container>
                   <ng-template #saveBtnText>
-                    <span>Enregistrer les modifications</span>
+                    <span>{{ "SHOP.BUTTONS.SAVE_CHANGES" | translate }}</span>
                   </ng-template>
                 </button>
               </div>

@@ -4,7 +4,7 @@
       class="text-3xl font-heading font-bold text-gray-800 mb-8 flex items-center"
     >
       <span class="relative">
-        Mon Compte
+        {{ "ACCOUNT.TITLE" | translate }}
         <span
           class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary-400 to-primary-600 rounded-full"
         ></span>
@@ -54,17 +54,22 @@
               routerLinkActive="bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md"
               class="block py-3 px-6 rounded-xl font-body transition-all duration-300 cursor-pointer hover:bg-primary-50 hover:shadow-sm bg-white text-gray-700 flex items-center"
             >
-              <span class="relative">Profil</span>
+              <span class="relative">{{
+                "ACCOUNT.NAVIGATION.PROFILE" | translate
+              }}</span>
             </a>
 
             <!-- Montrer "Ma Boutique" seulement pour les vendeurs -->
+
             <a
               *ngIf="userRole === 'seller'"
               routerLink="shop"
               routerLinkActive="bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md"
               class="block py-3 px-6 rounded-xl font-body transition-all duration-300 cursor-pointer hover:bg-primary-50 hover:shadow-sm bg-white text-gray-700 flex items-center"
             >
-              <span class="relative">Ma Boutique</span>
+              <span class="relative">{{
+                "ACCOUNT.NAVIGATION.MY_SHOP" | translate
+              }}</span>
             </a>
 
             <a
@@ -72,7 +77,9 @@
               routerLinkActive="bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md"
               class="block py-3 px-6 rounded-xl font-body transition-all duration-300 cursor-pointer hover:bg-primary-50 hover:shadow-sm bg-white text-gray-700 flex items-center"
             >
-              <span class="relative">Mes Achats</span>
+              <span class="relative">{{
+                "ACCOUNT.NAVIGATION.PURCHASES" | translate
+              }}</span>
             </a>
 
             <a
@@ -80,7 +87,9 @@
               routerLinkActive="bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md"
               class="block py-3 px-6 rounded-xl font-body transition-all duration-300 cursor-pointer hover:bg-primary-50 hover:shadow-sm bg-white text-gray-700 flex items-center"
             >
-              <span class="relative">Transactions</span>
+              <span class="relative">{{
+                "ACCOUNT.NAVIGATION.TRANSACTIONS" | translate
+              }}</span>
             </a>
           </nav>
 
@@ -90,7 +99,7 @@
               (click)="logout()"
               class="w-full py-3 px-6 rounded-xl transition-all duration-300 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:shadow-sm flex justify-center"
             >
-              <span>Déconnexion</span>
+              <span>{{ "ACCOUNT.NAVIGATION.LOGOUT" | translate }}</span>
             </button>
           </div>
         </div>

@@ -3,11 +3,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { QRCodeModule } from 'angularx-qrcode';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-share-bar-code-modal',
   standalone: true,
-  imports: [CommonModule, QRCodeModule],
+  imports: [CommonModule, QRCodeModule, TranslateModule],
   templateUrl: './share-bar-code-modal.component.html',
   styleUrl: './share-bar-code-modal.component.scss',
 })
@@ -18,6 +19,7 @@ export class ShareBarCodeModalComponent implements OnInit {
   barcodeUrl: string = '';
 
   private toastr = inject(ToastrService);
+  private translateService = inject(TranslateService);
   activeModal = inject(NgbActiveModal);
 
   ngOnInit(): void {
@@ -41,14 +43,18 @@ export class ShareBarCodeModalComponent implements OnInit {
       console.log('QR Canvas found:', qrCanvas); // Pour le débogage
 
       if (!qrCanvas) {
-        this.toastr.error('QR code canvas not found');
+        this.toastr.error(
+          this.translateService.instant('BARCODE_SHARE.ERROR.CANVAS_NOT_FOUND')
+        );
         return;
       }
 
       try {
         // Vérifiez que c'est bien un objet HTMLCanvasElement
         if (!(qrCanvas instanceof HTMLCanvasElement)) {
-          this.toastr.error('Found element is not a canvas');
+          this.toastr.error(
+            this.translateService.instant('BARCODE_SHARE.ERROR.NOT_CANVAS')
+          );
           return;
         }
 
@@ -61,16 +67,22 @@ export class ShareBarCodeModalComponent implements OnInit {
         link.click();
         document.body.removeChild(link);
 
-        this.toastr.success('QR code downloaded successfully');
+        this.toastr.success(
+          this.translateService.instant('BARCODE_SHARE.SUCCESS.DOWNLOAD')
+        );
       } catch (error) {
         console.error('Error generating image from canvas:', error);
-        this.toastr.error('Failed to generate QR code image');
+        this.toastr.error(
+          this.translateService.instant('BARCODE_SHARE.ERROR.GENERATE_FAILED')
+        );
       }
     } else if (this.barcodeUrl) {
       // Utilisation directe de l'URL du code-barres
       this.downloadImageFromURL(this.barcodeUrl);
     } else {
-      this.toastr.error('No barcode or QR code available to download');
+      this.toastr.error(
+        this.translateService.instant('BARCODE_SHARE.ERROR.NO_CODE')
+      );
     }
   }
 
@@ -88,11 +100,17 @@ export class ShareBarCodeModalComponent implements OnInit {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(blobUrl);
-        this.toastr.success('Barcode downloaded successfully');
+        this.toastr.success(
+          this.translateService.instant(
+            'BARCODE_SHARE.SUCCESS.BARCODE_DOWNLOAD'
+          )
+        );
       })
       .catch((error) => {
         console.error('Error downloading image:', error);
-        this.toastr.error('Failed to download barcode');
+        this.toastr.error(
+          this.translateService.instant('BARCODE_SHARE.ERROR.DOWNLOAD_FAILED')
+        );
       });
   }
 
@@ -118,13 +136,22 @@ export class ShareBarCodeModalComponent implements OnInit {
 
             navigator
               .share({
-                title: this.productName || 'Product',
-                text: `Check out this product: ${
-                  this.productName || 'Product'
+                title:
+                  this.productName ||
+                  this.translateService.instant('BARCODE_SHARE.PRODUCT_CODE'),
+                text: `${this.translateService.instant(
+                  'BARCODE_SHARE.SHARE_TEXT'
+                )} ${
+                  this.productName ||
+                  this.translateService.instant('BARCODE_SHARE.PRODUCT_CODE')
                 } (Code: ${this.productCode})`,
                 files: [file],
               })
-              .then(() => this.toastr.success('Shared successfully'))
+              .then(() =>
+                this.toastr.success(
+                  this.translateService.instant('BARCODE_SHARE.SUCCESS.SHARED')
+                )
+              )
               .catch((error) => {
                 console.error('Share error:', error);
                 this.shareUrl();
@@ -145,15 +172,30 @@ export class ShareBarCodeModalComponent implements OnInit {
     if (navigator.share) {
       navigator
         .share({
-          title: this.productName || 'Product',
-          text: `Check out this product: ${this.productName || 'Product'}`,
+          title:
+            this.productName ||
+            this.translateService.instant('BARCODE_SHARE.PRODUCT_CODE'),
+          text: `${this.translateService.instant('BARCODE_SHARE.SHARE_TEXT')} ${
+            this.productName ||
+            this.translateService.instant('BARCODE_SHARE.PRODUCT_CODE')
+          }`,
           url: this.barcodeUrl || window.location.href,
         })
-        .then(() => this.toastr.success('Shared successfully'))
-        .catch((error) => this.toastr.error('Share error: ' + error));
+        .then(() =>
+          this.toastr.success(
+            this.translateService.instant('BARCODE_SHARE.SUCCESS.SHARED')
+          )
+        )
+        .catch((error) =>
+          this.toastr.error(
+            `${this.translateService.instant(
+              'BARCODE_SHARE.ERROR.SHARE_ERROR'
+            )} ${error}`
+          )
+        );
     } else {
       this.toastr.info(
-        'The Web Share API is not supported by this browser. The barcode URL has been copied to the clipboard instead.'
+        this.translateService.instant('BARCODE_SHARE.INFO.NOT_SUPPORTED')
       );
       this.copyBarcodeUrl();
     }
@@ -163,7 +205,9 @@ export class ShareBarCodeModalComponent implements OnInit {
     const textToCopy = this.barcodeUrl || this.productCode || '';
 
     if (!textToCopy) {
-      this.toastr.error('No information available to copy');
+      this.toastr.error(
+        this.translateService.instant('BARCODE_SHARE.ERROR.NO_INFO')
+      );
       return;
     }
 
@@ -171,7 +215,9 @@ export class ShareBarCodeModalComponent implements OnInit {
       navigator.clipboard
         .writeText(textToCopy)
         .then(() => {
-          this.toastr.success('Information copied to clipboard');
+          this.toastr.success(
+            this.translateService.instant('BARCODE_SHARE.SUCCESS.COPIED')
+          );
         })
         .catch((err) => {
           console.error('Clipboard API copy error:', err);
@@ -197,12 +243,18 @@ export class ShareBarCodeModalComponent implements OnInit {
     try {
       const successful = document.execCommand('copy');
       if (successful) {
-        this.toastr.success('Information copied to clipboard');
+        this.toastr.success(
+          this.translateService.instant('BARCODE_SHARE.SUCCESS.COPIED')
+        );
       } else {
-        this.toastr.error('Copy failed');
+        this.toastr.error(
+          this.translateService.instant('BARCODE_SHARE.ERROR.COPY_FAILED')
+        );
       }
     } catch (err) {
-      this.toastr.error('Copy error');
+      this.toastr.error(
+        this.translateService.instant('BARCODE_SHARE.ERROR.COPY_ERROR')
+      );
       console.error('Copy error:', err);
     }
 

@@ -5,7 +5,7 @@
       class="text-2xl font-heading font-semibold text-gray-800 gradient-underline flex items-center"
     >
       <span class="bg-primary-600 w-2 h-10 mr-3 rounded-full"></span>
-      Mon Profil
+      {{ "PROFILE.TITLE" | translate }}
     </h2>
   </div>
 
@@ -24,7 +24,7 @@
               <div class="w-full h-full rounded-full overflow-hidden bg-white">
                 <img
                   [src]="profileUrl"
-                  alt="Photo de profil"
+                  alt="{{ 'PROFILE.PROFILE_PICTURE.ALT' | translate }}"
                   class="w-full h-full object-cover"
                 />
               </div>
@@ -85,16 +85,16 @@
               <spinner></spinner>
             </ng-container>
             <ng-template #saveBtn>
-              <span>Enregistrer</span>
+              <span>{{ "PROFILE.PROFILE_PICTURE.SAVE" | translate }}</span>
             </ng-template>
           </button>
 
           <div class="w-full mt-6 bg-gray-50 p-4 rounded-lg">
             <h4 class="text-sm font-semibold text-gray-700 mb-3">
-              Informations du compte
+              {{ "PROFILE.ACCOUNT_INFO.TITLE" | translate }}
             </h4>
             <p class="text-sm text-gray-600 flex justify-between">
-              <span>Membre depuis</span>
+              <span>{{ "PROFILE.ACCOUNT_INFO.MEMBER_SINCE" | translate }}</span>
               <span class="text-primary-600 font-medium">{{
                 memberSince | date : "dd/MM/yyyy"
               }}</span>
@@ -111,7 +111,7 @@
       >
         <div class="flex justify-between items-center mb-6">
           <h3 class="text-lg font-semibold text-gray-800 gradient-underline">
-            Informations personnelles
+            {{ "PROFILE.PERSONAL_INFO.TITLE" | translate }}
           </h3>
 
           <button
@@ -124,7 +124,11 @@
             [class.text-white]="!isEditMode"
             [class.shadow]="!isEditMode"
           >
-            {{ isEditMode ? "Annuler" : "Modifier" }}
+            {{
+              isEditMode
+                ? ("PROFILE.PERSONAL_INFO.CANCEL" | translate)
+                : ("PROFILE.PERSONAL_INFO.EDIT" | translate)
+            }}
           </button>
         </div>
 
@@ -134,28 +138,36 @@
           class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
         >
           <div class="space-y-1">
-            <p class="text-sm text-gray-500">Nom</p>
+            <p class="text-sm text-gray-500">
+              {{ "PROFILE.PERSONAL_INFO.NAME" | translate }}
+            </p>
             <p class="font-medium text-gray-800">
-              {{ me?.name || "Non défini" }}
+              {{ me?.name || ("PROFILE.PERSONAL_INFO.UNDEFINED" | translate) }}
             </p>
           </div>
 
           <div class="space-y-1">
-            <p class="text-sm text-gray-500">Email</p>
+            <p class="text-sm text-gray-500">
+              {{ "PROFILE.PERSONAL_INFO.EMAIL" | translate }}
+            </p>
             <p class="font-medium text-gray-800">
-              {{ me?.email || "Non défini" }}
+              {{ me?.email || ("PROFILE.PERSONAL_INFO.UNDEFINED" | translate) }}
             </p>
           </div>
 
           <div class="space-y-1">
-            <p class="text-sm text-gray-500">Téléphone</p>
+            <p class="text-sm text-gray-500">
+              {{ "PROFILE.PERSONAL_INFO.PHONE" | translate }}
+            </p>
             <p class="font-medium text-gray-800">
-              {{ me?.phone || "Non défini" }}
+              {{ me?.phone || ("PROFILE.PERSONAL_INFO.UNDEFINED" | translate) }}
             </p>
           </div>
 
           <div class="space-y-1">
-            <p class="text-sm text-gray-500">Type de compte</p>
+            <p class="text-sm text-gray-500">
+              {{ "PROFILE.PERSONAL_INFO.ACCOUNT_TYPE" | translate }}
+            </p>
             <p class="font-medium text-gray-800">
               <span
                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
@@ -164,7 +176,11 @@
                 [class.bg-green-100]="userRole === 'seller'"
                 [class.text-green-800]="userRole === 'seller'"
               >
-                {{ userRole === "seller" ? "Vendeur" : "Client" }}
+                {{
+                  userRole === "seller"
+                    ? ("PROFILE.PERSONAL_INFO.SELLER" | translate)
+                    : ("PROFILE.PERSONAL_INFO.CUSTOMER" | translate)
+                }}
               </span>
             </p>
           </div>
@@ -178,9 +194,9 @@
           class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
         >
           <div class="space-y-2">
-            <label for="name" class="text-sm font-medium text-gray-700"
-              >Nom</label
-            >
+            <label for="name" class="text-sm font-medium text-gray-700">{{
+              "PROFILE.PERSONAL_INFO.NAME" | translate
+            }}</label>
             <input
               type="text"
               id="name"
@@ -191,14 +207,14 @@
               *ngIf="f.name.touched && f.name.errors?.required"
               class="text-xs text-red-600 mt-1"
             >
-              Le nom est requis
+              {{ "PROFILE.PERSONAL_INFO.VALIDATION.NAME_REQUIRED" | translate }}
             </p>
           </div>
 
           <div class="space-y-2">
-            <label for="email" class="text-sm font-medium text-gray-700"
-              >Email</label
-            >
+            <label for="email" class="text-sm font-medium text-gray-700">{{
+              "PROFILE.PERSONAL_INFO.EMAIL" | translate
+            }}</label>
             <input
               type="email"
               id="email"
@@ -209,20 +225,22 @@
               *ngIf="f.email.touched && f.email.errors?.required"
               class="text-xs text-red-600 mt-1"
             >
-              L'email est requis
+              {{
+                "PROFILE.PERSONAL_INFO.VALIDATION.EMAIL_REQUIRED" | translate
+              }}
             </p>
             <p
               *ngIf="f.email.touched && f.email.errors?.email"
               class="text-xs text-red-600 mt-1"
             >
-              Format d'email invalide
+              {{ "PROFILE.PERSONAL_INFO.VALIDATION.EMAIL_INVALID" | translate }}
             </p>
           </div>
 
           <div class="space-y-2">
-            <label for="phone" class="text-sm font-medium text-gray-700"
-              >Téléphone</label
-            >
+            <label for="phone" class="text-sm font-medium text-gray-700">{{
+              "PROFILE.PERSONAL_INFO.PHONE" | translate
+            }}</label>
             <input
               type="text"
               id="phone"
@@ -233,7 +251,9 @@
               *ngIf="f.phone.touched && f.phone.errors?.required"
               class="text-xs text-red-600 mt-1"
             >
-              Le téléphone est requis
+              {{
+                "PROFILE.PERSONAL_INFO.VALIDATION.PHONE_REQUIRED" | translate
+              }}
             </p>
           </div>
 
@@ -247,7 +267,7 @@
                 <spinner></spinner>
               </ng-container>
               <ng-template #saveBtnText>
-                <span>Enregistrer</span>
+                <span>{{ "PROFILE.PERSONAL_INFO.SAVE" | translate }}</span>
               </ng-template>
             </button>
           </div>
@@ -262,20 +282,19 @@
   >
     <div class="flex justify-between items-center mb-6">
       <h3 class="text-lg font-semibold text-gray-800 gradient-underline">
-        Mot de passe
+        {{ "PROFILE.PASSWORD.TITLE" | translate }}
       </h3>
 
       <button
         (click)="togglePasswordSection()"
         class="py-2 px-4 rounded-xl bg-primary-600 text-white text-sm transition-all duration-300 shadow hover:shadow-lg"
       >
-        Modifier
+        {{ "PROFILE.PASSWORD.EDIT" | translate }}
       </button>
     </div>
 
     <p class="text-sm text-gray-600 mt-2">
-      Pour des raisons de sécurité, votre mot de passe n'est jamais affiché.
-      Vous pouvez le modifier à tout moment.
+      {{ "PROFILE.PASSWORD.INFO" | translate }}
     </p>
   </div>
 </div>

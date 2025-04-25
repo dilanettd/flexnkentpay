@@ -12,11 +12,17 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { ButtonSpinnerComponent } from '../button-spinner/button-spinner.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-login-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ButtonSpinnerComponent],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    ButtonSpinnerComponent,
+    TranslateModule,
+  ],
   templateUrl: './login-modal.component.html',
   styleUrls: ['./login-modal.component.scss'],
 })
@@ -33,7 +39,8 @@ export class LoginModalComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private activeModal: NgbModal,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {
@@ -80,22 +87,24 @@ export class LoginModalComponent implements OnInit, OnDestroy {
             .subscribe({
               next: (me: IUser) => {
                 this.authService.setUser(me);
-                this.toastr.success('You are successfully logged in.');
+                this.toastr.success(
+                  this.translateService.instant('LOGIN.SUCCESS.LOGGED_IN')
+                );
                 this.activeModal.dismissAll();
               },
               error: () => {
-                this.errorMessage = 'Something unexpected happened';
+                this.errorMessage = 'LOGIN.ERROR.UNEXPECTED';
               },
             });
         },
         error: (err) => {
           this.isSubmitted = false;
           if (err.status == 401) {
-            this.errorMessage = 'Incorrect email or password';
+            this.errorMessage = 'LOGIN.ERROR.INCORRECT_CREDENTIALS';
           } else if (err.status == 403) {
-            this.errorMessage = 'Your account has been blocked';
+            this.errorMessage = 'LOGIN.ERROR.ACCOUNT_BLOCKED';
           } else {
-            this.errorMessage = 'Something unexpected happened';
+            this.errorMessage = 'LOGIN.ERROR.UNEXPECTED';
           }
         },
       });
@@ -110,14 +119,16 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       this.authService.sendResetPasswordEmail(email).subscribe({
         next: () => {
           this.isSubmitted = false;
-          this.toastr.success('Reset password email sent.');
+          this.toastr.success(
+            this.translateService.instant('LOGIN.SUCCESS.RESET_EMAIL_SENT')
+          );
           setTimeout(() => {
             this.goBackToLogin();
           }, 3000);
         },
         error: () => {
           this.isSubmitted = false;
-          this.errorMessage = 'Failed to send reset password email.';
+          this.errorMessage = 'LOGIN.ERROR.RESET_FAILED';
         },
       });
     }

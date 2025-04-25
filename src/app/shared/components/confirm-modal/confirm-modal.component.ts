@@ -1,11 +1,12 @@
 import { Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-confirm-modal',
   standalone: true,
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './confirm-modal.component.html',
   styleUrl: './confirm-modal.component.scss',
 })

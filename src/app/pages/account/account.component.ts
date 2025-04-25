@@ -3,11 +3,12 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { IUser } from '../../core/models/auth.state.model';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-account',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, CommonModule],
+  imports: [RouterOutlet, RouterModule, CommonModule, TranslateModule],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss',
 })

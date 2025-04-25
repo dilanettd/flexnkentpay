@@ -7,18 +7,23 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-contact-us',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.scss',
 })
 export class ContactUsComponent {
   contactForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private toastr: ToastrService) {
+  constructor(
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private translateService: TranslateService
+  ) {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       subject: ['', Validators.required],
@@ -33,7 +38,9 @@ export class ContactUsComponent {
   onSubmit() {
     if (this.contactForm.valid) {
       this.contactForm.reset();
-      this.toastr.success('Message sent successfully');
+      this.toastr.success(
+        this.translateService.instant('CONTACT.FORM.SUCCESS')
+      );
     }
   }
 }

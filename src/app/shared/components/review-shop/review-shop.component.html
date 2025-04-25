@@ -2,7 +2,9 @@
   <div class="card-body p-6">
     <!-- Header -->
     <div class="title text-center mb-5">
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">Rate This Shop</h3>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">
+        {{ "SHOP_REVIEW.TITLE" | translate }}
+      </h3>
       <div class="w-16 h-1 bg-primary-500 mx-auto rounded-full"></div>
     </div>
 
@@ -13,7 +15,8 @@
           for="review-rating"
           class="form-label text-gray-700 flex items-center"
         >
-          <i class="bi bi-shop text-primary-500 mr-2"></i>Rating
+          <i class="bi bi-shop text-primary-500 mr-2"></i
+          >{{ "SHOP_REVIEW.RATING_LABEL" | translate }}
         </label>
 
         <div class="star-rating flex items-center justify-center my-3">
@@ -56,7 +59,7 @@
           "
           class="text-xs text-red-600 mt-1"
         >
-          Please select a rating
+          {{ "SHOP_REVIEW.ERROR.RATING_REQUIRED" | translate }}
         </div>
       </div>
 
@@ -66,15 +69,15 @@
           for="review-message"
           class="form-label text-gray-700 flex items-center"
         >
-          <i class="bi bi-chat-left-text text-primary-500 mr-2"></i>Your
-          Experience
+          <i class="bi bi-chat-left-text text-primary-500 mr-2"></i
+          >{{ "SHOP_REVIEW.EXPERIENCE_LABEL" | translate }}
         </label>
         <textarea
           id="review-message"
           formControlName="review"
           rows="4"
           class="input w-full focus:border-primary-500 transition-colors"
-          placeholder="Share your experience with this shop..."
+          placeholder="{{ 'SHOP_REVIEW.PLACEHOLDER' | translate }}"
         ></textarea>
         <div
           *ngIf="
@@ -84,10 +87,10 @@
           class="text-xs text-red-600 mt-1"
         >
           <span *ngIf="reviewForm.get('review')?.errors?.required">
-            Review is required
+            {{ "SHOP_REVIEW.ERROR.REVIEW_REQUIRED" | translate }}
           </span>
           <span *ngIf="reviewForm.get('review')?.errors?.minlength">
-            Review must be at least 10 characters
+            {{ "SHOP_REVIEW.ERROR.REVIEW_MIN_LENGTH" | translate }}
           </span>
         </div>
       </div>
@@ -102,11 +105,14 @@
           <ng-container *ngIf="isSubmitted; else defaultText">
             <div class="flex items-center justify-center">
               <spinner></spinner>
-              <span class="ml-2">Submitting...</span>
+              <span class="ml-2">{{
+                "SHOP_REVIEW.SUBMITTING" | translate
+              }}</span>
             </div>
           </ng-container>
           <ng-template #defaultText>
-            <i class="bi bi-check-circle mr-2"></i>Submit Review
+            <i class="bi bi-check-circle mr-2"></i
+            >{{ "SHOP_REVIEW.SUBMIT_BUTTON" | translate }}
           </ng-template>
         </button>
         <button
@@ -114,7 +120,7 @@
           class="btn btn-outline-primary flex-1 py-2.5 transition-all"
           (click)="closeModal()"
         >
-          Cancel
+          {{ "SHOP_REVIEW.CANCEL_BUTTON" | translate }}
         </button>
       </div>
     </form>

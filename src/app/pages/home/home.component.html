@@ -21,16 +21,16 @@
             <h2
               class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight"
             >
-              {{ slide.title }}
+              {{ slide.titleKey | translate }}
             </h2>
             <p class="text-white/90 text-lg md:text-xl mb-10 leading-relaxed">
-              {{ slide.subtitle }}
+              {{ slide.subtitleKey | translate }}
             </p>
             <a
               [routerLink]="slide.buttonLink"
               class="btn btn-primary bg-gradient-to-r from-primary-600 to-primary-500 text-white px-8 py-3 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300 font-medium flex items-center justify-center w-max"
             >
-              {{ slide.buttonText }}
+              {{ slide.buttonTextKey | translate }}
               <i class="lni lni-arrow-right ml-2"></i>
             </a>
           </div>
@@ -49,12 +49,14 @@
       <div>
         <span
           class="text-primary-600 font-semibold text-sm uppercase tracking-wider inline-block bg-primary-50 px-3 py-1 rounded-full mb-3"
-          >What's Hot</span
+          >{{ "HOME.TRENDING_PRODUCTS.SUBTITLE" | translate }}</span
         >
-        <h2 class="text-2xl md:text-3xl font-bold mb-4">Trending Products</h2>
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">
+          {{ "HOME.TRENDING_PRODUCTS.TITLE" | translate }}
+        </h2>
         <div class="w-24 h-1 bg-primary-500 rounded-full mb-3"></div>
         <p class="text-gray-600 max-w-xl">
-          Discover our most popular products that customers love right now
+          {{ "HOME.TRENDING_PRODUCTS.DESCRIPTION" | translate }}
         </p>
       </div>
     </div>
@@ -91,7 +93,9 @@
                 class="bg-white text-primary-600 hover:bg-primary-600 hover:text-white px-5 py-3 rounded-full text-sm font-medium transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 shadow-lg"
               >
                 <i class="lni lni-eye mr-2"></i>
-                <span>View Details</span>
+                <span>{{
+                  "HOME.TRENDING_PRODUCTS.VIEW_DETAILS" | translate
+                }}</span>
               </button>
             </div>
           </div>
@@ -102,7 +106,7 @@
               *ngIf="product.min_installment_price"
               class="bg-blue-600 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm"
             >
-              New
+              {{ "HOME.TRENDING_PRODUCTS.NEW" | translate }}
             </span>
           </div>
 
@@ -111,7 +115,8 @@
               *ngIf="product.installment_count > 1"
               class="bg-green-600 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm"
             >
-              {{ product.installment_count }}x
+              {{ product.installment_count
+              }}{{ "HOME.TRENDING_PRODUCTS.INSTALLMENTS" | translate }}
             </span>
           </div>
         </div>
@@ -166,13 +171,14 @@
       <div>
         <span
           class="text-primary-600 font-semibold text-sm uppercase tracking-wider inline-block bg-primary-50 px-3 py-1 rounded-full mb-3"
-          >Our Partners</span
+          >{{ "HOME.TOP_SHOPS.SUBTITLE" | translate }}</span
         >
-        <h2 class="text-2xl md:text-3xl font-bold mb-4">Top Rated Shops</h2>
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">
+          {{ "HOME.TOP_SHOPS.TITLE" | translate }}
+        </h2>
         <div class="w-24 h-1 bg-primary-500 rounded-full mb-3"></div>
         <p class="text-gray-600 max-w-xl">
-          Discover the best-rated stores, offering exceptional quality and
-          service
+          {{ "HOME.TOP_SHOPS.DESCRIPTION" | translate }}
         </p>
       </div>
     </div>
@@ -223,7 +229,8 @@
                 <button
                   class="text-sm text-primary-600 hover:text-white font-medium flex items-center justify-center mx-auto group-hover:bg-primary-600 px-4 py-2 rounded-full transition-all duration-300 border border-primary-600"
                 >
-                  <i class="lni lni-store mr-2"></i> Visit Shop
+                  <i class="lni lni-store mr-2"></i>
+                  {{ "HOME.TOP_SHOPS.VISIT_SHOP" | translate }}
                 </button>
               </div>
               <div class="flex items-center space-x-1 justify-center mb-2">
@@ -258,12 +265,14 @@
       <div>
         <span
           class="text-primary-600 font-semibold text-sm uppercase tracking-wider inline-block bg-primary-50 px-3 py-1 rounded-full mb-3"
-          >Discover</span
+          >{{ "HOME.TOP_CATEGORIES.SUBTITLE" | translate }}</span
         >
-        <h2 class="text-2xl md:text-3xl font-bold mb-4">Top Categories</h2>
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">
+          {{ "HOME.TOP_CATEGORIES.TITLE" | translate }}
+        </h2>
         <div class="w-24 h-1 bg-primary-500 rounded-full mb-3"></div>
         <p class="text-gray-600 max-w-xl">
-          Browse the most popular categories with our best products selection
+          {{ "HOME.TOP_CATEGORIES.DESCRIPTION" | translate }}
         </p>
       </div>
     </div>
@@ -286,11 +295,10 @@
         <i class="lni lni-search text-4xl text-gray-400"></i>
       </div>
       <h3 class="text-xl font-semibold text-gray-700 mb-3">
-        No Categories Found
+        {{ "HOME.TOP_CATEGORIES.NO_CATEGORIES" | translate }}
       </h3>
       <p class="text-gray-500 text-center max-w-md">
-        We couldn't find any categories to display. Please check back later as
-        we add more products.
+        {{ "HOME.TOP_CATEGORIES.NO_CATEGORIES_DESC" | translate }}
       </p>
     </div>
 
@@ -354,10 +362,10 @@
                 <i class="lni lni-package text-3xl text-gray-400"></i>
               </div>
               <h4 class="text-lg font-semibold text-gray-700 mb-2">
-                No Products Found
+                {{ "HOME.TOP_CATEGORIES.NO_PRODUCTS" | translate }}
               </h4>
               <p class="text-gray-500 text-center max-w-md">
-                There are no products available in this category at the moment.
+                {{ "HOME.TOP_CATEGORIES.NO_PRODUCTS_DESC" | translate }}
               </p>
             </div>
 
@@ -397,7 +405,9 @@
                         class="bg-white text-primary-600 hover:bg-primary-600 hover:text-white px-5 py-3 rounded-full text-sm font-medium transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 shadow-lg"
                       >
                         <i class="lni lni-eye mr-2"></i>
-                        <span>View Details</span>
+                        <span>{{
+                          "HOME.TRENDING_PRODUCTS.VIEW_DETAILS" | translate
+                        }}</span>
                       </button>
                     </div>
                   </div>
@@ -408,7 +418,7 @@
                       *ngIf="product.min_installment_price"
                       class="bg-blue-600 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm"
                     >
-                      New
+                      {{ "HOME.TRENDING_PRODUCTS.NEW" | translate }}
                     </span>
                   </div>
 
@@ -417,7 +427,8 @@
                       *ngIf="product.installment_count > 1"
                       class="bg-green-600 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm"
                     >
-                      {{ product.installment_count }}x
+                      {{ product.installment_count
+                      }}{{ "HOME.TRENDING_PRODUCTS.INSTALLMENTS" | translate }}
                     </span>
                   </div>
                 </div>
@@ -481,15 +492,14 @@
       <div>
         <span
           class="text-primary-600 font-semibold text-sm uppercase tracking-wider inline-block bg-primary-50 px-3 py-1 rounded-full mb-3"
-          >Why Choose Us</span
+          >{{ "HOME.FEATURES.SUBTITLE" | translate }}</span
         >
         <h2 class="text-2xl md:text-3xl font-bold mb-4">
-          Shop with Confidence
+          {{ "HOME.FEATURES.TITLE" | translate }}
         </h2>
         <div class="w-24 h-1 bg-primary-500 rounded-full mb-3"></div>
         <p class="text-gray-600 max-w-xl">
-          FlexnKentPay offers you the best shopping experience with flexible
-          payment options
+          {{ "HOME.FEATURES.DESCRIPTION" | translate }}
         </p>
       </div>
     </div>
@@ -504,9 +514,11 @@
         >
           <i class="lni lni-credit-cards text-3xl text-primary-600"></i>
         </div>
-        <h3 class="text-2xl font-semibold mb-4">Flexible Payments</h3>
+        <h3 class="text-2xl font-semibold mb-4">
+          {{ "HOME.FEATURES.FEATURE1.TITLE" | translate }}
+        </h3>
         <p class="text-gray-600 leading-relaxed">
-          Pay in installments that fit your budget and financial plan
+          {{ "HOME.FEATURES.FEATURE1.DESCRIPTION" | translate }}
         </p>
       </div>
 
@@ -519,9 +531,11 @@
         >
           <i class="lni lni-shield text-3xl text-primary-600"></i>
         </div>
-        <h3 class="text-2xl font-semibold mb-4">Secure Transactions</h3>
+        <h3 class="text-2xl font-semibold mb-4">
+          {{ "HOME.FEATURES.FEATURE2.TITLE" | translate }}
+        </h3>
         <p class="text-gray-600 leading-relaxed">
-          All payments are protected with state-of-the-art security
+          {{ "HOME.FEATURES.FEATURE2.DESCRIPTION" | translate }}
         </p>
       </div>
 
@@ -534,9 +548,11 @@
         >
           <i class="lni lni-customer text-3xl text-primary-600"></i>
         </div>
-        <h3 class="text-2xl font-semibold mb-4">Customer Support</h3>
+        <h3 class="text-2xl font-semibold mb-4">
+          {{ "HOME.FEATURES.FEATURE3.TITLE" | translate }}
+        </h3>
         <p class="text-gray-600 leading-relaxed">
-          Our dedicated team is ready to assist you with any questions
+          {{ "HOME.FEATURES.FEATURE3.DESCRIPTION" | translate }}
         </p>
       </div>
     </div>

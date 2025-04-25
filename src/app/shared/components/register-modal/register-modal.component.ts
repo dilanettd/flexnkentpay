@@ -13,6 +13,7 @@ import { CustomValidators } from './Customvalidator';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ButtonSpinnerComponent } from '../button-spinner/button-spinner.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-register-modal',
@@ -22,6 +23,7 @@ import { ButtonSpinnerComponent } from '../button-spinner/button-spinner.compone
     ButtonSpinnerComponent,
     ReactiveFormsModule,
     RouterLink,
+    TranslateModule,
   ],
   templateUrl: './register-modal.component.html',
   styleUrl: './register-modal.component.scss',
@@ -34,6 +36,7 @@ export class RegisterModalComponent {
   private authService = inject(AuthService);
   private toastr = inject(ToastrService);
   private modalService = inject(NgbModal);
+  private translateService = inject(TranslateService);
 
   constructor() {
     this.createForm();
@@ -98,14 +101,15 @@ export class RegisterModalComponent {
       this.authService.register(userName, email, password, language).subscribe({
         next: () => {
           this.isLoading = false;
-          this.toastr.success('Registration successful!');
+          this.toastr.success(
+            this.translateService.instant('REGISTER.SUCCESS.REGISTRATION')
+          );
           this.modalService.dismissAll();
         },
         error: (err) => {
           this.isLoading = false;
-          this.errorMessage =
-            err.error?.message || 'An error occurred during registration.';
-          this.toastr.error(this.errorMessage);
+          this.errorMessage = err.error?.message || 'REGISTER.ERROR.DEFAULT';
+          this.toastr.error(this.translateService.instant(this.errorMessage));
         },
       });
     } else {

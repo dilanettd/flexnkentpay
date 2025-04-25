@@ -6,16 +6,17 @@
       <div class="flex justify-between items-center py-2">
         <div class="flex-1 overflow-hidden">
           <div class="animate-marquee text-white text-sm font-medium">
-            Welcome to FlexNKentPay, we enable you to pay for your products in
-            installments.
+            {{ "HEADER.WELCOME" | translate }}
           </div>
         </div>
         <div class="flex items-center space-x-4">
           <select
             class="bg-white text-sm text-black rounded-md border-0 py-1 px-3 focus:ring-2 focus:ring-blue-600"
+            [(ngModel)]="currentLang"
+            (change)="changeLanguage(currentLang)"
           >
-            <option value="0" selected>English</option>
-            <option value="3">French</option>
+            <option value="fr">{{ "LANGUAGE.FRENCH" | translate }}</option>
+            <option value="en">{{ "LANGUAGE.ENGLISH" | translate }}</option>
           </select>
         </div>
       </div>
@@ -42,21 +43,21 @@
             class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 flex items-center space-x-1"
           >
             <i class="lni lni-store text-lg"></i>
-            <span>Create my shop</span>
+            <span>{{ "HEADER.CREATE_SHOP" | translate }}</span>
           </a>
           <a
             routerLink="/account/profile"
             class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 flex items-center space-x-1"
           >
             <i class="lni lni-user text-lg"></i>
-            <span>My account</span>
+            <span>{{ "HEADER.MY_ACCOUNT" | translate }}</span>
           </a>
           <a
             routerLink="/contact"
             class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 flex items-center space-x-1"
           >
             <i class="lni lni-bubble text-lg"></i>
-            <span>Contact</span>
+            <span>{{ "HEADER.CONTACT" | translate }}</span>
           </a>
         </nav>
 
@@ -83,7 +84,7 @@
                   alt="Profile"
                 />
                 <span class="text-sm font-medium text-gray-700">{{
-                  me?.name || "My account"
+                  me?.name || ("HEADER.MY_ACCOUNT" | translate)
                 }}</span>
               </button>
 
@@ -97,7 +98,7 @@
                   (click)="closeMenu()"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
                 >
-                  My account
+                  {{ "HEADER.MY_ACCOUNT" | translate }}
                 </a>
 
                 <hr class="my-1" />
@@ -105,7 +106,7 @@
                   (click)="logout()"
                   class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors duration-200"
                 >
-                  Logout
+                  {{ "HEADER.LOGOUT" | translate }}
                 </button>
               </div>
             </div>
@@ -117,13 +118,13 @@
             *ngIf="!isAuthenticated"
           >
             <button (click)="openLoginModal()" class="btn btn-primary">
-              Login
+              {{ "HEADER.LOGIN" | translate }}
             </button>
             <button
               (click)="openRegisterModal()"
               class="btn btn-outline-primary"
             >
-              Sign Up
+              {{ "HEADER.SIGNUP" | translate }}
             </button>
           </div>
 
@@ -152,7 +153,7 @@
           <button
             (click)="openQrModal()"
             class="flex items-center justify-center p-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors duration-200 shadow-sm"
-            aria-label="Scan a QR code"
+            [attr.aria-label]="'HEADER.SCAN_QR' | translate"
           >
             <i class="bi bi-qr-code text-white text-xl"></i>
           </button>
@@ -164,7 +165,7 @@
             <div
               class="bg-gray-900 text-white text-sm px-3 py-1.5 rounded-lg whitespace-nowrap"
             >
-              Scan a QR code
+              {{ "HEADER.SCAN_QR" | translate }}
             </div>
             <!-- Tooltip arrow -->
             <div
@@ -180,14 +181,14 @@
           <input
             type="text"
             [(ngModel)]="searchKeyword"
-            placeholder="Search for a product..."
+            placeholder="{{ 'HEADER.SEARCH_PLACEHOLDER' | translate }}"
             class="flex-1 px-4 py-2.5 focus:outline-none text-gray-700"
           />
           <button
             (click)="onSearch()"
             class="bg-blue-600 text-white px-6 py-2.5 hover:bg-blue-700 transition-colors duration-200 font-medium"
           >
-            Search
+            {{ "HEADER.SEARCH_BUTTON" | translate }}
           </button>
         </div>
       </div>
@@ -202,6 +203,23 @@
   >
     <div class="container mx-auto px-4 py-4">
       <nav class="flex flex-col space-y-4">
+        <!-- Language Selector for Mobile -->
+        <div
+          class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+        >
+          <label class="block text-sm font-medium text-gray-600 mb-1">{{
+            "FOOTER.LANGUAGE" | translate
+          }}</label>
+          <select
+            class="w-full bg-white text-sm rounded-md border border-gray-300 py-2 px-3 focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+            [(ngModel)]="currentLang"
+            (change)="changeLanguage(currentLang)"
+          >
+            <option value="fr">{{ "LANGUAGE.FRENCH" | translate }}</option>
+            <option value="en">{{ "LANGUAGE.ENGLISH" | translate }}</option>
+          </select>
+        </div>
+
         <a
           [routerLink]="['/account/profile']"
           fragment="create-shop"
@@ -209,7 +227,7 @@
           class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
         >
           <i class="lni lni-store text-lg"></i>
-          <span>Create my shop</span>
+          <span>{{ "HEADER.CREATE_SHOP" | translate }}</span>
         </a>
         <a
           routerLink="/account/profile"
@@ -217,7 +235,7 @@
           class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
         >
           <i class="lni lni-user text-lg"></i>
-          <span>My account</span>
+          <span>{{ "HEADER.MY_ACCOUNT" | translate }}</span>
         </a>
         <a
           routerLink="/contact"
@@ -225,7 +243,7 @@
           class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
         >
           <i class="lni lni-bubble text-lg"></i>
-          <span>Contact</span>
+          <span>{{ "HEADER.CONTACT" | translate }}</span>
         </a>
         <hr class="my-2" />
         <div *ngIf="!isAuthenticated" class="space-y-2">
@@ -233,13 +251,13 @@
             (click)="openLoginModal()"
             class="w-full p-2 text-blue-600 font-medium hover:bg-blue-50 rounded-lg transition-colors duration-200"
           >
-            Login
+            {{ "HEADER.LOGIN" | translate }}
           </button>
           <button
             (click)="openRegisterModal()"
             class="w-full p-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
           >
-            Sign Up
+            {{ "HEADER.SIGNUP" | translate }}
           </button>
         </div>
       </nav>

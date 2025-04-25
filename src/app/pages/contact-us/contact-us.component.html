@@ -2,10 +2,11 @@
   <div class="container mx-auto px-4">
     <!-- Section Header -->
     <div class="max-w-2xl mx-auto text-center mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-4">Contact Us</h2>
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">
+        {{ "CONTACT.TITLE" | translate }}
+      </h2>
       <p class="text-gray-600">
-        We are here to help. Feel free to reach out to us with any questions or
-        concerns.
+        {{ "CONTACT.SUBTITLE" | translate }}
       </p>
     </div>
 
@@ -22,11 +23,11 @@
                 <i class="lni lni-map text-blue-600 text-2xl"></i>
               </div>
               <h3 class="text-lg font-semibold text-gray-900 ml-4">
-                Our Address
+                {{ "CONTACT.ADDRESS.TITLE" | translate }}
               </h3>
             </div>
             <p class="text-gray-600 ml-16">
-              Douala,Bonamoussadi Carrefour du Lycée
+              {{ "CONTACT.ADDRESS.VALUE" | translate }}
             </p>
           </div>
 
@@ -38,7 +39,9 @@
               >
                 <i class="lni lni-phone text-blue-600 text-2xl"></i>
               </div>
-              <h3 class="text-lg font-semibold text-gray-900 ml-4">Phone</h3>
+              <h3 class="text-lg font-semibold text-gray-900 ml-4">
+                {{ "CONTACT.PHONE.TITLE" | translate }}
+              </h3>
             </div>
             <div class="ml-16">
               <a
@@ -58,7 +61,9 @@
               >
                 <i class="lni lni-envelope text-blue-600 text-2xl"></i>
               </div>
-              <h3 class="text-lg font-semibold text-gray-900 ml-4">Email</h3>
+              <h3 class="text-lg font-semibold text-gray-900 ml-4">
+                {{ "CONTACT.EMAIL.TITLE" | translate }}
+              </h3>
             </div>
             <div class="ml-16">
               <a
@@ -83,67 +88,75 @@
             <div class="grid md:grid-cols-2 gap-6">
               <!-- Name -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Your Name</label
-                >
+                <label class="block text-sm font-medium text-gray-700 mb-2">{{
+                  "CONTACT.FORM.NAME" | translate
+                }}</label>
                 <input
                   type="text"
                   formControlName="name"
                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-                  placeholder="John Doe"
+                  placeholder="{{
+                    'CONTACT.FORM.NAME_PLACEHOLDER' | translate
+                  }}"
                 />
               </div>
 
               <!-- Subject -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Subject</label
-                >
+                <label class="block text-sm font-medium text-gray-700 mb-2">{{
+                  "CONTACT.FORM.SUBJECT" | translate
+                }}</label>
                 <input
                   type="text"
                   formControlName="subject"
                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-                  placeholder="Your subject"
+                  placeholder="{{
+                    'CONTACT.FORM.SUBJECT_PLACEHOLDER' | translate
+                  }}"
                 />
               </div>
 
               <!-- Email -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Email</label
-                >
+                <label class="block text-sm font-medium text-gray-700 mb-2">{{
+                  "CONTACT.FORM.EMAIL" | translate
+                }}</label>
                 <input
                   type="email"
                   formControlName="email"
                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-                  placeholder="example@email.com"
+                  placeholder="{{
+                    'CONTACT.FORM.EMAIL_PLACEHOLDER' | translate
+                  }}"
                 />
               </div>
 
               <!-- Phone -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Phone</label
-                >
+                <label class="block text-sm font-medium text-gray-700 mb-2">{{
+                  "CONTACT.PHONE.TITLE" | translate
+                }}</label>
                 <input
                   type="tel"
                   formControlName="phone"
                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-                  placeholder="+237 XXX XXX XXX"
+                  placeholder="{{ 'CONTACT.PHONE.PLACEHOLDER' | translate }}"
                 />
               </div>
             </div>
 
             <!-- Message -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >Message</label
-              >
+              <label class="block text-sm font-medium text-gray-700 mb-2">{{
+                "CONTACT.FORM.MESSAGE" | translate
+              }}</label>
               <textarea
                 formControlName="message"
                 rows="6"
                 class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent resize-none transition-colors"
-                placeholder="Your message..."
+                placeholder="{{
+                  'CONTACT.FORM.MESSAGE_PLACEHOLDER' | translate
+                }}"
               ></textarea>
             </div>
 
@@ -153,7 +166,7 @@
                 type="submit"
                 class="w-full md:w-auto px-8 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-colors"
               >
-                Send Message
+                {{ "CONTACT.FORM.SEND" | translate }}
               </button>
             </div>
           </form>

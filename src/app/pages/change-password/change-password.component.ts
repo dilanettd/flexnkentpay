@@ -12,6 +12,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { CustomValidators } from '../../shared/components/register-modal/Customvalidator';
 import { ButtonSpinnerComponent } from '../../shared/components/button-spinner/button-spinner.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'change-password',
@@ -21,6 +22,7 @@ import { ButtonSpinnerComponent } from '../../shared/components/button-spinner/b
     ReactiveFormsModule,
     RouterLink,
     ButtonSpinnerComponent,
+    TranslateModule,
   ],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss',
@@ -37,7 +39,8 @@ export class ChangePasswordComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +51,9 @@ export class ChangePasswordComponent implements OnInit {
     });
 
     if (!this.email || !this.token) {
-      this.toastr.error('Invalid email or token.');
+      this.toastr.error(
+        this.translateService.instant('RESET_PASSWORD.MESSAGES.INVALID_TOKEN')
+      );
       this.router.navigate(['/']);
       return;
     }
@@ -92,14 +97,16 @@ export class ChangePasswordComponent implements OnInit {
         .subscribe({
           next: () => {
             this.isLoading = false;
-            this.toastr.success('Password reset successful!');
+            this.toastr.success(
+              this.translateService.instant('RESET_PASSWORD.MESSAGES.SUCCESS')
+            );
             this.router.navigate(['/']);
           },
           error: (err) => {
             this.isLoading = false;
             this.errorMessage =
-              err.error?.message || 'An error occurred during password reset.';
-            this.toastr.error(this.errorMessage);
+              err.error?.message || 'RESET_PASSWORD.MESSAGES.ERROR';
+            this.toastr.error(this.translateService.instant(this.errorMessage));
           },
         });
     } else {

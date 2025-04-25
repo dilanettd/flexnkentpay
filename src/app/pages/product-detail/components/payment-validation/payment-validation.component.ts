@@ -15,6 +15,7 @@ import { ConfirmModalComponent } from '../../../../shared/components/confirm-mod
 import { ButtonSpinnerComponent } from '../../../../shared/components/button-spinner/button-spinner.component';
 import { cameroonPhoneValidator } from '../../../../shared/utils/cameroon_phone_validator';
 import { PhoneFormatDirective } from '../../../../core/directives/phone-format.directive';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-payment-validation',
@@ -24,6 +25,7 @@ import { PhoneFormatDirective } from '../../../../core/directives/phone-format.d
     CommonModule,
     ButtonSpinnerComponent,
     PhoneFormatDirective,
+    TranslateModule,
   ],
   templateUrl: './payment-validation.component.html',
   styleUrls: ['./payment-validation.component.scss'],
@@ -38,7 +40,8 @@ export class PaymentValidationComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private orderService: OrderService,
     private toastr: ToastrService,
-    private activeModal: NgbModal
+    private activeModal: NgbModal,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -61,12 +64,16 @@ export class PaymentValidationComponent implements OnInit, OnDestroy {
         .initiatePayment(paymentData)
         .subscribe({
           next: () => {
-            this.toastr.success('Payment successfully processed');
+            this.toastr.success(
+              this.translateService.instant('PAYMENT.MESSAGES.SUCCESS')
+            );
             this.closeModal();
             this.openSuccessModal();
           },
           error: (error) => {
-            this.toastr.error('Something unexpected happened');
+            this.toastr.error(
+              this.translateService.instant('PAYMENT.MESSAGES.ERROR')
+            );
             this.isSubmitting = false;
           },
           complete: () => {
@@ -80,9 +87,12 @@ export class PaymentValidationComponent implements OnInit, OnDestroy {
 
   openSuccessModal() {
     const modalRef = this.activeModal.open(ConfirmModalComponent);
-    modalRef.componentInstance.title = 'Good Job!';
-    modalRef.componentInstance.description =
-      'Your payment has been successfully processed! Would you like to go to the transactions page?';
+    modalRef.componentInstance.title = this.translateService.instant(
+      'PAYMENT.MESSAGES.SUCCESS_TITLE'
+    );
+    modalRef.componentInstance.description = this.translateService.instant(
+      'PAYMENT.MESSAGES.SUCCESS_DESCRIPTION'
+    );
     modalRef.componentInstance.confirmLink = '/account/transactions';
   }
 

@@ -8,11 +8,11 @@
       <div class="card-body p-6">
         <div class="title text-center mb-5">
           <h3 class="text-xl font-semibold text-gray-800 mb-2">
-            Create Your Account
+            {{ "REGISTER.TITLE" | translate }}
           </h3>
           <div class="w-16 h-1 bg-primary-500 mx-auto rounded-full"></div>
           <p class="text-sm text-gray-600 mt-2">
-            Fill in the details below to create a new account.
+            {{ "REGISTER.SUBTITLE" | translate }}
           </p>
         </div>
 
@@ -21,7 +21,7 @@
           class="bg-red-50 border-l-4 border-red-500 p-3 mb-4 rounded flex items-center"
         >
           <i class="bi bi-exclamation-circle text-red-500 mr-2"></i>
-          <p class="text-sm text-red-700">{{ errorMessage }}</p>
+          <p class="text-sm text-red-700">{{ errorMessage | translate }}</p>
         </div>
         }
 
@@ -32,7 +32,8 @@
               for="reg-username"
               class="form-label text-gray-700 flex items-center"
             >
-              <i class="bi bi-person text-primary-500 mr-2"></i>Username
+              <i class="bi bi-person text-primary-500 mr-2"></i
+              >{{ "REGISTER.USERNAME_LABEL" | translate }}
             </label>
             <input
               class="input w-full focus:border-primary-500 transition-colors"
@@ -47,7 +48,7 @@
               "
               class="text-xs text-red-600 mt-1"
             >
-              Username is required
+              {{ "REGISTER.ERROR.USERNAME_REQUIRED" | translate }}
             </div>
           </div>
 
@@ -57,7 +58,8 @@
               for="reg-email"
               class="form-label text-gray-700 flex items-center"
             >
-              <i class="bi bi-envelope text-primary-500 mr-2"></i>Email
+              <i class="bi bi-envelope text-primary-500 mr-2"></i
+              >{{ "REGISTER.EMAIL_LABEL" | translate }}
             </label>
             <input
               class="input w-full focus:border-primary-500 transition-colors"
@@ -70,8 +72,10 @@
               *ngIf="f.email.errors && (f.email.touched || f.email.dirty)"
               class="text-xs text-red-600 mt-1"
             >
-              @if (f.email.errors?.required) { Email is required } @else if
-              (f.email.errors?.hasEmail) { Please enter a valid email address }
+              @if (f.email.errors?.required) {
+              {{ "REGISTER.ERROR.EMAIL_REQUIRED" | translate }} } @else if
+              (f.email.errors?.hasEmail) {
+              {{ "REGISTER.ERROR.EMAIL_INVALID" | translate }} }
             </div>
           </div>
 
@@ -81,7 +85,8 @@
               for="reg-password"
               class="form-label text-gray-700 flex items-center"
             >
-              <i class="bi bi-lock text-primary-500 mr-2"></i>Password
+              <i class="bi bi-lock text-primary-500 mr-2"></i
+              >{{ "REGISTER.PASSWORD_LABEL" | translate }}
             </label>
             <div class="relative">
               <input
@@ -91,15 +96,13 @@
                 placeholder="••••••••"
                 formControlName="password"
               />
-              <!-- Optional: Add show/hide password eye icon -->
-              <!-- <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
-                <i class="bi bi-eye"></i>
-              </button> -->
             </div>
 
             <!-- Password requirements -->
             <div class="mt-2" *ngIf="f.password.errors && f.password.dirty">
-              <p class="text-xs text-gray-600 mb-1">Password must contain:</p>
+              <p class="text-xs text-gray-600 mb-1">
+                {{ "REGISTER.PASSWORD_REQUIREMENTS" | translate }}
+              </p>
               <div class="grid grid-cols-2 gap-2">
                 <div>
                   <p
@@ -116,7 +119,7 @@
                         'bi bi-check-circle': !f.password.errors.minlength
                       }"
                     ></i>
-                    At least 8 characters
+                    {{ "REGISTER.MIN_LENGTH" | translate }}
                   </p>
                   <p
                     class="text-xs flex items-center"
@@ -132,7 +135,7 @@
                         'bi bi-check-circle': !f.password.errors.hasSmallCase
                       }"
                     ></i>
-                    1 lowercase letter
+                    {{ "REGISTER.LOWERCASE" | translate }}
                   </p>
                   <p
                     class="text-xs flex items-center"
@@ -148,7 +151,7 @@
                         'bi bi-check-circle': !f.password.errors.hasNumber
                       }"
                     ></i>
-                    1 number
+                    {{ "REGISTER.NUMBER" | translate }}
                   </p>
                 </div>
                 <div>
@@ -166,7 +169,7 @@
                         'bi bi-check-circle': !f.password.errors.hasCapitalCase
                       }"
                     ></i>
-                    1 uppercase letter
+                    {{ "REGISTER.UPPERCASE" | translate }}
                   </p>
                   <p
                     class="text-xs flex items-center"
@@ -184,7 +187,7 @@
                           !f.password.errors.hasSpecialCharacters
                       }"
                     ></i>
-                    1 special character
+                    {{ "REGISTER.SPECIAL_CHAR" | translate }}
                   </p>
                 </div>
               </div>
@@ -197,8 +200,8 @@
               for="reg-confirm-password"
               class="form-label text-gray-700 flex items-center"
             >
-              <i class="bi bi-shield-lock text-primary-500 mr-2"></i>Confirm
-              Password
+              <i class="bi bi-shield-lock text-primary-500 mr-2"></i
+              >{{ "REGISTER.CONFIRM_PASSWORD_LABEL" | translate }}
             </label>
             <input
               class="input w-full focus:border-primary-500 transition-colors"
@@ -213,7 +216,7 @@
               "
               class="text-xs text-red-600 mt-1"
             >
-              Passwords must match
+              {{ "REGISTER.ERROR.PASSWORD_MATCH" | translate }}
             </div>
           </div>
 
@@ -226,14 +229,14 @@
               formControlName="policy"
             />
             <label class="ml-2 text-sm text-gray-700" for="policy">
-              I agree to the
+              {{ "REGISTER.TERMS_AGREE" | translate }}
               <a
                 routerLink="/terms-and-conditions"
                 (click)="closeModal()"
                 class="text-primary-600 hover:text-primary-800 hover:underline transition-colors font-medium"
                 title="Click to view our Terms and Conditions"
               >
-                Terms and Conditions
+                {{ "REGISTER.TERMS_LINK" | translate }}
               </a>
             </label>
           </div>
@@ -248,11 +251,13 @@
             <ng-container *ngIf="isLoading; else defaultText">
               <div class="flex items-center justify-center">
                 <spinner></spinner>
-                <span class="ml-2">Registering...</span>
+                <span class="ml-2">{{
+                  "REGISTER.REGISTERING" | translate
+                }}</span>
               </div>
             </ng-container>
             <ng-template #defaultText>
-              <span>Register</span>
+              <span>{{ "REGISTER.REGISTER_BUTTON" | translate }}</span>
             </ng-template>
           </button>
           <button
@@ -260,7 +265,7 @@
             type="button"
             (click)="closeModal()"
           >
-            Cancel
+            {{ "REGISTER.CANCEL_BUTTON" | translate }}
           </button>
         </div>
       </div>

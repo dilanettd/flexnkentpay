@@ -1,6 +1,10 @@
 <div class="container mx-auto p-6 relative">
   <h1 class="h3 text-center mb-4 text-primary-600">
-    {{ currentStep === 1 ? "Configure Your Order" : "Complete Payment" }}
+    {{
+      currentStep === 1
+        ? ("ORDER_CONFIRM.TITLE.STEP1" | translate)
+        : ("ORDER_CONFIRM.TITLE.STEP2" | translate)
+    }}
   </h1>
 
   <!-- Progress indicator -->
@@ -23,7 +27,7 @@
             'text-gray-500': currentStep < 1
           }"
         >
-          Configure
+          {{ "ORDER_CONFIRM.PROGRESS.CONFIGURE" | translate }}
         </span>
       </div>
 
@@ -52,7 +56,7 @@
             'text-gray-500': currentStep < 2
           }"
         >
-          Payment
+          {{ "ORDER_CONFIRM.PROGRESS.PAYMENT" | translate }}
         </span>
       </div>
     </div>
@@ -69,8 +73,8 @@
         <!-- Payment Frequency Selection with Toggle Button -->
         <div class="form-group mb-4">
           <label class="form-label flex items-center">
-            <i class="bi bi-calendar-event text-primary-500 mr-2"></i>Payment
-            Frequency
+            <i class="bi bi-calendar-event text-primary-500 mr-2"></i
+            >{{ "ORDER_CONFIRM.FORM.PAYMENT_FREQUENCY.LABEL" | translate }}
           </label>
           <div class="flex rounded-md shadow-sm">
             <button
@@ -84,7 +88,7 @@
               }"
               class="px-4 py-2 text-sm font-medium border border-gray-300 rounded-l-lg transition-all flex-1 hover:bg-gray-50"
             >
-              Daily
+              {{ "ORDER_CONFIRM.FORM.PAYMENT_FREQUENCY.DAILY" | translate }}
             </button>
             <button
               type="button"
@@ -97,7 +101,7 @@
               }"
               class="px-4 py-2 text-sm font-medium border-t border-b border-gray-300 transition-all flex-1 hover:bg-gray-50"
             >
-              Weekly
+              {{ "ORDER_CONFIRM.FORM.PAYMENT_FREQUENCY.WEEKLY" | translate }}
             </button>
             <button
               type="button"
@@ -110,7 +114,7 @@
               }"
               class="px-4 py-2 text-sm font-medium border border-gray-300 rounded-r-lg transition-all flex-1 hover:bg-gray-50"
             >
-              Monthly
+              {{ "ORDER_CONFIRM.FORM.PAYMENT_FREQUENCY.MONTHLY" | translate }}
             </button>
           </div>
         </div>
@@ -118,8 +122,8 @@
         <!-- Installment Count Input -->
         <div class="form-group mb-4">
           <label for="installment_count" class="form-label flex items-center">
-            <i class="bi bi-calculator text-primary-500 mr-2"></i>Number of
-            Installments
+            <i class="bi bi-calculator text-primary-500 mr-2"></i
+            >{{ "ORDER_CONFIRM.FORM.INSTALLMENTS.LABEL" | translate }}
           </label>
           <div class="relative">
             <input
@@ -147,14 +151,15 @@
             "
             class="form-error"
           >
-            Please enter a valid number of installments
+            {{ "ORDER_CONFIRM.FORM.INSTALLMENTS.ERROR" | translate }}
           </div>
         </div>
 
         <!-- Reminder Type Selection -->
         <div class="form-group mb-4">
           <label for="reminder_type" class="form-label flex items-center">
-            <i class="bi bi-bell text-primary-500 mr-2"></i>Reminder Type
+            <i class="bi bi-bell text-primary-500 mr-2"></i
+            >{{ "ORDER_CONFIRM.FORM.REMINDER.LABEL" | translate }}
           </label>
           <div class="relative">
             <select
@@ -162,9 +167,15 @@
               formControlName="reminder_type"
               class="select w-full focus:border-primary-500 transition-colors pl-10"
             >
-              <option value="email">Email</option>
-              <option value="call">Call</option>
-              <option value="sms">SMS</option>
+              <option value="email">
+                {{ "ORDER_CONFIRM.FORM.REMINDER.EMAIL" | translate }}
+              </option>
+              <option value="call">
+                {{ "ORDER_CONFIRM.FORM.REMINDER.CALL" | translate }}
+              </option>
+              <option value="sms">
+                {{ "ORDER_CONFIRM.FORM.REMINDER.SMS" | translate }}
+              </option>
             </select>
             <div
               class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
@@ -177,7 +188,8 @@
         <!-- Quantity Input -->
         <div class="form-group mb-4">
           <label for="quantity" class="form-label flex items-center">
-            <i class="bi bi-box text-primary-500 mr-2"></i>Quantity
+            <i class="bi bi-box text-primary-500 mr-2"></i
+            >{{ "ORDER_CONFIRM.FORM.QUANTITY" | translate }}
           </label>
           <div class="relative">
             <input
@@ -202,16 +214,17 @@
           >
             <div class="flex items-center mb-2">
               <i class="bi bi-credit-card text-primary-600 mr-2 text-lg"></i>
-              <label class="text-sm font-semibold text-primary-600"
-                >Installment Amount</label
-              >
+              <label class="text-sm font-semibold text-primary-600">{{
+                "ORDER_CONFIRM.FORM.CALCULATIONS.INSTALLMENT_AMOUNT" | translate
+              }}</label>
             </div>
             <p class="text-2xl font-bold text-gray-800">
               {{ installmentAmount + getInstallmentFee() | number : "1.0-0" }}
               <span class="text-sm text-gray-600">XAF</span>
             </p>
             <p class="text-xs text-gray-500 mt-1">
-              Per {{ orderForm.get("payment_frequency")?.value }}
+              {{ "ORDER_CONFIRM.FORM.CALCULATIONS.PER" | translate }}
+              {{ orderForm.get("payment_frequency")?.value }}
             </p>
           </div>
 
@@ -220,16 +233,18 @@
           >
             <div class="flex items-center mb-2">
               <i class="bi bi-cash-stack text-primary-600 mr-2 text-lg"></i>
-              <label class="text-sm font-semibold text-primary-600"
-                >Total Amount</label
-              >
+              <label class="text-sm font-semibold text-primary-600">{{
+                "ORDER_CONFIRM.FORM.CALCULATIONS.TOTAL_AMOUNT" | translate
+              }}</label>
             </div>
             <p class="text-2xl font-bold text-gray-800">
               {{ totalAmount | number : "1.0-0" }}
               <span class="text-sm text-gray-600">XAF</span>
             </p>
             <p class="text-xs text-gray-500 mt-1">
-              + Service fees: {{ getTotalFee() | number : "1.0-0" }} XAF
+              +
+              {{ "ORDER_CONFIRM.FORM.CALCULATIONS.SERVICE_FEES" | translate }}:
+              {{ getTotalFee() | number : "1.0-0" }} XAF
             </p>
           </div>
         </div>
@@ -245,8 +260,7 @@
             class="h-16 mx-auto mb-4"
           />
           <p class="text-sm text-gray-700 mb-2 text-center">
-            Please enter your Mobile Money number to pay your first installment
-            of:
+            {{ "ORDER_CONFIRM.FORM.PAYMENT.INFO" | translate }}
           </p>
           <p class="text-2xl font-bold text-primary-600 mt-2">
             {{ installmentAmount + getInstallmentFee() | number : "1.0-0" }} XAF
@@ -256,7 +270,8 @@
         <!-- Phone Number Input -->
         <div class="form-group mb-4 max-w-md mx-auto">
           <label for="phone_number" class="form-label flex items-center">
-            <i class="bi bi-phone text-primary-500 mr-2"></i>Mobile Money Number
+            <i class="bi bi-phone text-primary-500 mr-2"></i
+            >{{ "ORDER_CONFIRM.FORM.PAYMENT.MOBILE_MONEY" | translate }}
           </label>
           <div class="relative">
             <input
@@ -264,7 +279,9 @@
               id="phone_number"
               formControlName="phone_number"
               phoneFormat
-              placeholder="e.g., 677123456"
+              placeholder="{{
+                'ORDER_CONFIRM.FORM.PAYMENT.PLACEHOLDER' | translate
+              }}"
               class="input w-full focus:border-primary-500 transition-colors pl-10"
               [ngClass]="{
                 'border-red-500': phoneControl?.invalid && phoneControl?.touched
@@ -281,7 +298,7 @@
             class="form-error"
           >
             <span *ngIf="phoneControl?.errors?.required">
-              Mobile money number is required
+              {{ "ORDER_CONFIRM.FORM.PAYMENT.REQUIRED" | translate }}
             </span>
             <span
               *ngIf="
@@ -289,8 +306,7 @@
                 phoneControl?.errors?.cameroonPhone
               "
             >
-              The number must be a valid Cameroonian number (9 digits starting
-              with 6)
+              {{ "ORDER_CONFIRM.FORM.PAYMENT.VALID_NUMBER" | translate }}
             </span>
             <span
               *ngIf="
@@ -298,7 +314,7 @@
                 phoneControl?.errors?.maxlength
               "
             >
-              The number must contain exactly 9 digits
+              {{ "ORDER_CONFIRM.FORM.PAYMENT.LENGTH" | translate }}
             </span>
           </div>
         </div>
@@ -313,8 +329,7 @@
             </div>
             <div class="ml-3">
               <p class="text-sm text-yellow-800">
-                You will receive a payment confirmation request on your mobile
-                phone. Please confirm to complete the transaction.
+                {{ "ORDER_CONFIRM.FORM.PAYMENT.INSTRUCTIONS" | translate }}
               </p>
             </div>
           </div>
@@ -333,9 +348,11 @@
             class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-primary-600"
           ></div>
         </div>
-        <h3 class="text-lg font-bold mb-2">Processing Payment</h3>
+        <h3 class="text-lg font-bold mb-2">
+          {{ "ORDER_CONFIRM.PROCESSING.TITLE" | translate }}
+        </h3>
         <p class="text-sm text-gray-600 mb-4">
-          Please check your phone and confirm the payment request.
+          {{ "ORDER_CONFIRM.PROCESSING.DESCRIPTION" | translate }}
         </p>
       </div>
     </div>
@@ -350,7 +367,8 @@
         class="btn btn-outline-secondary flex items-center"
         (click)="goToStep(1)"
       >
-        <i class="bi bi-arrow-left mr-2"></i>Back
+        <i class="bi bi-arrow-left mr-2"></i
+        >{{ "ORDER_CONFIRM.BUTTONS.BACK" | translate }}
       </button>
       <button
         *ngIf="currentStep === 1"
@@ -358,7 +376,7 @@
         class="btn btn-outline-secondary"
         (click)="closeModal()"
       >
-        Cancel
+        {{ "ORDER_CONFIRM.BUTTONS.CANCEL" | translate }}
       </button>
 
       <button
@@ -371,10 +389,12 @@
         }"
       >
         <span *ngIf="currentStep === 1">
-          Continue <i class="bi bi-arrow-right ml-2"></i>
+          {{ "ORDER_CONFIRM.BUTTONS.CONTINUE" | translate }}
+          <i class="bi bi-arrow-right ml-2"></i>
         </span>
         <span *ngIf="currentStep === 2">
-          <i class="bi bi-check-circle mr-2"></i> Confirm Payment
+          <i class="bi bi-check-circle mr-2"></i>
+          {{ "ORDER_CONFIRM.BUTTONS.CONFIRM" | translate }}
         </span>
       </button>
     </div>

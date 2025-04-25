@@ -13,11 +13,17 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmModalComponent } from '../../../../shared/components/confirm-modal/confirm-modal.component';
 import { cameroonPhoneValidator } from '../../../../shared/utils/cameroon_phone_validator';
 import { PhoneFormatDirective } from '../../../../core/directives/phone-format.directive';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-confirm-order',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, PhoneFormatDirective],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    PhoneFormatDirective,
+    TranslateModule,
+  ],
   templateUrl: './confirm-order.component.html',
 })
 export class ConfirmOrderComponent implements OnInit, OnDestroy {
@@ -44,7 +50,8 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private activeModal: NgbModal,
     private toastr: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private translateService: TranslateService
   ) {
     this.orderForm = this.fb.group({
       installment_count: [1, [Validators.required, Validators.min(1)]],
@@ -71,7 +78,6 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
       this.orderService.getFee('order').subscribe({
         next: (fees) => {
           this.orderFeePercentage = fees.percentage;
-          console.log('Error fetching fees:', fees.percentage);
         },
         error: (err) => {
           console.error('Error fetching fees:', err);
@@ -124,10 +130,13 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
 
   openSuccessModal() {
     const modalRef = this.modalService.open(ConfirmModalComponent);
-    modalRef.componentInstance.title = 'Good Job!';
-    modalRef.componentInstance.description =
-      'Your order has been successfully created! Would you like to go to the purchase page ?';
-    modalRef.componentInstance.confirmLink = '/account/purchases';
+    modalRef.componentInstance.title = this.translateService.instant(
+      'ORDER_CONFIRM.MESSAGES.SUCCESS_TITLE'
+    );
+    modalRef.componentInstance.description = this.translateService.instant(
+      'ORDER_CONFIRM.MESSAGES.SUCCESS_DESCRIPTION'
+    );
+    modalRef.componentInstance.confirmLink = '/account/transactions';
   }
 
   get phoneControl() {
@@ -152,12 +161,16 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
           next: () => {
             this.isSubmitted = false;
             this.closeModal();
-            this.toastr.success('Your order has been successfully registered');
+            this.toastr.success(
+              this.translateService.instant('ORDER_CONFIRM.MESSAGES.SUCCESS')
+            );
             this.openSuccessModal();
           },
           error: (err) => {
             this.isSubmitted = false;
-            this.toastr.error('Something unexpected happened');
+            this.toastr.error(
+              this.translateService.instant('ORDER_CONFIRM.MESSAGES.ERROR')
+            );
           },
         })
       );

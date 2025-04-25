@@ -20,7 +20,7 @@ export interface IOrder {
   is_completed: boolean;
   order_payments: IOrderPayment[];
   product: IProduct;
-  is_confirmed: string;
+  is_confirmed: number;
   fees: number;
   user: IUser;
   created_at: string;

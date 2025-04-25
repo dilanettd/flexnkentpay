@@ -1,0 +1,936 @@
+{
+    "HEADER": {
+      "WELCOME": "Bienvenue sur FlexNKentPay, nous vous permettons de payer vos produits en plusieurs versements.",
+      "SEARCH_PLACEHOLDER": "Rechercher un produit...",
+      "SEARCH_BUTTON": "Rechercher",
+      "CREATE_SHOP": "Créer ma boutique",
+      "MY_ACCOUNT": "Mon compte",
+      "CONTACT": "Contact",
+      "LOGIN": "Connexion",
+      "SIGNUP": "S'inscrire",
+      "LOGOUT": "Déconnexion",
+      "SCAN_QR": "Scanner un code QR"
+    },
+    "FOOTER": {
+      "GET_IN_TOUCH": "Contactez-nous",
+      "PHONE": "+237 676 206 367",
+      "EMAIL": "info@flexnkentpay.com",
+      "LOCATION": "Douala, Bonamoussadi",
+      "RIGHTS_RESERVED": "© 2025 FlexnKentPay. Tous droits réservés. Conçu par",
+      "LANGUAGE": "Langue"
+    },
+    "LANGUAGE": {
+      "FRENCH": "Français",
+      "ENGLISH": "Anglais"
+    },
+    "HOME": {
+      "HERO": {
+        "SLIDE1": {
+          "TITLE": "Transformez vos habitudes de paiement",
+          "SUBTITLE": "Découvrez nos solutions de paiement innovantes qui simplifient et améliorent vos opérations financières, garantissant des transactions fluides et sécurisées",
+          "BUTTON": "Achetez maintenant"
+        },
+        "SLIDE2": {
+          "TITLE": "Achetez maintenant, payez plus tard",
+          "SUBTITLE": "Profitez de la flexibilité des paiements échelonnés sur tous vos produits préférés",
+          "BUTTON": "Explorer les produits"
+        },
+        "SLIDE3": {
+          "TITLE": "Shopping sécurisé et fiable",
+          "SUBTITLE": "Bénéficiez de transactions sécurisées et de vendeurs de confiance pour tous vos besoins d'achat",
+          "BUTTON": "En savoir plus"
+        }
+      },
+      "TRENDING_PRODUCTS": {
+        "SUBTITLE": "Ce qui est populaire",
+        "TITLE": "Produits tendance",
+        "DESCRIPTION": "Découvrez nos produits les plus populaires que les clients adorent en ce moment",
+        "VIEW_DETAILS": "Voir les détails",
+        "NEW": "Nouveau",
+        "INSTALLMENTS": "x"
+      },
+      "TOP_SHOPS": {
+        "SUBTITLE": "Nos partenaires",
+        "TITLE": "Boutiques les mieux notées",
+        "DESCRIPTION": "Découvrez les boutiques les mieux notées, offrant une qualité et un service exceptionnels",
+        "VISIT_SHOP": "Visiter la boutique"
+      },
+      "TOP_CATEGORIES": {
+        "SUBTITLE": "Découvrir",
+        "TITLE": "Catégories principales",
+        "DESCRIPTION": "Parcourez les catégories les plus populaires avec notre meilleure sélection de produits",
+        "NO_CATEGORIES": "Aucune catégorie trouvée",
+        "NO_CATEGORIES_DESC": "Nous n'avons trouvé aucune catégorie à afficher. Veuillez revenir plus tard lorsque nous ajouterons plus de produits.",
+        "NO_PRODUCTS": "Aucun produit trouvé",
+        "NO_PRODUCTS_DESC": "Il n'y a actuellement aucun produit disponible dans cette catégorie."
+      },
+      "FEATURES": {
+        "SUBTITLE": "Pourquoi nous choisir",
+        "TITLE": "Achetez en toute confiance",
+        "DESCRIPTION": "FlexnKentPay vous offre la meilleure expérience d'achat avec des options de paiement flexibles",
+        "FEATURE1": {
+          "TITLE": "Paiements flexibles",
+          "DESCRIPTION": "Payez en versements qui s'adaptent à votre budget et à votre plan financier"
+        },
+        "FEATURE2": {
+          "TITLE": "Transactions sécurisées",
+          "DESCRIPTION": "Tous les paiements sont protégés avec une sécurité de pointe"
+        },
+        "FEATURE3": {
+          "TITLE": "Support client",
+          "DESCRIPTION": "Notre équipe dévouée est prête à vous aider pour toutes vos questions"
+        }
+      }
+    },
+    "LOGIN": {
+  "TITLE": "Connexion à votre compte",
+  "EMAIL_LABEL": "Email",
+  "PASSWORD_LABEL": "Mot de passe",
+  "REMEMBER_ME": "Se souvenir de moi",
+  "FORGOT_PASSWORD": "Mot de passe oublié?",
+  "SIGN_IN_BUTTON": "Se connecter",
+  "SIGNING_IN": "Connexion en cours...",
+  "CANCEL_BUTTON": "Annuler",
+  "RESET_PASSWORD_TITLE": "Réinitialiser votre mot de passe",
+  "RESET_PASSWORD_INSTRUCTION": "Nous vous enverrons des instructions pour réinitialiser votre mot de passe à cette adresse email.",
+  "RESET_PASSWORD_BUTTON": "Réinitialiser le mot de passe",
+  "RESET_SENDING": "Envoi en cours...",
+  "BACK_TO_LOGIN": "Retour à la connexion",
+  "ERROR": {
+    "INVALID_EMAIL": "Veuillez entrer une adresse email valide",
+    "PASSWORD_REQUIRED": "Le mot de passe est requis",
+    "INCORRECT_CREDENTIALS": "Email ou mot de passe incorrect",
+    "ACCOUNT_BLOCKED": "Votre compte a été bloqué",
+    "UNEXPECTED": "Un problème inattendu est survenu",
+    "RESET_FAILED": "Échec de l'envoi de l'email de réinitialisation du mot de passe."
+  },
+  "SUCCESS": {
+    "LOGGED_IN": "Vous êtes connecté avec succès.",
+    "RESET_EMAIL_SENT": "Email de réinitialisation du mot de passe envoyé."
+  }
+},
+"REGISTER": {
+  "TITLE": "Créer votre compte",
+  "SUBTITLE": "Remplissez les détails ci-dessous pour créer un nouveau compte.",
+  "USERNAME_LABEL": "Nom d'utilisateur",
+  "EMAIL_LABEL": "Email",
+  "PASSWORD_LABEL": "Mot de passe",
+  "CONFIRM_PASSWORD_LABEL": "Confirmer",
+  "CONFIRM": "Confirmer",
+  "TERMS_AGREE": "J'accepte les",
+  "TERMS_LINK": "Conditions générales",
+  "REGISTER_BUTTON": "S'inscrire",
+  "REGISTERING": "Inscription en cours...",
+  "CANCEL_BUTTON": "Annuler",
+  "PASSWORD_REQUIREMENTS": "Le mot de passe doit contenir :",
+  "MIN_LENGTH": "Au moins 8 caractères",
+  "LOWERCASE": "1 lettre minuscule",
+  "UPPERCASE": "1 lettre majuscule",
+  "NUMBER": "1 chiffre",
+  "SPECIAL_CHAR": "1 caractère spécial",
+  "ERROR": {
+    "USERNAME_REQUIRED": "Le nom d'utilisateur est requis",
+    "EMAIL_REQUIRED": "L'email est requis",
+    "EMAIL_INVALID": "Veuillez entrer une adresse email valide",
+    "PASSWORD_MATCH": "Les mots de passe doivent correspondre",
+    "TERMS_REQUIRED": "Vous devez accepter les conditions générales",
+    "DEFAULT": "Une erreur s'est produite lors de l'inscription."
+  },
+  "SUCCESS": {
+    "REGISTRATION": "Inscription réussie !"
+  }
+},
+"REVIEW": {
+  "TITLE": "Laisser un avis",
+  "RATING_LABEL": "Note",
+  "REVIEW_LABEL": "Commentaire",
+  "PLACEHOLDER": "Parlez-nous de votre expérience avec ce produit...",
+  "SUBMIT_BUTTON": "Soumettre l'avis",
+  "SUBMITTING": "Soumission en cours...",
+  "CANCEL_BUTTON": "Annuler",
+  "ERROR": {
+    "RATING_REQUIRED": "Veuillez sélectionner une note",
+    "REVIEW_REQUIRED": "Le commentaire est requis",
+    "REVIEW_MIN_LENGTH": "Le commentaire doit comporter au moins 10 caractères"
+  },
+  "SUCCESS": {
+    "SUBMITTED": "Votre avis a été soumis avec succès."
+  },
+  "ERROR_MESSAGE": "Une erreur s'est produite. Veuillez réessayer.",
+  "RATING": {
+    "EXCELLENT": "Excellent",
+    "VERY_GOOD": "Très bien",
+    "GOOD": "Bien",
+    "FAIR": "Moyen",
+    "POOR": "Médiocre"
+  }
+},
+"SHOP_REVIEW": {
+  "TITLE": "Évaluer cette boutique",
+  "RATING_LABEL": "Note",
+  "EXPERIENCE_LABEL": "Votre expérience",
+  "PLACEHOLDER": "Partagez votre expérience avec cette boutique...",
+  "SUBMIT_BUTTON": "Soumettre l'évaluation",
+  "SUBMITTING": "Soumission en cours...",
+  "CANCEL_BUTTON": "Annuler",
+  "ERROR": {
+    "RATING_REQUIRED": "Veuillez sélectionner une note",
+    "REVIEW_REQUIRED": "L'évaluation est requise",
+    "REVIEW_MIN_LENGTH": "L'évaluation doit comporter au moins 10 caractères"
+  },
+  "SUCCESS": {
+    "SUBMITTED": "Votre évaluation a été soumise avec succès."
+  },
+  "ERROR_MESSAGE": "Une erreur s'est produite. Veuillez réessayer.",
+  "RATING": {
+    "EXCELLENT": "Excellent",
+    "VERY_GOOD": "Très bien",
+    "GOOD": "Bien",
+    "FAIR": "Moyen",
+    "POOR": "Médiocre"
+  }
+},
+"BARCODE_SHARE": {
+  "PRODUCT_CODE": "Code du produit",
+  "DESCRIPTION": "Vous pouvez télécharger ce code ou le partager directement avec d'autres personnes.",
+  "DOWNLOAD_BUTTON": "Télécharger",
+  "SHARE_BUTTON": "Partager",
+  "SHARE_TEXT": "Découvrez ce produit :",
+  "SUCCESS": {
+    "DOWNLOAD": "Code QR téléchargé avec succès",
+    "BARCODE_DOWNLOAD": "Code-barres téléchargé avec succès",
+    "SHARED": "Partagé avec succès",
+    "COPIED": "Information copiée dans le presse-papiers"
+  },
+  "ERROR": {
+    "CANVAS_NOT_FOUND": "Canvas du code QR introuvable",
+    "NOT_CANVAS": "L'élément trouvé n'est pas un canvas",
+    "GENERATE_FAILED": "Échec de la génération de l'image du code QR",
+    "NO_CODE": "Aucun code-barres ou code QR disponible à télécharger",
+    "DOWNLOAD_FAILED": "Échec du téléchargement du code-barres",
+    "SHARE_ERROR": "Erreur de partage :",
+    "NO_INFO": "Aucune information disponible à copier",
+    "COPY_FAILED": "Échec de la copie",
+    "COPY_ERROR": "Erreur de copie"
+  },
+  "INFO": {
+    "NOT_SUPPORTED": "L'API Web Share n'est pas prise en charge par ce navigateur. L'URL du code-barres a été copiée dans le presse-papiers à la place."
+  }
+},
+"QR_SCANNER": {
+  "TITLE": "Scanner de Code QR",
+  "SUBTITLE": "Scannez un code QR ou téléchargez une image",
+  "CAMERA_TAB": "Caméra",
+  "GALLERY_TAB": "Galerie",
+  "UPLOAD_LABEL": "Télécharger une image de code QR",
+  "UPLOAD_TEXT": "Cliquez ou glissez une image ici",
+  "UPLOAD_HINT": "PNG, JPG jusqu'à 5 Mo",
+  "CAMERA_NOT_AVAILABLE": "Caméra non disponible",
+  "USE_UPLOAD": "Veuillez utiliser l'option de téléchargement ci-dessous",
+  "RETRY_SCAN": "Réessayer",
+  "NEW_SCAN": "Nouveau scan",
+  "CANCEL_BUTTON": "Annuler",
+  "ERROR": {
+    "CAMERA_ACCESS": "Une erreur s'est produite lors de l'accès à la caméra.",
+    "NO_CAMERAS": "Aucune caméra disponible. Veuillez utiliser l'option de téléchargement.",
+    "CANVAS_NOT_SUPPORTED": "Impossible de traiter l'image. Le navigateur peut ne pas prendre en charge le canvas.",
+    "NO_QR_FOUND": "Aucun code QR trouvé dans l'image.",
+    "DECODE_FAILED": "Échec du décodage du code QR à partir de l'image.",
+    "PROCESS_FAILED": "Échec du traitement de l'image.",
+    "LOAD_FAILED": "Échec du chargement de l'image.",
+    "READ_FAILED": "Échec de lecture du fichier.",
+    "PRODUCT_NOT_FOUND": "Produit non trouvé ou erreur de connexion.",
+    "NO_PRODUCT": "Aucun produit trouvé pour ce code."
+  }
+},
+"TERMS": {
+  "TITLE": "Conditions Générales de FlexNKentPay",
+  "INTRODUCTION": "Ces conditions générales régissent la relation entre FlexNKentPay (la \"Plateforme\"), les Vendeurs (propriétaires de boutiques inscrits sur la Plateforme) et les Acheteurs (utilisateurs achetant des produits auprès des Vendeurs sur la Plateforme). En utilisant la Plateforme, les Vendeurs et les Acheteurs acceptent de respecter ces conditions.",
+  "BUYERS": {
+    "TITLE": "1. Conditions Générales pour les Acheteurs",
+    "REGISTRATION": {
+      "TITLE": "1.1 Inscription et Sécurité du Compte",
+      "POINT1": "Les Acheteurs doivent s'inscrire avec un numéro de téléphone valide lié à un compte d'argent mobile et compléter les exigences KYC, y compris soumettre un selfie avec une pièce d'identité émise par le gouvernement et fournir des informations personnelles exactes.",
+      "POINT2": "Les Acheteurs sont responsables de maintenir la confidentialité des détails de leur compte, y compris leur mot de passe et leur code PIN à 4 chiffres."
+    },
+    "PAYMENT": {
+      "TITLE": "1.2 Conditions de Paiement",
+      "POINT1": "Les Acheteurs peuvent acheter des articles auprès des Vendeurs et payer en plusieurs versements. En sélectionnant un produit, l'Acheteur accepte le calendrier des paiements échelonnés et les conditions fixées par la Plateforme.",
+      "POINT2": "Une fois le premier versement effectué, les Acheteurs ne peuvent pas demander de remboursement, et ils s'engagent à compléter les versements comme prévu."
+    },
+    "DEFAULT": {
+      "TITLE": "1.3 Défaut de Paiement et Politique de Non-Remboursement",
+      "POINT1": "Si un Acheteur ne complète pas les paiements échelonnés dans le délai prévu, il perd tous les paiements antérieurs et n'a pas droit à un remboursement.",
+      "POINT2": "Les Acheteurs reconnaissent qu'ils ne recevront pas le produit s'ils font défaut sur leurs paiements."
+    },
+    "NOTIFICATIONS": {
+      "TITLE": "1.4 Notifications et Communication",
+      "POINT1": "Les Acheteurs recevront des notifications concernant chaque paiement échelonné réussi, l'achèvement du paiement d'un article et des rappels sur les échéances de paiement à venir.",
+      "POINT2": "Les Acheteurs peuvent communiquer directement avec les Vendeurs pour obtenir de l'aide via la Plateforme si des problèmes surviennent avec leur commande."
+    },
+    "HISTORY": {
+      "TITLE": "1.5 Historique des Transactions",
+      "POINT1": "Les Acheteurs peuvent consulter et télécharger leur historique de transactions, qui comprend des détails tels que les dates de paiement, les identifiants de transaction, les montants payés et les soldes restants.",
+      "POINT2": "Toutes les transactions doivent être payées via le compte d'argent mobile enregistré."
+    }
+  },
+  "SELLERS": {
+    "TITLE": "2. Conditions Générales pour les Vendeurs",
+    "REGISTRATION": {
+      "TITLE": "2.1 Inscription et Sécurité du Compte",
+      "POINT1": "Les Vendeurs doivent s'inscrire avec un numéro de téléphone lié à un compte d'argent mobile, compléter les exigences KYC (nom de la boutique, emplacement, vérification d'identité, etc.) et accepter de se conformer au processus de vérification de la Plateforme.",
+      "POINT2": "Les Vendeurs doivent maintenir la confidentialité de leurs identifiants de connexion, y compris le mot de passe et le code PIN à 4 chiffres."
+    },
+    "PRODUCTS": {
+      "TITLE": "2.2 Liste de Produits et Gestion des Ventes",
+      "POINT1": "Les Vendeurs doivent lister avec précision les produits en spécifiant des détails tels que le nom du produit, la description, la couleur, la quantité et le prix. Les Vendeurs sont responsables de s'assurer que les informations fournies sont correctes.",
+      "POINT2": "Une fois qu'un Acheteur a payé intégralement un article, les Vendeurs sont tenus d'organiser le retrait du produit avec l'Acheteur."
+    },
+    "PAYMENT": {
+      "TITLE": "2.3 Politique de Paiement et de Transaction",
+      "POINT1": "Les Vendeurs reçoivent des paiements de FlexNKentPay pour les ventes complétées uniquement après que l'Acheteur a effectué tous les paiements échelonnés.",
+      "POINT2": "FlexNKentPay déduira des frais de marge administrative fixés par la Plateforme avant de verser le montant sur le portefeuille FlexNKentPay du Vendeur. Les Vendeurs peuvent transférer des fonds de leur portefeuille vers leur compte d'argent mobile."
+    },
+    "HISTORY": {
+      "TITLE": "2.4 Historique des Transactions et Tenue de Registres",
+      "POINT1": "Les Vendeurs peuvent accéder à un registre complet des transactions, y compris le statut des paiements (en attente, réussi ou échoué), l'identifiant de transaction et les détails de tous les paiements complétés. Les Vendeurs sont encouragés à suivre leur historique de transactions et à vérifier la réception des fonds.",
+      "POINT2": "Les Vendeurs peuvent télécharger des relevés de transactions et des reçus depuis leur tableau de bord de compte."
+    },
+    "RESTRICTIONS": {
+      "TITLE": "2.5 Restrictions et Pénalités pour les Vendeurs",
+      "POINT1": "FlexNKentPay se réserve le droit de restreindre ou de suspendre le compte d'un Vendeur pour violation des politiques de la Plateforme, fausse représentation des détails du produit ou activité frauduleuse.",
+      "POINT2": "Les Vendeurs peuvent signaler des Acheteurs si nécessaire, mais cela doit être fait avec une justification valide et doit être signalé à la Plateforme. FlexNKentPay enquêtera sur les comptes signalés pour déterminer les actions appropriées."
+    },
+    "SUPPORT": {
+      "TITLE": "2.6 Support et Communication",
+      "POINT1": "Les Vendeurs doivent fournir un support aux Acheteurs via la Plateforme pour les demandes liées à la disponibilité des produits, aux problèmes de transaction ou aux arrangements de retrait.",
+      "POINT2": "Les Vendeurs peuvent contacter le support de FlexNKentPay pour tout problème technique, y compris les problèmes de connexion, les retards de paiement ou les questions liées au compte."
+    }
+  },
+  "PLATFORM": {
+    "TITLE": "3. Droits et Responsabilités de la Plateforme",
+    "FEES": {
+      "TITLE": "3.1 Taux de Change et Frais de Transaction",
+      "CONTENT": "FlexNKentPay peut ajuster le taux de change et les frais de transaction selon les besoins. Les Vendeurs et les Acheteurs seront informés de tout changement."
+    },
+    "AVAILABILITY": {
+      "TITLE": "3.2 Disponibilité du Service et Maintenance",
+      "CONTENT": "FlexNKentPay s'efforcera de maintenir la disponibilité du service; cependant, elle se réserve le droit de suspendre les services pour maintenance ou mises à niveau avec préavis."
+    },
+    "LIABILITY": {
+      "TITLE": "3.3 Limitation de Responsabilité",
+      "CONTENT": "FlexNKentPay ne sera pas tenu responsable des litiges résultant de fausses représentations par les Vendeurs, de défauts de paiement par les Acheteurs ou d'accès non autorisé aux comptes. La responsabilité de FlexNKentPay se limite à fournir une plateforme pour des transactions sécurisées et un support utilisateur."
+    },
+    "DISPUTES": {
+      "TITLE": "3.4 Résolution des Litiges",
+      "CONTENT": "Tout litige entre les Vendeurs et les Acheteurs doit d'abord être résolu directement. Si non résolu, FlexNKentPay servira de médiateur et prendra une décision contraignante basée sur les conditions énoncées dans cet accord."
+    }
+  },
+  "FOOTER": "En acceptant ces conditions, les Vendeurs et les Acheteurs reconnaissent qu'ils comprennent et se conformeront aux directives et conditions établies par FlexNKentPay."
+},
+"SHOP_DETAILS": {
+  "ABOUT": "À propos de la boutique",
+  "NO_DESCRIPTION": "Aucune description disponible pour cette boutique.",
+  "SELLER_INFO": "Informations du vendeur",
+  "ADDRESS": "Adresse :",
+  "EMAIL": "Email :",
+  "PHONE": "Téléphone :",
+  "WEBSITE": "Site web :",
+  "NOT_SPECIFIED": "Non spécifié",
+  "SHARE": "Partager cette boutique :",
+  "PRODUCTS": {
+    "TITLE": "Produits de la boutique",
+    "LOADING": "Chargement des produits...",
+    "VIEW": "Voir",
+    "NO_PRODUCTS": "Aucun produit disponible pour cette boutique."
+  },
+  "REVIEWS": {
+    "TITLE": "Avis des clients",
+    "ADD": "Ajouter un avis",
+    "ANONYMOUS": "Anonyme",
+    "NO_COMMENTS": "Aucun commentaire fourni",
+    "NO_REVIEWS": "Aucun avis disponible pour cette boutique pour le moment.",
+    "BE_FIRST": "Soyez le premier à partager votre expérience !",
+    "LOGIN_REQUIRED": "Vous devez être connecté pour laisser un avis."
+  },
+  "VISITS": "visites"
+},
+"PRODUCT_LIST": {
+  "SHOWING": "Affichage de {{count}} sur {{total}} produits",
+  "REVIEWS": "Avis",
+  "VIEW": "Voir",
+  "NO_PRODUCTS": {
+    "TITLE": "Aucun produit trouvé",
+    "DESCRIPTION": "Essayez d'ajuster vos critères de recherche"
+  }
+},
+"PRODUCT_DETAIL": {
+    "BREADCRUMBS": {
+      "HOME": "Accueil",
+      "PRODUCT_DETAILS": "Détails du produit"
+    },
+    "LOADING": "Chargement des détails du produit...",
+    "NOT_FOUND": {
+      "TITLE": "Produit non trouvé",
+      "MESSAGE": "Nous n'avons pas pu trouver le produit que vous recherchez.",
+      "RETURN_HOME": "Retourner à l'accueil"
+    },
+    "DESCRIPTION": "Description",
+    "NO_DESCRIPTION": "Aucune description disponible pour ce produit.",
+    "QUANTITY": "Quantité",
+    "PURCHASE_NOW": "Acheter maintenant",
+    "VIEW_SHOP": "Voir la boutique",
+    "PAYMENT_METHODS": {
+      "TITLE": "Moyens de paiement",
+      "DESCRIPTION": "Paiement sécurisé par Mobile Money (Orange Money, MTN Mobile Money)"
+    },
+    "STOCK": {
+      "OUT_OF_STOCK": "Rupture de stock",
+      "LOW_STOCK": "Stock limité ({{count}} restants)",
+      "IN_STOCK": "En stock ({{count}} disponibles)",
+      "INSUFFICIENT_STOCK": "Stock insuffisant. Vous avez demandé {{requested}} mais seulement {{available}} sont disponibles.",
+      "QUANTITY_ADJUSTED": "Quantité ajustée au stock disponible ({{available}})."
+    },
+    "ORDER": {
+      "LOGIN_REQUIRED": "Veuillez vous connecter pour effectuer un achat",
+      "SHOP_UNAVAILABLE": "Informations de la boutique indisponibles",
+      "INCOMPLETE_INFO": "Informations du produit incomplètes"
+    },
+    "SHARE": {
+      "TITLE": "Partager",
+      "VIEW_QR": "Voir le QR code",
+      "URL_UNAVAILABLE": "Lien de partage indisponible",
+      "COPY_SUCCESS": "Lien copié dans le presse-papiers",
+      "COPY_ERROR": "Impossible de copier le lien",
+      "ERROR_COPYING": "Erreur lors de la copie du lien",
+      "BARCODE_UNAVAILABLE": "Code-barre indisponible"
+    },
+    "REVIEWS": {
+      "ENJOYED": "Vous avez aimé ce produit?",
+      "SHARE_EXPERIENCE": "Partagez votre expérience avec les autres acheteurs",
+      "LEAVE_REVIEW": "Laisser un avis",
+      "TITLE": "Avis clients",
+      "LOGIN_REQUIRED": "Veuillez vous connecter pour laisser un avis",
+      "ANONYMOUS": "Utilisateur anonyme",
+      "NO_COMMENTS": "Pas de commentaire",
+      "NO_REVIEWS": "Aucun avis pour ce produit",
+      "BE_FIRST": "Soyez le premier à laisser un avis!"
+    }
+  },
+"PAYMENT": {
+  "CONFIRMATION": {
+    "TITLE": "Confirmer le paiement",
+    "SUBTITLE": "Complétez votre transaction en toute sécurité",
+    "AMOUNT": "Montant à payer :",
+    "MOBILE_MONEY": "Numéro Mobile Money",
+    "PLACEHOLDER": "ex., 677123456",
+    "VALIDATION": {
+      "REQUIRED": "Le numéro mobile money est requis",
+      "VALID_NUMBER": "Le numéro doit être un numéro camerounais valide (9 chiffres commençant par 6)",
+      "LENGTH": "Le numéro doit contenir exactement 9 chiffres"
+    },
+    "INSTRUCTIONS": "Vous recevrez une demande de confirmation de paiement sur votre téléphone mobile. Veuillez confirmer pour finaliser la transaction.",
+    "SECURITY": "Votre paiement est sécurisé par un chiffrement de bout en bout",
+    "CANCEL": "Annuler",
+    "CONFIRM": "Confirmer le paiement",
+    "PROCESSING": "En cours..."
+  },
+  "PROCESSING": {
+    "TITLE": "Traitement du paiement",
+    "DESCRIPTION": "Veuillez vérifier votre téléphone et confirmer la demande de paiement.",
+    "STEPS": {
+      "TITLE": "Processus de paiement :",
+      "SENT": "Demande envoyée",
+      "WAITING": "En attente de confirmation",
+      "FINALIZING": "Finalisation de la transaction"
+    }
+  },
+  "MESSAGES": {
+    "SUCCESS": "Paiement traité avec succès",
+    "ERROR": "Un problème inattendu est survenu",
+    "SUCCESS_TITLE": "Bien joué !",
+    "SUCCESS_DESCRIPTION": "Votre paiement a été traité avec succès ! Souhaitez-vous accéder à la page des transactions ?"
+  }
+},
+"ORDER_CONFIRM": {
+  "TITLE": {
+    "STEP1": "Configurez votre commande",
+    "STEP2": "Finaliser le paiement"
+  },
+  "PROGRESS": {
+    "CONFIGURE": "Configurer",
+    "PAYMENT": "Paiement"
+  },
+  "FORM": {
+    "PAYMENT_FREQUENCY": {
+      "LABEL": "Fréquence de paiement",
+      "DAILY": "Quotidien",
+      "WEEKLY": "Hebdomadaire",
+      "MONTHLY": "Mensuel"
+    },
+    "INSTALLMENTS": {
+      "LABEL": "Nombre de versements",
+      "ERROR": "Veuillez entrer un nombre valide de versements"
+    },
+    "REMINDER": {
+      "LABEL": "Type de rappel",
+      "EMAIL": "Email",
+      "CALL": "Appel",
+      "SMS": "SMS"
+    },
+    "QUANTITY": "Quantité",
+    "CALCULATIONS": {
+      "INSTALLMENT_AMOUNT": "Montant du versement",
+      "PER": "Par",
+      "TOTAL_AMOUNT": "Montant total",
+      "SERVICE_FEES": "Frais de service"
+    },
+    "PAYMENT": {
+      "INFO": "Veuillez entrer votre numéro Mobile Money pour payer votre premier versement de :",
+      "MOBILE_MONEY": "Numéro Mobile Money",
+      "PLACEHOLDER": "ex., 677123456",
+      "REQUIRED": "Le numéro mobile money est requis",
+      "VALID_NUMBER": "Le numéro doit être un numéro camerounais valide (9 chiffres commençant par 6)",
+      "LENGTH": "Le numéro doit contenir exactement 9 chiffres",
+      "INSTRUCTIONS": "Vous recevrez une demande de confirmation de paiement sur votre téléphone mobile. Veuillez confirmer pour finaliser la transaction."
+    }
+  },
+  "BUTTONS": {
+    "BACK": "Retour",
+    "CANCEL": "Annuler",
+    "CONTINUE": "Continuer",
+    "CONFIRM": "Confirmer le paiement"
+  },
+  "PROCESSING": {
+    "TITLE": "Traitement du paiement",
+    "DESCRIPTION": "Veuillez vérifier votre téléphone et confirmer la demande de paiement."
+  },
+  "MESSAGES": {
+    "SUCCESS": "Votre commande a été enregistrée avec succès",
+    "ERROR": "Un problème inattendu est survenu",
+    "SUCCESS_TITLE": "Bien joué !",
+    "SUCCESS_DESCRIPTION": "Votre commande a été créée avec succès ! Souhaitez-vous accéder à la page des achats ?"
+  }
+},
+"NOT_FOUND": {
+  "CODE": "404",
+  "TITLE": "Oups ! Page non trouvée !",
+  "MESSAGE": "La page que vous recherchez n'existe pas. Elle a peut-être été déplacée ou supprimée.",
+  "BACK_HOME": "Retour à l'accueil"
+},
+"CONTACT": {
+  "TITLE": "Contactez-nous",
+  "SUBTITLE": "Nous sommes là pour vous aider. N'hésitez pas à nous contacter pour toute question ou préoccupation.",
+  "ADDRESS": {
+    "TITLE": "Notre adresse",
+    "VALUE": "Douala, Bonamoussadi Carrefour du Lycée"
+  },
+  "PHONE": {
+    "TITLE": "Téléphone",
+    "PLACEHOLDER": "+237 XXX XXX XXX"
+  },
+  "EMAIL": {
+    "TITLE": "Email"
+  },
+  "FORM": {
+    "NAME": "Votre nom",
+    "NAME_PLACEHOLDER": "Jean Dupont",
+    "SUBJECT": "Sujet",
+    "SUBJECT_PLACEHOLDER": "Votre sujet",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "exemple@email.com",
+    "MESSAGE": "Message",
+    "MESSAGE_PLACEHOLDER": "Votre message...",
+    "SEND": "Envoyer le message",
+    "SUCCESS": "Message envoyé avec succès"
+  }
+},"RESET_PASSWORD": {
+  "TITLE": "Réinitialiser votre mot de passe",
+  "SUBTITLE": "Veuillez entrer votre nouveau mot de passe ci-dessous.",
+  "PASSWORD_LABEL": "Mot de passe",
+  "CONFIRM_PASSWORD_LABEL": "Confirmer le mot de passe",
+  "RESET_BUTTON": "Réinitialiser le mot de passe",
+  "PASSWORD_REQUIREMENTS": {
+    "MIN_LENGTH": "au moins 8 caractères",
+    "LOWERCASE": "1 lettre minuscule",
+    "UPPERCASE": "1 lettre majuscule",
+    "NUMBER": "1 chiffre",
+    "SPECIAL_CHAR": "1 caractère spécial"
+  },
+  "VALIDATION": {
+    "PASSWORDS_MATCH": "Les mots de passe doivent correspondre."
+  },
+  "MESSAGES": {
+    "SUCCESS": "Réinitialisation du mot de passe réussie !",
+    "ERROR": "Une erreur s'est produite lors de la réinitialisation du mot de passe.",
+    "INVALID_TOKEN": "Email ou jeton invalide."
+  }
+},
+"ACCOUNT_CONFIRMATION": {
+  "TITLE": "Confirmation du compte",
+  "SUCCESS_MESSAGE": "Votre compte a été vérifié avec succès !",
+  "FAILURE_MESSAGE": {
+    "FAILED": "La vérification de l'e-mail a échoué ou le lien a expiré.",
+    "INVALID": "Lien de vérification invalide."
+  },
+  "DESCRIPTION": "Vous pouvez maintenant accéder à toutes les fonctionnalités. Si vous le souhaitez, retournez à la page d'accueil.",
+  "BACK_HOME": "Retour à l'accueil"
+},
+"ACCOUNT": {
+  "TITLE": "Mon Compte",
+  "NAVIGATION": {
+    "PROFILE": "Profil",
+    "MY_SHOP": "Ma Boutique",
+    "PURCHASES": "Mes Achats",
+    "TRANSACTIONS": "Transactions",
+    "LOGOUT": "Déconnexion"
+  }
+},
+"PROFILE": {
+  "TITLE": "Mon Profil",
+  "PROFILE_PICTURE": {
+    "ALT": "Photo de profil",
+    "SAVE": "Enregistrer"
+  },
+  "ACCOUNT_INFO": {
+    "TITLE": "Informations du compte",
+    "MEMBER_SINCE": "Membre depuis"
+  },
+  "PERSONAL_INFO": {
+    "TITLE": "Informations personnelles",
+    "EDIT": "Modifier",
+    "CANCEL": "Annuler",
+    "NAME": "Nom",
+    "EMAIL": "Email",
+    "PHONE": "Téléphone",
+    "ACCOUNT_TYPE": "Type de compte",
+    "UNDEFINED": "Non défini",
+    "SELLER": "Vendeur",
+    "CUSTOMER": "Client",
+    "SAVE": "Enregistrer",
+    "VALIDATION": {
+      "NAME_REQUIRED": "Le nom est requis",
+      "EMAIL_REQUIRED": "L'email est requis",
+      "EMAIL_INVALID": "Format d'email invalide",
+      "PHONE_REQUIRED": "Le téléphone est requis"
+    }
+  },
+  "PASSWORD": {
+    "TITLE": "Mot de passe",
+    "EDIT": "Modifier",
+    "INFO": "Pour des raisons de sécurité, votre mot de passe n'est jamais affiché. Vous pouvez le modifier à tout moment."
+  },
+  "MESSAGES": {
+    "UPLOAD_SUCCESS": "Photo de profil mise à jour avec succès!",
+    "UPLOAD_ERROR": "Une erreur s'est produite lors de la mise à jour de l'image de profil.",
+    "SELECT_IMAGE": "Veuillez sélectionner une image à télécharger.",
+    "PROFILE_UPDATE_SUCCESS": "Profil mis à jour avec succès!",
+    "PROFILE_UPDATE_ERROR": "Une erreur est survenue lors de la mise à jour du profil.",
+    "PASSWORD_FEATURE": "Fonctionnalité de changement de mot de passe à venir"
+  }
+},
+"PURCHASES": {
+  "TITLE": "Mes Achats",
+  "LOADING": "Chargement de vos achats...",
+  "EMPTY": {
+    "TITLE": "Pas encore d'achats",
+    "MESSAGE": "Vous n'avez pas encore effectué d'achats. Commencez à explorer nos produits et trouvez quelque chose que vous aimez !",
+    "BROWSE": "Parcourir les produits"
+  },
+  "ERROR": {
+    "TITLE": "Oups ! Quelque chose s'est mal passé",
+    "DEFAULT": "Impossible de récupérer les commandes. Veuillez réessayer.",
+    "TRY_AGAIN": "Réessayer"
+  },
+  "ORDER": {
+      "ID": "N° de commande",
+      "DATE": "Date",
+      "STATUS": "Statut",
+      "ACTIVE": "Active",
+      "CONFIRMED": "Confirmée",
+      "PENDING": "En attente",
+      "QUANTITY": "Quantité",
+      "TOTAL_COST": "Montant total",
+      "INSTALLMENT": "Versement"
+    },
+  "PAYMENT": {
+    "TITLE": "Versements",
+    "AMOUNT": "Montant",
+    "PAID_ON": "Payé le",
+    "DUE_DATE": "Date d'échéance",
+    "PAY_NOW": "Payer maintenant",
+    "LOGIN_REQUIRED": "Vous devez être connecté pour payer"
+  },
+  "CANCEL": {
+    "BUTTON": "Annuler",
+    "CONFIRM_MESSAGE": "Êtes-vous sûr de vouloir annuler cette commande ? Cette action est irréversible.",
+    "SUCCESS": "Commande annulée avec succès",
+    "ERROR": "Erreur lors de l'annulation de la commande",
+    "ALREADY_CONFIRMED": "Impossible d'annuler une commande déjà confirmée"
+  }
+},
+"ADD_PRODUCT": {
+  "STEPS": {
+    "INFORMATION": "Information",
+    "DETAILS": "Détails",
+    "DESCRIPTION": "Description",
+    "IMAGES": "Images"
+  },
+  "PRODUCT_INFO": {
+    "TITLE": "Informations sur le produit",
+    "NAME": {
+      "LABEL": "Nom du produit",
+      "PLACEHOLDER": "Entrez le nom du produit",
+      "ERROR": "Le nom du produit est requis"
+    },
+    "BRAND": {
+      "LABEL": "Marque",
+      "PLACEHOLDER": "Entrez le nom de la marque",
+      "ERROR": "La marque est requise"
+    },
+    "CATEGORY": {
+      "LABEL": "Catégorie",
+      "PLACEHOLDER": "Sélectionnez une catégorie",
+      "ERROR": "Veuillez sélectionner une catégorie"
+    }
+  },
+  "PRODUCT_DETAILS": {
+    "TITLE": "Détails du produit",
+    "PRICE": {
+      "LABEL": "Prix",
+      "PLACEHOLDER": "0.00",
+      "ERROR": {
+        "REQUIRED": "Le prix est requis",
+        "MIN": "Le prix doit être supérieur à 0"
+      }
+    },
+    "STOCK": {
+      "LABEL": "Quantité en stock",
+      "PLACEHOLDER": "Entrez la quantité",
+      "ERROR": "La quantité en stock est requise"
+    }
+  },
+  "DESCRIPTION": {
+    "TITLE": "Description du produit",
+    "LABEL": "Description",
+    "PLACEHOLDER": "Décrivez votre produit...",
+    "ERROR": "La description doit comporter au moins 20 caractères",
+    "HINT": "Incluez des détails sur les caractéristiques, l'état et toute autre information importante"
+  },
+  "IMAGES": {
+    "TITLE": "Images du produit",
+    "LABEL": "Télécharger des images",
+    "LIMIT": "(minimum 2, maximum 5)",
+    "UPLOAD": "Cliquez pour télécharger",
+    "COUNT": "images",
+    "ERROR": "Veuillez télécharger au moins 2 images"
+  },
+  "BUTTONS": {
+    "PREVIOUS": "Précédent",
+    "NEXT": "Suivant",
+    "SAVE": "Enregistrer le produit",
+    "SAVING": "Enregistrement..."
+  },
+  "MESSAGES": {
+    "VALIDATION": "Veuillez remplir correctement tous les champs obligatoires",
+    "MIN_IMAGES": "Veuillez télécharger au moins 2 images.",
+    "FORM_ERRORS": "Veuillez corriger les erreurs avant de soumettre.",
+    "SUCCESS": "Votre produit a été ajouté avec succès.",
+    "ERROR": "Une erreur s'est produite. Veuillez réessayer.",
+    "MAX_IMAGES": "Vous ne pouvez pas télécharger plus de {max} images.",
+    "INVALID_FORMAT": "Le fichier {name} n'est pas un format d'image pris en charge.",
+    "MAX_SIZE": "Le fichier {name} dépasse la taille maximale de 5 Mo.",
+    "LOAD_CATEGORIES_ERROR": "Échec du chargement des catégories. Veuillez réessayer."
+  }
+},
+"UPDATE_PRODUCT": {
+    "PRODUCT_INFO": {
+      "TITLE": "Mettre à jour les informations du produit"
+    },
+    "PRODUCT_DETAILS": {
+      "TITLE": "Mettre à jour les détails du produit"
+    },
+    "DESCRIPTION": {
+      "TITLE": "Mettre à jour la description du produit"
+    },
+    "IMAGES": {
+      "TITLE": "Mettre à jour les images du produit",
+      "MANAGE": "Gérer les images",
+      "EXISTING": "Existante",
+      "NEW": "Nouvelle",
+      "CHANGES_WARNING": "Vous avez modifié les images du produit. Ces changements seront enregistrés lorsque vous cliquerez sur \"Mettre à jour le produit\"."
+    },
+    "PRODUCT_STATS": "Statistiques du produit",
+    "RATING": "Note",
+    "VIEWS": "Vues",
+    "PRODUCT_INFO_LABEL": "Informations sur le produit",
+    "PRODUCT_CODE": "Code du produit",
+    "LAST_UPDATED": "Dernière mise à jour",
+    "BUTTONS": {
+      "UPDATING": "Mise à jour...",
+      "UPDATE": "Mettre à jour le produit"
+    },
+    "MESSAGES": {
+      "SUCCESS": "Votre produit a été mis à jour avec succès.",
+      "ERROR": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
+  
+    "SHOP": {
+      "BECOME_SELLER": {
+        "TITLE": "Devenir vendeur",
+        "SUBTITLE": "Commencez à vendre vos produits sur notre plateforme"
+      },
+      "MY_SHOP": "Ma Boutique",
+      "DEFAULT_SHOP_NAME": "Nom de boutique",
+      "DEFAULT_LOCATION": "Emplacement non défini",
+      "DEFAULT_CONTACT": "Contact non défini",
+      "DEFAULT_DESCRIPTION": "Aucune description",
+      "LOGO_ALT": "Logo",
+      "COVER_PHOTO_ALT": "Photo de couverture",
+      "TABS": {
+        "ORDERS": "Commandes",
+        "PRODUCTS": "Produits",
+        "SETTINGS": "Paramètres"
+      },
+      "FORM": {
+        "SHOP_INFO_TITLE": "Informations de votre boutique",
+        "SHOP_DESCRIPTION_TITLE": "Description de votre boutique",
+        "SHOP_NAME": "Nom de la boutique",
+        "LOCATION": "Emplacement",
+        "CONTACT_NUMBER": "Numéro de contact",
+        "WEBSITE": "Site web",
+        "OPTIONAL": "(optionnel)",
+        "DESCRIPTION": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Décrivez votre boutique, vos produits et votre activité...",
+        "TERMS_TITLE": "Conditions d'utilisation",
+        "ACCEPT": "J'accepte les",
+        "TERMS": "conditions d'utilisation",
+        "AND": "et la",
+        "PRIVACY_POLICY": "politique de confidentialité",
+        "OF_PLATFORM": "de la plateforme."
+      },
+      "VALIDATION": {
+        "NAME_REQUIRED": "Le nom de la boutique est requis",
+        "LOCATION_REQUIRED": "L'emplacement est requis",
+        "CONTACT_REQUIRED": "Le numéro de contact est requis",
+        "DESCRIPTION_REQUIRED": "La description est requise (minimum 10 caractères)",
+        "TERMS_REQUIRED": "Vous devez accepter les conditions d'utilisation"
+      },
+      "BUTTONS": {
+        "CREATING": "Création en cours...",
+        "CREATE_SHOP": "Créer ma boutique",
+        "ADD": "Ajouter",
+        "ADD_FIRST_PRODUCT": "Ajouter mon premier produit",
+        "SAVING": "Enregistrement...",
+        "SAVE_CHANGES": "Enregistrer les modifications"
+      },
+      "ORDERS": {
+        "TITLE": "Mes Commandes",
+        "NO_ORDERS_TITLE": "Aucune commande trouvée",
+        "NO_ORDERS_MESSAGE": "Vous n'avez pas encore reçu de commandes. Quand vous en recevrez, elles apparaîtront ici.",
+        "QUANTITY": "Qté",
+        "TOTAL": "Total",
+        "CUSTOMER": "Client",
+        "STATUS_DATE": "Statut & Date",
+        "STATUS_COMPLETED": "Complété",
+        "STATUS_IN_PROGRESS": "En cours",
+        "STATUS_PENDING": "En attente",
+        "INSTALLMENTS": "Versements"
+      },
+      "PRODUCTS": {
+        "TITLE": "Mes Produits",
+        "NO_PRODUCTS_TITLE": "Aucun produit trouvé",
+        "NO_PRODUCTS_MESSAGE": "Vous n'avez pas encore ajouté de produits à votre boutique. Commencez dès maintenant pour attirer de nouveaux clients!",
+        "STATUS_ACTIVE": "Actif",
+        "STATUS_INACTIVE": "Inactif",
+        "STOCK": "Stock"
+      },
+      "SETTINGS": {
+        "TITLE": "Paramètres de la Boutique",
+        "GENERAL_INFO": "Informations générales",
+        "SHOP_DESCRIPTION": "Description de la boutique"
+      },
+      "MESSAGES": {
+        "SHOP_CREATED_SUCCESS": "Votre boutique a été créée avec succès!",
+        "SHOP_CREATION_ERROR": "Une erreur s'est produite lors de la création de votre boutique. Veuillez réessayer.",
+        "PRODUCTS_LOADING_ERROR": "Erreur lors du chargement des produits",
+        "ORDERS_LOADING_ERROR": "Erreur lors du chargement des commandes",
+        "LOGO_UPDATE_SUCCESS": "Logo mis à jour avec succès",
+        "LOGO_UPDATE_ERROR": "Erreur lors de la mise à jour du logo",
+        "COVER_UPDATE_SUCCESS": "Image de couverture mise à jour avec succès",
+        "COVER_UPDATE_ERROR": "Erreur lors de la mise à jour de l'image de couverture",
+        "CONFIRM_SETTINGS_UPDATE": "Êtes-vous sûr de vouloir enregistrer ces modifications ?",
+        "SETTINGS_UPDATE_SUCCESS": "Paramètres de la boutique mis à jour avec succès",
+        "SETTINGS_UPDATE_ERROR": "Erreur lors de la mise à jour des paramètres",
+        "CONFIRM_PRODUCT_DELETE": "Êtes-vous sûr de vouloir supprimer ce produit ? Cette action est irréversible.",
+        "PRODUCT_DELETE_SUCCESS": "Produit supprimé avec succès",
+        "PRODUCT_DELETE_ERROR": "Erreur lors de la suppression du produit"
+      }
+    },
+    "UPDATE_PRODUCT": {
+      "PRODUCT_INFO": {
+        "TITLE": "Mettre à jour les informations du produit"
+      },
+      "PRODUCT_DETAILS": {
+        "TITLE": "Mettre à jour les détails du produit"
+      },
+      "DESCRIPTION": {
+        "TITLE": "Mettre à jour la description du produit"
+      },
+      "IMAGES": {
+        "TITLE": "Mettre à jour les images du produit",
+        "MANAGE": "Gérer les images",
+        "EXISTING": "Existante",
+        "NEW": "Nouvelle",
+        "CHANGES_WARNING": "Vous avez modifié les images du produit. Ces changements seront enregistrés lorsque vous cliquerez sur \"Mettre à jour le produit\"."
+      },
+      "PRODUCT_STATS": "Statistiques du produit",
+      "RATING": "Note",
+      "VIEWS": "Vues",
+      "PRODUCT_INFO_LABEL": "Informations sur le produit",
+      "PRODUCT_CODE": "Code du produit",
+      "LAST_UPDATED": "Dernière mise à jour",
+      "BUTTONS": {
+        "UPDATING": "Mise à jour...",
+        "UPDATE": "Mettre à jour le produit"
+      },
+      "MESSAGES": {
+        "SUCCESS": "Votre produit a été mis à jour avec succès.",
+        "ERROR": "Une erreur est survenue. Veuillez réessayer."
+      }
+    },
+    "TRANSACTIONS": {
+    "TITLE": "Mes Transactions",
+    "LOADING": "Chargement de vos transactions...",
+    "EMPTY": {
+      "TITLE": "Aucune transaction pour le moment",
+      "MESSAGE": "Vous n'avez effectué aucune transaction jusqu'à présent. Complétez un achat pour voir votre historique de transactions ici."
+    },
+    "ERROR": {
+      "TITLE": "Oups ! Un problème est survenu",
+      "FETCH_FAILED": "Impossible de récupérer les commandes. Veuillez réessayer."
+    },
+    "BUTTONS": {
+      "TRY_AGAIN": "Réessayer",
+      "BROWSE_PRODUCTS": "Parcourir les produits"
+    },
+    "TABLE": {
+      "TRANSACTION_ID": "ID de transaction",
+      "PHONE": "Téléphone",
+      "AMOUNT": "Montant",
+      "FEES": "Frais",
+      "DATE": "Date",
+      "STATUS": "Statut",
+      "NOT_AVAILABLE": "N/A",
+      "SHOWING_ALL": "Affichage de tous les",
+      "TRANSACTIONS": "transactions"
+    },
+    "STATUS": {
+      "SUCCESS": "Réussi",
+      "PENDING": "En attente",
+      "FAILED": "Échoué"
+    }
+  }
+  }
+  

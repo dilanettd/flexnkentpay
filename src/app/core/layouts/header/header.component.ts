@@ -9,11 +9,19 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { QrcodeModalComponent } from '../../../shared/components/qrcode-modal/qrcode-modal/qrcode-modal.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationService } from '../../services/translation/translation.service';
 
 @Component({
   selector: 'flexnkentpay-header',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, FormsModule, CommonModule],
+  imports: [
+    RouterLink,
+    RouterOutlet,
+    FormsModule,
+    CommonModule,
+    TranslateModule,
+  ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   animations: [
@@ -56,12 +64,14 @@ export class HeaderComponent implements OnInit {
   isAuthenticated: boolean = false;
   searchKeyword: string = '';
   isSearchVisible: boolean = false;
+  currentLang: string = 'fr';
 
   constructor(
     private modalService: NgbModal,
     private authService: AuthService,
     private router: Router,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private translationService: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -69,6 +79,16 @@ export class HeaderComponent implements OnInit {
       this.isAuthenticated = this.authService.isAuthenticate();
       this.me = user;
     });
+
+    this.translationService.currentLang$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
+  }
+
+  changeLanguage(lang: string): void {
+    this.translationService.setLanguage(lang);
+    this.isMenuOpen = false;
+    this.isMobileMenuOpen = false;
   }
 
   openLoginModal() {

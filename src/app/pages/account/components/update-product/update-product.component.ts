@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrService } from 'ngx-toastr';
 import { ProductService } from '../../../../core/services/product/product.service';
@@ -19,6 +19,7 @@ import {
   IProduct,
   IUpdateProduct,
 } from '../../../../core/models/product.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-update-product',
@@ -28,6 +29,7 @@ import {
     ReactiveFormsModule,
     CommonModule,
     ButtonSpinnerComponent,
+    TranslateModule,
   ],
   templateUrl: './update-product.component.html',
   styleUrls: ['./update-product.component.scss'],
@@ -48,14 +50,15 @@ export class UpdateProductComponent implements OnInit {
 
   productForm!: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private imageCompress: NgxImageCompressService,
-    private toastr: ToastrService,
-    private modalService: NgbModal,
-    private productService: ProductService,
-    private categoryService: CategoryService
-  ) {}
+  private fb = inject(FormBuilder);
+  private imageCompress = inject(NgxImageCompressService);
+  private toastr = inject(ToastrService);
+  private activeModal = inject(NgbActiveModal);
+  private productService = inject(ProductService);
+  private categoryService = inject(CategoryService);
+  private translateService = inject(TranslateService);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.initializeForms();
@@ -97,8 +100,15 @@ export class UpdateProductComponent implements OnInit {
           this.categories = categories;
         },
         error: (error) => {
-          this.errorMessage = 'Failed to load categories. Please try again.';
-          this.toastr.error('Failed to load categories', 'Error');
+          this.errorMessage = this.translateService.instant(
+            'ADD_PRODUCT.MESSAGES.LOAD_CATEGORIES_ERROR'
+          );
+          this.toastr.error(
+            this.translateService.instant(
+              'ADD_PRODUCT.MESSAGES.LOAD_CATEGORIES_ERROR'
+            ),
+            'Error'
+          );
         },
       });
   }
@@ -118,13 +128,13 @@ export class UpdateProductComponent implements OnInit {
   getStepName(stepNumber: number): string {
     switch (stepNumber) {
       case 1:
-        return 'Information';
+        return this.translateService.instant('ADD_PRODUCT.STEPS.INFORMATION');
       case 2:
-        return 'Details';
+        return this.translateService.instant('ADD_PRODUCT.STEPS.DETAILS');
       case 3:
-        return 'Description';
+        return this.translateService.instant('ADD_PRODUCT.STEPS.DESCRIPTION');
       case 4:
-        return 'Images';
+        return this.translateService.instant('ADD_PRODUCT.STEPS.IMAGES');
       default:
         return '';
     }
@@ -180,8 +190,7 @@ export class UpdateProductComponent implements OnInit {
 
     if (!valid) {
       this.toastr.warning(
-        'Please fill all required fields correctly',
-        'Validation'
+        this.translateService.instant('ADD_PRODUCT.MESSAGES.VALIDATION')
       );
     }
 
@@ -199,18 +208,22 @@ export class UpdateProductComponent implements OnInit {
   }
 
   closeModal() {
-    this.modalService.dismissAll();
+    this.activeModal.close();
   }
 
   async handleSubmit() {
     if (this.uploadedImages.length < 2) {
-      this.toastr.error('Please upload at least 2 images.');
+      this.toastr.error(
+        this.translateService.instant('ADD_PRODUCT.MESSAGES.MIN_IMAGES')
+      );
       return;
     }
 
     if (!this.productForm.valid) {
       this.validateAllFormFields(this.productForm);
-      this.toastr.error('Please correct the errors before submitting.');
+      this.toastr.error(
+        this.translateService.instant('ADD_PRODUCT.MESSAGES.FORM_ERRORS')
+      );
       return;
     }
 
@@ -260,11 +273,15 @@ export class UpdateProductComponent implements OnInit {
         }
       }
 
-      this.toastr.success('Product updated successfully.');
-      this.modalService.dismissAll();
+      this.toastr.success(
+        this.translateService.instant('UPDATE_PRODUCT.MESSAGES.SUCCESS')
+      );
+      this.activeModal.close();
     } catch (error) {
       console.error('Error updating product:', error);
-      this.toastr.error('An error occurred. Please try again.');
+      this.toastr.error(
+        this.translateService.instant('UPDATE_PRODUCT.MESSAGES.ERROR')
+      );
     } finally {
       this.isLoading = false;
     }
@@ -277,7 +294,9 @@ export class UpdateProductComponent implements OnInit {
 
     if (files.length + this.uploadedImages.length > this.maxImages) {
       this.toastr.warning(
-        `You cannot upload more than ${this.maxImages} images.`
+        this.translateService.instant('ADD_PRODUCT.MESSAGES.MAX_IMAGES', {
+          max: this.maxImages,
+        })
       );
       return;
     }
@@ -285,13 +304,21 @@ export class UpdateProductComponent implements OnInit {
     Array.from(files).forEach((file) => {
       // Validate file type
       if (!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
-        this.toastr.error(`File ${file.name} is not a supported image format.`);
+        this.toastr.error(
+          this.translateService.instant('ADD_PRODUCT.MESSAGES.INVALID_FORMAT', {
+            name: file.name,
+          })
+        );
         return;
       }
 
       // Validate file size (5MB max)
       if (file.size > 5 * 1024 * 1024) {
-        this.toastr.error(`File ${file.name} exceeds the maximum size of 5MB.`);
+        this.toastr.error(
+          this.translateService.instant('ADD_PRODUCT.MESSAGES.MAX_SIZE', {
+            name: file.name,
+          })
+        );
         return;
       }
 

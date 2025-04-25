@@ -23,11 +23,12 @@ import { LoginModalComponent } from '../../shared/components/login-modal/login-m
 import { ConfirmOrderComponent } from './components/confirm-order/confirm-order.component';
 import { ShareBarCodeModalComponent } from '../../shared/components/share-bar-code-modal/share-bar-code-modal.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'flexnkentpay-product-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, QRCodeModule],
+  imports: [CommonModule, FormsModule, QRCodeModule, TranslateModule],
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss'],
 })
@@ -41,6 +42,7 @@ export class ProductDetailComponent implements OnInit {
   private titleService = inject(Title);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
+  private translateService = inject(TranslateService);
 
   product = signal<IProduct | null>(null);
   productId = signal<number | null>(null);
@@ -85,6 +87,14 @@ export class ProductDetailComponent implements OnInit {
           if (product.images?.length > 0) {
             this.selectedImageUrl.set(product.images[0].image_url);
           }
+
+          // Ensure quantity doesn't exceed stock
+          if (product.stock_quantity > 0) {
+            this.quantity.set(1); // Reset to 1 when loading a new product
+          } else {
+            this.quantity.set(0); // Set to 0 if no stock
+          }
+
           this.updateMetaTags();
           this.updateSocialShareUrls();
         }
@@ -93,6 +103,20 @@ export class ProductDetailComponent implements OnInit {
     this.destroyRef.onDestroy(() => {
       sub.unsubscribe();
     });
+  }
+
+  /**
+   * Returns an array of available quantities based on stock
+   */
+  getAvailableQuantities(): number[] {
+    const currentProduct = this.product();
+    if (!currentProduct || currentProduct.stock_quantity <= 0) {
+      return [0]; // No stock available
+    }
+
+    // Limit maximum selectable quantity to stock or 10, whichever is lower
+    const maxQty = Math.min(currentProduct.stock_quantity, 10);
+    return Array.from({ length: maxQty }, (_, i) => i + 1);
   }
 
   review(): void {
@@ -107,7 +131,9 @@ export class ProductDetailComponent implements OnInit {
         this.getProductReviews(id);
       });
     } else {
-      this.toastr.error('You must be logged in to leave a review');
+      this.toastr.error(
+        this.translateService.instant('PRODUCT_DETAIL.REVIEWS.LOGIN_REQUIRED')
+      );
       this.modalService.open(LoginModalComponent);
     }
   }
@@ -234,7 +260,9 @@ export class ProductDetailComponent implements OnInit {
     const shareUrl = urls[platform] || '';
 
     if (!shareUrl) {
-      this.toastr.error('Share URL not available');
+      this.toastr.error(
+        this.translateService.instant('PRODUCT_DETAIL.SHARE.URL_UNAVAILABLE')
+      );
       return;
     }
 
@@ -266,12 +294,18 @@ export class ProductDetailComponent implements OnInit {
       // Exécution de la commande de copie
       const successful = document.execCommand('copy');
       if (successful) {
-        this.toastr.success('Lien copié dans le presse-papiers');
+        this.toastr.success(
+          this.translateService.instant('PRODUCT_DETAIL.SHARE.COPY_SUCCESS')
+        );
       } else {
-        this.toastr.error('Échec de la copie');
+        this.toastr.error(
+          this.translateService.instant('PRODUCT_DETAIL.SHARE.COPY_ERROR')
+        );
       }
     } catch (err) {
-      this.toastr.error('Erreur lors de la copie du lien');
+      this.toastr.error(
+        this.translateService.instant('PRODUCT_DETAIL.SHARE.ERROR_COPYING')
+      );
       console.error('Erreur lors de la copie:', err);
     }
 
@@ -282,7 +316,11 @@ export class ProductDetailComponent implements OnInit {
   shareProductBarcode(): void {
     const currentProduct = this.product();
     if (!currentProduct || !currentProduct.product_code_url) {
-      this.toastr.error('Code-barres non disponible');
+      this.toastr.error(
+        this.translateService.instant(
+          'PRODUCT_DETAIL.SHARE.BARCODE_UNAVAILABLE'
+        )
+      );
       return;
     }
 
@@ -324,33 +362,83 @@ export class ProductDetailComponent implements OnInit {
     if (shopId) {
       this.router.navigate(['/shop', shopId]);
     } else {
-      this.toastr.warning('Shop information is not available');
+      this.toastr.warning(
+        this.translateService.instant('PRODUCT_DETAIL.ORDER.SHOP_UNAVAILABLE')
+      );
     }
   }
 
   openOrderModal(): void {
-    if (this.authService.isAuthenticate()) {
-      const currentProduct = this.product();
-      const id = this.productId();
+    const currentProduct = this.product();
+    const id = this.productId();
+    const currentQuantity = this.quantity();
 
-      if (!currentProduct || !id) {
-        this.toastr.error('Product information is incomplete');
-        return;
-      }
-
-      const modalRef = this.modalService.open(ConfirmOrderComponent);
-      modalRef.componentInstance.productId = id;
-      modalRef.componentInstance.quantity = this.quantity();
-      modalRef.componentInstance.price = currentProduct.price || 0;
-      modalRef.componentInstance.totalAmount =
-        (currentProduct.price || 0) * this.quantity();
-    } else {
-      this.toastr.error('You must be logged in to place an order');
+    // Vérifier si l'utilisateur est authentifié
+    if (!this.authService.isAuthenticate()) {
+      this.toastr.error(
+        this.translateService.instant('PRODUCT_DETAIL.ORDER.LOGIN_REQUIRED')
+      );
       this.modalService.open(LoginModalComponent);
+      return;
     }
+
+    // Vérifier si le produit est disponible
+    if (!currentProduct || !id) {
+      this.toastr.error(
+        this.translateService.instant('PRODUCT_DETAIL.ORDER.INCOMPLETE_INFO')
+      );
+      return;
+    }
+
+    // Vérifier le stock disponible
+    if (currentProduct.stock_quantity <= 0) {
+      this.toastr.error(
+        this.translateService.instant('PRODUCT_DETAIL.STOCK.OUT_OF_STOCK')
+      );
+      return;
+    }
+
+    // Vérifier si la quantité demandée est disponible
+    if (currentQuantity > currentProduct.stock_quantity) {
+      this.toastr.error(
+        this.translateService.instant(
+          'PRODUCT_DETAIL.STOCK.INSUFFICIENT_STOCK',
+          {
+            requested: currentQuantity,
+            available: currentProduct.stock_quantity,
+          }
+        )
+      );
+      return;
+    }
+
+    // Ouvrir la modal de confirmation de commande
+    const modalRef = this.modalService.open(ConfirmOrderComponent);
+    modalRef.componentInstance.productId = id;
+    modalRef.componentInstance.quantity = currentQuantity;
+    modalRef.componentInstance.price = currentProduct.price || 0;
+    modalRef.componentInstance.totalAmount =
+      (currentProduct.price || 0) * currentQuantity;
+    modalRef.componentInstance.stockQuantity = currentProduct.stock_quantity;
   }
 
   updateQuantity(value: number): void {
-    this.quantity.set(value);
+    const currentProduct = this.product();
+    if (!currentProduct) return;
+
+    // Vérifier si la valeur est valide et ne dépasse pas le stock disponible
+    if (value <= 0) {
+      this.quantity.set(1);
+    } else if (value > currentProduct.stock_quantity) {
+      this.quantity.set(currentProduct.stock_quantity);
+      this.toastr.warning(
+        this.translateService.instant(
+          'PRODUCT_DETAIL.STOCK.QUANTITY_ADJUSTED',
+          { available: currentProduct.stock_quantity }
+        )
+      );
+    } else {
+      this.quantity.set(value);
+    }
   }
 }
