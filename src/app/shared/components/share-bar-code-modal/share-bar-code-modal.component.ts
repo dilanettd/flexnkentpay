@@ -16,25 +16,15 @@ export class ShareBarCodeModalComponent implements OnInit {
   productCode: string = '';
   productId: number | null = null;
   productName: string = '';
-  barcodeUrl: string = '';
 
   private toastr = inject(ToastrService);
   private translateService = inject(TranslateService);
   activeModal = inject(NgbActiveModal);
 
-  ngOnInit(): void {
-    if (!this.barcodeUrl && this.productCode) {
-      console.log(
-        'QR Code will be generated for product code:',
-        this.productCode
-      );
-    }
-  }
+  ngOnInit(): void {}
 
   downloadBarcode(): void {
     if (this.productCode) {
-      // Important: le composant QR génère un canvas, mais il est enveloppé dans un div
-      // Le sélecteur doit cibler le canvas lui-même, pas seulement la classe du wrapper
       const qrCodeElement = document.querySelector('.qrcode_canvas');
       const qrCanvas =
         qrCodeElement?.querySelector('canvas') ||
@@ -76,42 +66,11 @@ export class ShareBarCodeModalComponent implements OnInit {
           this.translateService.instant('BARCODE_SHARE.ERROR.GENERATE_FAILED')
         );
       }
-    } else if (this.barcodeUrl) {
-      // Utilisation directe de l'URL du code-barres
-      this.downloadImageFromURL(this.barcodeUrl);
     } else {
       this.toastr.error(
         this.translateService.instant('BARCODE_SHARE.ERROR.NO_CODE')
       );
     }
-  }
-
-  // Méthode auxiliaire pour télécharger directement à partir de l'URL
-  private downloadImageFromURL(url: string): void {
-    // Créer un lien avec l'URL de l'image et déclencher le téléchargement
-    fetch(url)
-      .then((response) => response.blob())
-      .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = blobUrl;
-        link.download = `product-${this.productId}-barcode.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(blobUrl);
-        this.toastr.success(
-          this.translateService.instant(
-            'BARCODE_SHARE.SUCCESS.BARCODE_DOWNLOAD'
-          )
-        );
-      })
-      .catch((error) => {
-        console.error('Error downloading image:', error);
-        this.toastr.error(
-          this.translateService.instant('BARCODE_SHARE.ERROR.DOWNLOAD_FAILED')
-        );
-      });
   }
 
   shareBarcode(): void {
@@ -179,7 +138,7 @@ export class ShareBarCodeModalComponent implements OnInit {
             this.productName ||
             this.translateService.instant('BARCODE_SHARE.PRODUCT_CODE')
           }`,
-          url: this.barcodeUrl || window.location.href,
+          url: window.location.href,
         })
         .then(() =>
           this.toastr.success(
@@ -202,7 +161,7 @@ export class ShareBarCodeModalComponent implements OnInit {
   }
 
   copyBarcodeUrl(): void {
-    const textToCopy = this.barcodeUrl || this.productCode || '';
+    const textToCopy = this.productCode || '';
 
     if (!textToCopy) {
       this.toastr.error(

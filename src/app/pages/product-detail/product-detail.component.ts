@@ -313,7 +313,7 @@ export class ProductDetailComponent implements OnInit {
 
   showProductQrCode(): void {
     const currentProduct = this.product();
-    if (!currentProduct || !currentProduct.product_code_url) {
+    if (!currentProduct) {
       this.toastr.error(
         this.translateService.instant(
           'PRODUCT_DETAIL.SHARE.BARCODE_UNAVAILABLE'
@@ -326,7 +326,6 @@ export class ProductDetailComponent implements OnInit {
       centered: true,
     });
     modalRef.componentInstance.productName = currentProduct.name;
-    modalRef.componentInstance.barcodeUrl = currentProduct.product_code_url;
     modalRef.componentInstance.productCode = currentProduct.product_code;
     modalRef.componentInstance.productId = this.productId();
   }

@@ -37,28 +37,6 @@
         </div>
       </div>
 
-      <!-- Barcode Image -->
-      <div
-        *ngIf="barcodeUrl && !productCode"
-        id="barcode_container"
-        class="barcode-container bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-5"
-      >
-        <!-- Product Name -->
-        <div class="mb-4 text-center">
-          <h3 class="text-lg font-semibold text-gray-800">
-            <i class="bi bi-upc-scan text-primary-500 mr-2"></i>
-            {{ productName || ("BARCODE_SHARE.PRODUCT_CODE" | translate) }}
-          </h3>
-        </div>
-
-        <img
-          id="barcodeUrl"
-          [src]="barcodeUrl"
-          alt="Product Barcode"
-          class="max-w-full h-auto mb-2"
-        />
-      </div>
-
       <!-- Description -->
       <p class="text-gray-600 text-sm mb-6 text-center">
         {{ "BARCODE_SHARE.DESCRIPTION" | translate }}
