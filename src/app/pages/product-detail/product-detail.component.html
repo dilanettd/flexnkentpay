@@ -272,59 +272,62 @@
                 <i class="bi bi-share text-primary-500 mr-2"></i
                 >{{ "PRODUCT_DETAIL.SHARE.TITLE" | translate }}
               </h3>
-              <div class="social-icons grid grid-cols-5 gap-2">
-                <!-- Facebook -->
-                <button
-                  class="btn-icon bg-blue-600 text-white hover:bg-blue-700"
-                  (click)="shareProduct('facebook')"
-                  title="Share on Facebook"
-                >
-                  <i class="bi bi-facebook"></i>
-                </button>
+              <div class="flex flex-wrap items-center gap-2">
+                <div class="social-icons grid grid-cols-5 gap-2">
+                  <!-- Facebook -->
+                  <button
+                    class="btn-icon bg-blue-600 text-white hover:bg-blue-700"
+                    (click)="shareProduct('facebook')"
+                    title="Share on Facebook"
+                  >
+                    <i class="bi bi-facebook"></i>
+                  </button>
 
-                <!-- Twitter -->
-                <button
-                  class="btn-icon bg-black text-white hover:bg-gray-800"
-                  (click)="shareProduct('twitter')"
-                  title="Share on Twitter"
-                >
-                  <i class="bi bi-twitter-x"></i>
-                </button>
+                  <!-- Twitter -->
+                  <button
+                    class="btn-icon bg-black text-white hover:bg-gray-800"
+                    (click)="shareProduct('twitter')"
+                    title="Share on Twitter"
+                  >
+                    <i class="bi bi-twitter-x"></i>
+                  </button>
 
-                <!-- LinkedIn -->
-                <button
-                  class="btn-icon bg-blue-500 text-white hover:bg-blue-600"
-                  (click)="shareProduct('linkedin')"
-                  title="Share on LinkedIn"
-                >
-                  <i class="bi bi-linkedin"></i>
-                </button>
+                  <!-- LinkedIn -->
+                  <button
+                    class="btn-icon bg-blue-500 text-white hover:bg-blue-600"
+                    (click)="shareProduct('linkedin')"
+                    title="Share on LinkedIn"
+                  >
+                    <i class="bi bi-linkedin"></i>
+                  </button>
 
-                <!-- WhatsApp -->
-                <button
-                  class="btn-icon bg-green-500 text-white hover:bg-green-600"
-                  (click)="shareProduct('whatsapp')"
-                  title="Share on WhatsApp"
-                >
-                  <i class="bi bi-whatsapp"></i>
-                </button>
+                  <!-- WhatsApp -->
+                  <button
+                    class="btn-icon bg-green-500 text-white hover:bg-green-600"
+                    (click)="shareProduct('whatsapp')"
+                    title="Share on WhatsApp"
+                  >
+                    <i class="bi bi-whatsapp"></i>
+                  </button>
 
-                <!-- Copy Link -->
-                <button
-                  class="btn-icon bg-gray-600 text-white hover:bg-gray-700"
-                  (click)="shareProduct('copy')"
-                  title="Copy link"
-                >
-                  <i class="bi bi-clipboard"></i>
-                </button>
-              </div>
+                  <!-- Copy Link -->
+                  <button
+                    class="btn-icon bg-gray-600 text-white hover:bg-gray-700"
+                    (click)="shareProduct('copy')"
+                    title="Copy link"
+                  >
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
 
-              <div class="flex justify-center mt-4">
+                <!-- QR Code - maintenant plus proche avec texte en bleu -->
                 <button
-                  class="text-primary-600 hover:text-primary-700 text-sm flex items-center"
-                  (click)="shareProduct('qrcode')"
+                  class="text-primary-600 hover:text-primary-700 flex items-center ml-4 text-sm"
+                  (click)="showProductQrCode()"
                 >
-                  <i class="bi bi-qr-code mr-1"></i>
+                  <i
+                    class="bi bi-qr-code mr-1 text-2xl p-2 border rounded-full"
+                  ></i>
                   {{ "PRODUCT_DETAIL.SHARE.VIEW_QR" | translate }}
                 </button>
               </div>

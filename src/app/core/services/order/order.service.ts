@@ -96,6 +96,15 @@ export class OrderService {
     );
   }
 
+  // Vérifier le statut d'un dépôt PawaPay
+  checkPawaPayDepositStatus(providerTransactionId: string): Observable<any> {
+    return this.http
+      .get<any>(
+        `${this.apiUrl}/pawapay/deposits/${providerTransactionId}/status`
+      )
+      .pipe(catchError(handleHttpError));
+  }
+
   // Initier un paiement pour une commande
   initiatePayment(paymentData: any): Observable<any> {
     return this.http.post<any>(

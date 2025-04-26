@@ -62,7 +62,6 @@
             <!-- Montrer "Ma Boutique" seulement pour les vendeurs -->
 
             <a
-              *ngIf="userRole === 'seller'"
               routerLink="shop"
               routerLinkActive="bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md"
               class="block py-3 px-6 rounded-xl font-body transition-all duration-300 cursor-pointer hover:bg-primary-50 hover:shadow-sm bg-white text-gray-700 flex items-center"

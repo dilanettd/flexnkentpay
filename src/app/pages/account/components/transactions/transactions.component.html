@@ -157,6 +157,26 @@
               </p>
             </div>
           </div>
+
+          <!-- Action Button for Mobile -->
+          <div *ngIf="canRefreshTransaction(transaction)" class="mt-4">
+            <button
+              (click)="refreshTransactionStatus(transaction)"
+              class="btn btn-sm btn-outline-primary w-full flex items-center justify-center"
+              [disabled]="refreshingTransactions[transaction.id]"
+            >
+              <span *ngIf="refreshingTransactions[transaction.id]" class="mr-2">
+                <div class="spinner-border spinner-border-sm" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </span>
+              <i
+                *ngIf="!refreshingTransactions[transaction.id]"
+                class="bi bi-arrow-clockwise mr-1"
+              ></i>
+              {{ "TRANSACTIONS.BUTTONS.REFRESH_STATUS" | translate }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -196,6 +216,12 @@
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               {{ "TRANSACTIONS.TABLE.STATUS" | translate }}
+            </th>
+            <!-- New Action Column -->
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              {{ "TRANSACTIONS.TABLE.ACTIONS" | translate }}
             </th>
           </tr>
         </thead>
@@ -270,6 +296,30 @@
                     : ("TRANSACTIONS.STATUS.FAILED" | translate)
                 }}
               </span>
+            </td>
+
+            <!-- Action Column -->
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+              <button
+                *ngIf="canRefreshTransaction(transaction)"
+                (click)="refreshTransactionStatus(transaction)"
+                class="btn btn-sm btn-outline-primary flex items-center"
+                [disabled]="refreshingTransactions[transaction.id]"
+              >
+                <span
+                  *ngIf="refreshingTransactions[transaction.id]"
+                  class="mr-1"
+                >
+                  <div class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </span>
+                <i
+                  *ngIf="!refreshingTransactions[transaction.id]"
+                  class="bi bi-arrow-clockwise mr-1"
+                ></i>
+                {{ "TRANSACTIONS.BUTTONS.REFRESH" | translate }}
+              </button>
             </td>
           </tr>
         </tbody>

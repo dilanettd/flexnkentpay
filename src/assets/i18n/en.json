@@ -871,18 +871,14 @@
   },
   "TRANSACTIONS": {
     "TITLE": "My Transactions",
-    "LOADING": "Loading your transactions...",
+    "LOADING": "Loading transactions...",
     "EMPTY": {
-      "TITLE": "No transactions yet",
-      "MESSAGE": "You haven't made any transactions yet. Complete a purchase to see your transaction history here."
+      "TITLE": "No transactions found",
+      "MESSAGE": "You don't have any transactions yet. Browse our products and make your first purchase."
     },
     "ERROR": {
-      "TITLE": "Oops! Something went wrong",
-      "FETCH_FAILED": "Unable to fetch orders. Please try again."
-    },
-    "BUTTONS": {
-      "TRY_AGAIN": "Try Again",
-      "BROWSE_PRODUCTS": "Browse Products"
+      "TITLE": "Loading Error",
+      "FETCH_FAILED": "Unable to load your transactions. Please try again later."
     },
     "TABLE": {
       "TRANSACTION_ID": "Transaction ID",
@@ -891,14 +887,21 @@
       "FEES": "Fees",
       "DATE": "Date",
       "STATUS": "Status",
-      "NOT_AVAILABLE": "N/A",
-      "SHOWING_ALL": "Showing all",
+      "ACTIONS": "Actions",
+      "NOT_AVAILABLE": "Not available",
+      "SHOWING_ALL": "Showing",
       "TRANSACTIONS": "transactions"
     },
     "STATUS": {
-      "SUCCESS": "Success",
+      "SUCCESS": "Successful",
       "PENDING": "Pending",
       "FAILED": "Failed"
+    },
+    "BUTTONS": {
+      "TRY_AGAIN": "Try Again",
+      "BROWSE_PRODUCTS": "Browse Products",
+      "REFRESH": "Refresh",
+      "REFRESH_STATUS": "Check Status"
     }
   }
   }

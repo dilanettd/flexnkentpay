@@ -268,8 +268,6 @@ export class ProductDetailComponent implements OnInit {
 
     if (platform === 'copy') {
       this.copyToClipboard(shareUrl);
-    } else if (platform === 'qrcode') {
-      this.shareProductBarcode();
     } else {
       window.open(shareUrl, '_blank');
     }
@@ -313,7 +311,7 @@ export class ProductDetailComponent implements OnInit {
     document.body.removeChild(textArea);
   }
 
-  shareProductBarcode(): void {
+  showProductQrCode(): void {
     const currentProduct = this.product();
     if (!currentProduct || !currentProduct.product_code_url) {
       this.toastr.error(
@@ -324,7 +322,6 @@ export class ProductDetailComponent implements OnInit {
       return;
     }
 
-    // Créer une modal pour afficher et partager le code-barres
     const modalRef = this.modalService.open(ShareBarCodeModalComponent, {
       centered: true,
     });

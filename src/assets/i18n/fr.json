@@ -900,36 +900,39 @@
         "ERROR": "Une erreur est survenue. Veuillez réessayer."
       }
     },
-    "TRANSACTIONS": {
+"TRANSACTIONS": {
     "TITLE": "Mes Transactions",
-    "LOADING": "Chargement de vos transactions...",
+    "LOADING": "Chargement des transactions...",
     "EMPTY": {
-      "TITLE": "Aucune transaction pour le moment",
-      "MESSAGE": "Vous n'avez effectué aucune transaction jusqu'à présent. Complétez un achat pour voir votre historique de transactions ici."
+      "TITLE": "Pas de transactions trouvées",
+      "MESSAGE": "Vous n'avez aucune transaction pour le moment. Parcourez nos produits et effectuez votre premier achat."
     },
     "ERROR": {
-      "TITLE": "Oups ! Un problème est survenu",
-      "FETCH_FAILED": "Impossible de récupérer les commandes. Veuillez réessayer."
-    },
-    "BUTTONS": {
-      "TRY_AGAIN": "Réessayer",
-      "BROWSE_PRODUCTS": "Parcourir les produits"
+      "TITLE": "Erreur de chargement",
+      "FETCH_FAILED": "Impossible de charger vos transactions. Veuillez réessayer plus tard."
     },
     "TABLE": {
-      "TRANSACTION_ID": "ID de transaction",
+      "TRANSACTION_ID": "ID de Transaction",
       "PHONE": "Téléphone",
       "AMOUNT": "Montant",
       "FEES": "Frais",
       "DATE": "Date",
       "STATUS": "Statut",
-      "NOT_AVAILABLE": "N/A",
-      "SHOWING_ALL": "Affichage de tous les",
+      "ACTIONS": "Actions",
+      "NOT_AVAILABLE": "Non disponible",
+      "SHOWING_ALL": "Affichage de",
       "TRANSACTIONS": "transactions"
     },
     "STATUS": {
       "SUCCESS": "Réussi",
       "PENDING": "En attente",
       "FAILED": "Échoué"
+    },
+    "BUTTONS": {
+      "TRY_AGAIN": "Réessayer",
+      "BROWSE_PRODUCTS": "Parcourir les produits",
+      "REFRESH": "Rafraîchir",
+      "REFRESH_STATUS": "Vérifier le statut"
     }
   }
   }
